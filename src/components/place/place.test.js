@@ -5,7 +5,7 @@ import {places} from '../../utils.js';
 
 it(`Render App`, () => {
   const tree = renderer
-    .create(<Place name={places[0]} />)
+    .create(<Place name={places[0]} onPlaceHeaderClick={() => {}} />)
     .toJSON();
 
   expect(tree).toMatchSnapshot();
