@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Place from '../place/place.jsx';
 
+const placeHeaderHandler = () => {};
+
 const Main = ({offersCount, places}) => {
   return (
     <div className="page page--gray page--main">
@@ -13,7 +15,7 @@ const Main = ({offersCount, places}) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <div className="cities__places-list places__list tabs__content">
-                {places.map((it, i) => <Place key={it + i} name={it} />)}
+                {places.map((it, i) => <Place key={it + i} name={it} onPlaceHeaderClick={placeHeaderHandler} />)}
               </div>
             </section>
           </div>
@@ -25,7 +27,7 @@ const Main = ({offersCount, places}) => {
 
 Main.propTypes = {
   offersCount: PropTypes.number.isRequired,
-  places: PropTypes.arrayOf(PropTypes.string),
+  places: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default Main;
