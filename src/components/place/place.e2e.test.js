@@ -15,7 +15,7 @@ it(`Should welcome button be pressed`, () => {
 
   const placeHeader = placeComponent.find(`h2.place-card__name`);
 
-  placeHeader.props().onClick();
+  placeHeader.simulate(`click`);
 
-  expect(onPlaceHeaderClick.mock.calls.length).toBe(1);
+  expect(onPlaceHeaderClick).toHaveBeenCalledTimes(1);
 });

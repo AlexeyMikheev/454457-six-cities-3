@@ -4,7 +4,7 @@ import Main from "../main/main.jsx";
 
 const App = ({offersCount, places}) => {
   return (
-    <Main offersCount={offersCount} places={places}/>
+    <Main offersCount={offersCount} places={places} />
   );
 };
 
