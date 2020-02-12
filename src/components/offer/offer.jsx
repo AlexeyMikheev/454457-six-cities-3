@@ -2,22 +2,15 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {OfferType} from '../../consts.js';
 
-const Offer = ({offer, onPlaceHeaderClick}) => {
-  const {id, isPremium, cost, isMarked, rating, name, type, image} = offer;
-
-  const onPlaceCardMouseOver = (evt) => {
-    console.log(evt);
-  };
-
-  const onPlaceCardMouseOut = (evt) => {
-    console.log(evt);
-  };
+const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave}) => {
+  const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 
   return (
-    <article className="cities__place-card place-card" onMouseOver={ () => {
-      onPlaceCardMouseOver(id);
-    }} onMouseOut={ () => {
-      onPlaceCardMouseOut(id);
+
+    <article className="cities__place-card place-card" onMouseEnter={ () => {
+      onPlaceCardMouseEnter(offer);
+    }} onMouseLeave={ () => {
+      onPlaceCardMouseLeave(null);
     }}>
       {isPremium &&
         <div className="place-card__mark">
@@ -68,7 +61,9 @@ Offer.propTypes = {
     type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
     image: PropTypes.string.isRequired
   }).isRequired,
-  onPlaceHeaderClick: PropTypes.func.isRequired
+  onPlaceHeaderClick: PropTypes.func.isRequired,
+  onPlaceCardMouseEnter: PropTypes.func.isRequired,
+  onPlaceCardMouseLeave: PropTypes.func.isRequired,
 };
 
 export default Offer;
