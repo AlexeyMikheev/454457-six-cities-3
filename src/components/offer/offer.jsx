@@ -3,10 +3,22 @@ import PropTypes from "prop-types";
 import {OfferType} from '../../consts.js';
 
 const Offer = ({offer, onPlaceHeaderClick}) => {
-  const {isPremium, cost, isMarked, rating, name, type, image} = offer;
+  const {id, isPremium, cost, isMarked, rating, name, type, image} = offer;
+
+  const onPlaceCardMouseOver = (evt) => {
+    console.log(evt);
+  };
+
+  const onPlaceCardMouseOut = (evt) => {
+    console.log(evt);
+  };
 
   return (
-    <article className="cities__place-card place-card">
+    <article className="cities__place-card place-card" onMouseOver={ () => {
+      onPlaceCardMouseOver(id);
+    }} onMouseOut={ () => {
+      onPlaceCardMouseOut(id);
+    }}>
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
