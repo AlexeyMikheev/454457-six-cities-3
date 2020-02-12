@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Place from '../place/place.jsx';
+import Offer from '../offer/offer.jsx';
+import {OfferType} from '../../consts.js';
 
 const placeHeaderHandler = () => {};
 
-const Main = ({offersCount, places}) => {
+const Main = ({offers}) => {
   return (
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
@@ -13,9 +14,9 @@ const Main = ({offersCount, places}) => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <div className="cities__places-list places__list tabs__content">
-                {places.map((it, i) => <Place key={it + i} name={it} onPlaceHeaderClick={placeHeaderHandler} />)}
+                {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={placeHeaderHandler} />)}
               </div>
             </section>
           </div>
@@ -26,8 +27,16 @@ const Main = ({offersCount, places}) => {
 };
 
 Main.propTypes = {
-  offersCount: PropTypes.number.isRequired,
-  places: PropTypes.arrayOf(PropTypes.string)
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    cost: PropTypes.number.isRequired,
+    isMarked: PropTypes.bool.isRequired,
+    rating: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
+    image: PropTypes.string.isRequired
+  })).isRequired
 };
 
 export default Main;
