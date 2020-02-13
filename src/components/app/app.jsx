@@ -3,23 +3,30 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from "../main/main.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
-import {OfferType} from "../../consts.js";
+import {OFFERTYPES} from "../../consts.js";
 import offersMock from "../../mocks/offers.JS";
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
 
+    this._placeHeaderClickHandler = this._placeHeaderClickHandler.bind(this);
+
     this.state = {
       value: offersMock[0]
     };
+  }
+
+  _placeHeaderClickHandler(offer) {
+    debugger;
+    this.setState({value: offer});
   }
 
   _renderApp() {
     const {offers} = this.props;
 
     return (
-      <Main offers={offers} />
+      <Main offers={offers} onPlaceHeaderClick={this._placeHeaderClickHandler}/>
     );
   }
 
@@ -58,7 +65,7 @@ App.propTypes = {
     isMarked: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
+    type: PropTypes.oneOf(OFFERTYPES).isRequired,
     image: PropTypes.string.isRequired
   })).isRequired
 };

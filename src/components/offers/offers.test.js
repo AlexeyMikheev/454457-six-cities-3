@@ -18,7 +18,7 @@ const mocks = [{
 it(`Render App`, () => {
 
   const tree = renderer
-    .create(<Offers offers={mocks} />)
+    .create(<Offers offers={mocks} onPlaceHeaderClick={() => {}}/>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

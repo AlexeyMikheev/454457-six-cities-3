@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {OfferType} from '../../consts.js';
+import {OFFERTYPES, MAX_RATING} from '../../consts.js';
 
 const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
+
+  const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
 
   return (
 
@@ -37,11 +39,13 @@ const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMou
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating}%`}}></span>
+            <span style={{width: `${ratingPercent}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name" onClick={onPlaceHeaderClick}>
+        <h2 className="place-card__name" onClick={() => {
+          onPlaceHeaderClick(offer);
+        }}>
           <a href="#">{name}</a>
         </h2>
         <p className="place-card__type">{type}</p>
@@ -58,7 +62,7 @@ Offer.propTypes = {
     isMarked: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
+    type: PropTypes.oneOf(OFFERTYPES).isRequired,
     image: PropTypes.string.isRequired
   }).isRequired,
   onPlaceHeaderClick: PropTypes.func.isRequired,

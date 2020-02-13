@@ -26,9 +26,10 @@ export default class Offers extends PureComponent {
 
   render() {
     const {offers} = this.props;
+    const {onPlaceHeaderClick} = this.props;
     return (
       <div className="cities__places-list places__list tabs__content">
-        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={this._placeHeaderClickHandler} onPlaceCardMouseEnter={this._placeCardMouseEnterHandler} onPlaceCardMouseLeave={this._placeCardMouseLeaveHandler} />)}
+        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={onPlaceHeaderClick} onPlaceCardMouseEnter={this._placeCardMouseEnterHandler} onPlaceCardMouseLeave={this._placeCardMouseLeaveHandler} />)}
       </div>
     );
   }
@@ -44,5 +45,6 @@ Offers.propTypes = {
     name: PropTypes.string.isRequired,
     type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
     image: PropTypes.string.isRequired
-  })).isRequired
+  })).isRequired,
+  onPlaceHeaderClick: PropTypes.func.isRequired
 };

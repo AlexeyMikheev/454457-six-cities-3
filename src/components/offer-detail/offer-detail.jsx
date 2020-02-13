@@ -1,15 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {OfferType, FEATURES} from "../../consts.js";
+import {OFFERTYPES, FEATURES, MAX_RATING} from "../../consts.js";
 
 const OfferDetail = ({offer}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features, images} = offer;
+
+  const MAX_DISPLAY_COUNT = 6;
+
+  const displayImages = images.slice(0, MAX_DISPLAY_COUNT);
+  const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
 
   return (
     <section className="property">
       <div className="property__gallery-container container">
         <div className="property__gallery">
-          {images.map((imageSrc, i) => (
+          {displayImages.map((imageSrc, i) => (
             <div key={imageSrc + i} className="property__image-wrapper">
               <img className="property__image" src={imageSrc} alt="Photo studio" />
             </div>
@@ -36,10 +41,10 @@ const OfferDetail = ({offer}) => {
           </div>
           <div className="property__rating rating">
             <div className="property__stars rating__stars">
-              <span style={{width: `${rating}%`}}></span>
+              <span style={{width: `${ratingPercent}%`}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
-            <span className="property__rating-value rating__value">4.8</span>
+            <span className="property__rating-value rating__value">{rating}</span>
           </div>
           <ul className="property__features">
             <li className="property__feature property__feature--entire">
@@ -78,7 +83,7 @@ OfferDetail.propTypes = {
     isMarked: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
+    type: PropTypes.oneOf(OFFERTYPES).isRequired,
     images: PropTypes.arrayOf(PropTypes.string.isRequired),
     roomsCount: PropTypes.number.isRequired,
     membersCount: PropTypes.number.isRequired,

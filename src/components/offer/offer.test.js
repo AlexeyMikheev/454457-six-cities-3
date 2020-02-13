@@ -8,7 +8,7 @@ const mock = {
   isPremium: true,
   cost: 120,
   isMarked: false,
-  rating: 4,
+  rating: 20,
   name: `Beautiful & luxurious apartment at great location`,
   type: OfferType.APARTMENT,
   image: `img/apartment-01.jpg`

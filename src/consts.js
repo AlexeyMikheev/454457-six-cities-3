@@ -25,5 +25,17 @@ export const FEATURES = [
 
 export const OfferType = {
   APARTMENT: `Apartment`,
-  PRIVATE_ROOM: `Private room`
+  ROOM: `Private room`,
+  HOUSE: `House`,
+  HOTEL: `Hotel`
 };
+
+export const OFFERTYPES = [
+  OfferType.APARTMENT,
+  OfferType.ROOM,
+  OfferType.HOUSE,
+  OfferType.HOTEL
+];
+
+export const MIN_RATING = 1;
+export const MAX_RATING = 5;
