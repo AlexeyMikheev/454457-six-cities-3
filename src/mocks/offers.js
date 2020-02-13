@@ -1,4 +1,4 @@
-import {OfferType} from '../consts.js';
+import {OfferType, FEATURES} from '../consts.js';
 
 export default [
   {
@@ -9,7 +9,18 @@ export default [
     rating: 20,
     name: `Beautiful & luxurious apartment at great location`,
     type: OfferType.APARTMENT,
-    image: `img/apartment-01.jpg`
+    image: `img/apartment-01.jpg`,
+    roomsCount: 3,
+    membersCount: 4,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES
   },
   {
     id: 2,
@@ -19,7 +30,18 @@ export default [
     rating: 30,
     name: `Wood and stone place`,
     type: OfferType.PRIVATE_ROOM,
-    image: `img/room.jpg`
+    image: `img/room.jpg`,
+    roomsCount: 2,
+    membersCount: 1,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES
   },
   {
     id: 3,
@@ -29,7 +51,18 @@ export default [
     rating: 40,
     name: `iCanal View Prinsengracht`,
     type: OfferType.APARTMENT,
-    image: `img/apartment-02.jpg`
+    image: `img/apartment-02.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES
   },
   {
     id: 4,
@@ -39,7 +72,18 @@ export default [
     rating: 50,
     name: `Nice, cozy, warm big bed apartment`,
     type: OfferType.APARTMENT,
-    image: `img/apartment-03.jpg`
+    image: `img/apartment-03.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES
   },
   {
     id: 5,
@@ -49,7 +93,18 @@ export default [
     rating: 60,
     name: `Wood and stone place`,
     type: OfferType.PRIVATE_ROOM,
-    image: `img/room.jpg`
+    image: `img/room.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES
   },
 ];
 
