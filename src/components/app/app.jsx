@@ -4,7 +4,7 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from "../main/main.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import {OFFERTYPES} from "../../consts.js";
-import offersMock from "../../mocks/offers.JS";
+import offersMock from "../../mocks/offers.js";
 
 class App extends PureComponent {
   constructor(props) {
