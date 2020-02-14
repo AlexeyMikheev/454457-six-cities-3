@@ -63,7 +63,7 @@ Offer.propTypes = {
     rating: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     type: PropTypes.oneOf(OFFERTYPES).isRequired,
-    image: PropTypes.string.isRequired
+    image: PropTypes.string.isRequired,
   }).isRequired,
   onPlaceHeaderClick: PropTypes.func.isRequired,
   onPlaceCardMouseEnter: PropTypes.func.isRequired,

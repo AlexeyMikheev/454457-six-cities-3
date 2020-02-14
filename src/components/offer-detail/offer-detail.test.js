@@ -22,7 +22,13 @@ const mock = {
     `img/studio-01.jpg`,
     `img/apartment-01.jpg`,
   ],
-  features: FEATURES
+  features: FEATURES,
+  owner: {
+    name: `Angelina`,
+    avatar: `img/avatar-angelina.jpg`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    isTrust: true
+  }
 };
 
 it(`Render App`, () => {

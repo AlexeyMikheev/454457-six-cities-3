@@ -4,6 +4,7 @@ import {OFFERTYPES, FEATURES, MAX_RATING} from "../../consts.js";
 
 const OfferDetail = ({offer}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features, images} = offer;
+  const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
   const MAX_DISPLAY_COUNT = 6;
 
@@ -65,9 +66,23 @@ const OfferDetail = ({offer}) => {
             <h2 className="property__inside-title">What&apos;s inside</h2>
             <ul className="property__inside-list">
               {features.map((feature, i) => (
-                <li key={ feature + i} className="property__inside-item">{feature}</li>
+                <li key={feature + i} className="property__inside-item">{feature}</li>
               ))}
             </ul>
+          </div>
+          <div className="property__host">
+            <h2 className="property__host-title">Meet the host</h2>
+            <div className="property__host-user user">
+              <div className={`property__avatar-wrapper user__avatar-wrapper ${ isTrust ? `property__avatar-wrapper--pro` : ``}`}>
+                <img className="property__avatar user__avatar" src={avatar} width="74" height="74" alt="Host avatar" />
+              </div>
+              <span className="property__user-name">{ownerName}</span>
+            </div>
+            <div className="property__description">
+              <p className="property__text">
+                {description}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -87,7 +102,13 @@ OfferDetail.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string.isRequired),
     roomsCount: PropTypes.number.isRequired,
     membersCount: PropTypes.number.isRequired,
-    features: PropTypes.arrayOf(PropTypes.oneOf(FEATURES)).isRequired
+    features: PropTypes.arrayOf(PropTypes.oneOf(FEATURES)).isRequired,
+    owner: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      avatar: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      isTrust: PropTypes.bool.isRequired,
+    }).isRequired
   }).isRequired,
 };
 
