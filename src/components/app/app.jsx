@@ -18,7 +18,6 @@ class App extends PureComponent {
   }
 
   _placeHeaderClickHandler(offer) {
-    debugger;
     this.setState({value: offer});
   }
 
