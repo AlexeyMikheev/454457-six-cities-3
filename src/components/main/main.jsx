@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Offers from '../offers/offers.jsx';
-import {OFFERTYPES} from '../../consts.js';
+import {OfferShape} from '../../settings.js';
 
 const Main = ({offers, onPlaceHeaderClick}) => {
   return (
@@ -23,16 +23,7 @@ const Main = ({offers, onPlaceHeaderClick}) => {
 };
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    cost: PropTypes.number.isRequired,
-    isMarked: PropTypes.bool.isRequired,
-    rating: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(OFFERTYPES).isRequired,
-    image: PropTypes.string.isRequired,
-  })).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   onPlaceHeaderClick: PropTypes.func.isRequired
 };
 

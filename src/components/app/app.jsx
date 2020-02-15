@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from "../main/main.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
-import {OFFERTYPES, FEATURES} from "../../consts.js";
+import {OfferShape} from "../../settings.js";
 import offersMock from "../../mocks/offers.js";
 
 class App extends PureComponent {
@@ -17,8 +17,8 @@ class App extends PureComponent {
     };
   }
 
-  _placeHeaderClickHandler(offer) {
-    this.setState({value: offer});
+  _placeHeaderClickHandler(offerId) {
+    this.setState({selectedOfferId: offerId});
   }
 
   _renderApp() {
@@ -57,25 +57,7 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    cost: PropTypes.number.isRequired,
-    isMarked: PropTypes.bool.isRequired,
-    rating: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(OFFERTYPES).isRequired,
-    image: PropTypes.string.isRequired,
-    roomsCount: PropTypes.number.isRequired,
-    membersCount: PropTypes.number.isRequired,
-    features: PropTypes.arrayOf(PropTypes.oneOf(FEATURES)).isRequired,
-    owner: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      avatar: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      isTrust: PropTypes.bool.isRequired,
-    }).isRequired
-  })).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired
 };
 
 

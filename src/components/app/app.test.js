@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import App from "./app.jsx";
 import {OfferType, FEATURES} from '../../consts';
 
-const mock = [{
+const mocks = [{
   id: 1,
   isPremium: true,
   cost: 120,
@@ -34,7 +34,7 @@ const mock = [{
 it(`Render App`, () => {
 
   const tree = renderer
-    .create(<App offers={mock} onPlaceHeaderClick={() => {}} />)
+    .create(<App offers={mocks} onPlaceHeaderClick={() => {}} />)
     .toJSON();
 
   expect(tree).toMatchSnapshot();
