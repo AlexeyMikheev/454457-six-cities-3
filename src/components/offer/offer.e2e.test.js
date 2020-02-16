@@ -2,7 +2,7 @@ import React from "react";
 import Enzyme, {shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import Offer from "./offer.jsx";
-import {OfferType} from "../../consts.js";
+import {OfferType, FEATURES} from "../../consts.js";
 
 Enzyme.configure({
   adapter: new Adapter(),
@@ -16,7 +16,24 @@ const mock = {
   rating: 4,
   name: `Beautiful & luxurious apartment at great location`,
   type: OfferType.APARTMENT,
-  image: `img/apartment-01.jpg`
+  image: `img/apartment-01.jpg`,
+  roomsCount: 3,
+  membersCount: 4,
+  images: [
+    `img/room.jpg`,
+    `img/apartment-01.jpg`,
+    `img/apartment-02.jpg`,
+    `img/apartment-03.jpg`,
+    `img/studio-01.jpg`,
+    `img/apartment-01.jpg`,
+  ],
+  features: FEATURES,
+  owner: {
+    name: `Angelina`,
+    avatar: `img/avatar-angelina.jpg`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    isTrust: true
+  }
 };
 
 it(`Should welcome button be pressed`, () => {
@@ -34,9 +51,8 @@ it(`Should welcome button be pressed`, () => {
 
   placeCard.simulate(`mouseenter`);
   expect(onPlaceCardMouseEnter).toHaveBeenCalledTimes(1);
-  expect({value: onPlaceCardMouseEnter.mock.calls[0][0].id}).toMatchObject({value: mock.id});
 
   placeCard.simulate(`mouseleave`);
   expect(onPlaceCardMouseLeave).toHaveBeenCalledTimes(1);
-  expect({value: onPlaceCardMouseLeave.mock.calls[0][0]}).toMatchObject({value: null});
+
 });

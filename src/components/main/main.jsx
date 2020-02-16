@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Offers from '../offers/offers.jsx';
-import {OfferType} from '../../consts.js';
+import {OfferShape} from '../../settings.js';
 
-const Main = ({offers}) => {
+const Main = ({offers, onPlaceHeaderClick}) => {
   return (
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
@@ -13,7 +13,7 @@ const Main = ({offers}) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in Amsterdam</b>
-              <Offers offers={offers} />
+              <Offers offers={offers} onPlaceHeaderClick={onPlaceHeaderClick}/>
             </section>
           </div>
         </div>
@@ -23,16 +23,8 @@ const Main = ({offers}) => {
 };
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    cost: PropTypes.number.isRequired,
-    isMarked: PropTypes.bool.isRequired,
-    rating: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
-    image: PropTypes.string.isRequired
-  })).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
+  onPlaceHeaderClick: PropTypes.func.isRequired
 };
 
 export default Main;

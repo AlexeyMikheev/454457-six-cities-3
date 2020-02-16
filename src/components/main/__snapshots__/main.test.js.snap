@@ -112,7 +112,7 @@ exports[`Render App 1`] = `
                     <span
                       style={
                         Object {
-                          "width": "4%",
+                          "width": "80%",
                         }
                       }
                     />

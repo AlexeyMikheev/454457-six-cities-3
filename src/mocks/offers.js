@@ -1,4 +1,4 @@
-import {OfferType} from '../consts.js';
+import {OfferType, FEATURES} from '../consts.js';
 
 export default [
   {
@@ -6,50 +6,138 @@ export default [
     isPremium: true,
     cost: 120,
     isMarked: false,
-    rating: 20,
+    rating: 2,
     name: `Beautiful & luxurious apartment at great location`,
     type: OfferType.APARTMENT,
-    image: `img/apartment-01.jpg`
+    image: `img/apartment-01.jpg`,
+    roomsCount: 3,
+    membersCount: 4,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    }
   },
   {
     id: 2,
     isPremium: false,
     cost: 80,
     isMarked: true,
-    rating: 30,
+    rating: 3,
     name: `Wood and stone place`,
-    type: OfferType.PRIVATE_ROOM,
-    image: `img/room.jpg`
+    type: OfferType.ROOM,
+    image: `img/room.jpg`,
+    roomsCount: 2,
+    membersCount: 1,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina 1`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    }
   },
   {
     id: 3,
     isPremium: false,
     cost: 132,
     isMarked: false,
-    rating: 40,
+    rating: 4.1,
     name: `iCanal View Prinsengracht`,
-    type: OfferType.APARTMENT,
-    image: `img/apartment-02.jpg`
+    type: OfferType.HOTEL,
+    image: `img/apartment-02.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina 2`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    }
   },
   {
     id: 4,
     isPremium: true,
     cost: 180,
     isMarked: false,
-    rating: 50,
+    rating: 5.1,
     name: `Nice, cozy, warm big bed apartment`,
-    type: OfferType.APARTMENT,
-    image: `img/apartment-03.jpg`
+    type: OfferType.HOUSE,
+    image: `img/apartment-03.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina 3`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    }
   },
   {
     id: 5,
     isPremium: false,
     cost: 80,
     isMarked: true,
-    rating: 60,
+    rating: 2.5,
     name: `Wood and stone place`,
-    type: OfferType.PRIVATE_ROOM,
-    image: `img/room.jpg`
+    type: OfferType.ROOM,
+    image: `img/room.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina 4`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    }
   },
 ];
 

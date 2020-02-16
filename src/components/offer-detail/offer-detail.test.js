@@ -1,14 +1,14 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Offers from "./offers.jsx";
+import OfferDetail from "./offer-detail.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
 
-const mocks = [{
+const mock = {
   id: 1,
   isPremium: true,
   cost: 120,
   isMarked: false,
-  rating: 4,
+  rating: 20,
   name: `Beautiful & luxurious apartment at great location`,
   type: OfferType.APARTMENT,
   image: `img/apartment-01.jpg`,
@@ -29,12 +29,12 @@ const mocks = [{
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     isTrust: true
   }
-}];
+};
 
 it(`Render App`, () => {
 
   const tree = renderer
-    .create(<Offers offers={mocks} onPlaceHeaderClick={() => {}}/>)
+    .create(<OfferDetail offer={mock} />)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

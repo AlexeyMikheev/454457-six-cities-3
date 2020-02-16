@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {OfferType} from '../../consts.js';
+import {MAX_RATING} from '../../consts.js';
+import {OfferShape} from '../../settings.js';
+
 
 const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 
+  const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
+
   return (
 
-    <article className="cities__place-card place-card" onMouseEnter={ () => {
-      onPlaceCardMouseEnter(offer);
-    }} onMouseLeave={ () => {
-      onPlaceCardMouseLeave(null);
-    }}>
+    <article className="cities__place-card place-card" onMouseEnter={onPlaceCardMouseEnter} onMouseLeave={onPlaceCardMouseLeave}>
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
@@ -37,7 +37,7 @@ const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMou
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating}%`}}></span>
+            <span style={{width: `${ratingPercent}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -51,16 +51,7 @@ const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMou
 };
 
 Offer.propTypes = {
-  offer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    cost: PropTypes.number.isRequired,
-    isMarked: PropTypes.bool.isRequired,
-    rating: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([OfferType.APARTMENT, OfferType.PRIVATE_ROOM]).isRequired,
-    image: PropTypes.string.isRequired
-  }).isRequired,
+  offer: PropTypes.shape(OfferShape).isRequired,
   onPlaceHeaderClick: PropTypes.func.isRequired,
   onPlaceCardMouseEnter: PropTypes.func.isRequired,
   onPlaceCardMouseLeave: PropTypes.func.isRequired,
