@@ -1,7 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Main from "./main.jsx";
+import Offers from "./offers.jsx";
 import {OfferType} from '../../consts.js';
+
 
 const mocks = [{
   id: 1,
@@ -17,7 +18,7 @@ const mocks = [{
 it(`Render App`, () => {
 
   const tree = renderer
-    .create(<Main offers={mocks} />)
+    .create(<Offers offers={mocks} />)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

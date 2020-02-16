@@ -1,9 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Main from "./main.jsx";
+import Offer from "./offer.jsx";
 import {OfferType} from '../../consts.js';
 
-const mocks = [{
+const mock = {
   id: 1,
   isPremium: true,
   cost: 120,
@@ -12,12 +12,12 @@ const mocks = [{
   name: `Beautiful & luxurious apartment at great location`,
   type: OfferType.APARTMENT,
   image: `img/apartment-01.jpg`
-}];
+};
 
 it(`Render App`, () => {
 
   const tree = renderer
-    .create(<Main offers={mocks} />)
+    .create(<Offer offer={mock} onPlaceHeaderClick={() => {}} onPlaceCardMouseEnter={() => {}} onPlaceCardMouseLeave={() => {}} />)
     .toJSON();
 
   expect(tree).toMatchSnapshot();
