@@ -10,26 +10,26 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
 
-    this._placeHeaderClickHandler = this._placeHeaderClickHandler.bind(this);
+    this._placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
 
     this.state = {
       value: offersMock[0]
     };
   }
 
-  _placeHeaderClickHandler(offerId) {
+  placeHeaderClickHandler(offerId) {
     this.setState({selectedOfferId: offerId});
   }
 
-  _renderApp() {
+  renderApp() {
     const {offers} = this.props;
 
     return (
-      <Main offers={offers} onPlaceHeaderClick={this._placeHeaderClickHandler}/>
+      <Main offers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler}/>
     );
   }
 
-  _renderOfferDetail() {
+  renderOfferDetail() {
     const offer = this.state.value;
 
     if (offer !== null) {
@@ -37,7 +37,7 @@ class App extends PureComponent {
         <OfferDetail offer={offer} />
       );
     }
-    return this._renderApp();
+    return this.renderApp();
   }
 
   render() {
@@ -45,10 +45,10 @@ class App extends PureComponent {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            {this._renderApp()}
+            {this.renderApp()}
           </Route>
           <Route exact path="/dev-offer">
-            {this._renderOfferDetail()}
+            {this.renderOfferDetail()}
           </Route>
         </Switch>
       </BrowserRouter>
