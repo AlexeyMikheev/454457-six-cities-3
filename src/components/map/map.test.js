@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Offers from "./offers.jsx";
+import Map from "./map.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
 
 const mocks = [{
@@ -34,9 +34,12 @@ const mocks = [{
 
 it(`Render App`, () => {
 
-  const tree = renderer
-    .create(<Offers offers={mocks} onPlaceHeaderClick={() => {}}/>)
-    .toJSON();
+  const tree = renderer.create(<Map offers={mocks}/>,
+      {
+        createNodeMock: () => {
+          return {};
+        }
+      }).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

@@ -18,6 +18,7 @@ export const OfferShape = {
     avatar: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     isTrust: PropTypes.bool.isRequired,
-  }).isRequired
+  }).isRequired,
+  lonlat: PropTypes.arrayOf(PropTypes.number)
 };
 
