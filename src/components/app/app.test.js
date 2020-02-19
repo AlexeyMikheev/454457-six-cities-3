@@ -33,7 +33,7 @@ const mocks = [{
 }];
 
 it(`Render App`, () => {
-
+debugger;
   const tree = renderer
     .create(<App offers={mocks} onPlaceHeaderClick={() => {}} />)
     .toJSON();

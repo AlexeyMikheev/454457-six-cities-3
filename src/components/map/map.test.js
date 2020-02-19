@@ -1,7 +1,7 @@
 import React from "react";
-import TestRenderer  from "react-test-renderer";
+import TestRenderer from "react-test-renderer";
 import Map from "./map.jsx";
-import {OfferType, FEATURES} from '../../consts.js';
+import { OfferType, FEATURES } from '../../consts.js';
 
 const mocks = [{
   id: 1,
@@ -33,15 +33,7 @@ const mocks = [{
 }];
 
 it(`Render Map`, () => {
-  const tree = TestRenderer.create(<Map offers={mocks}/>,
-      {
-        createNodeMock: (element) => {
-          if (element.type === `div`) {
-            return document.createElement(`div`);
-          }
-          return null;
-        }
-      }).toJSON();
+  const tree = TestRenderer.create(<Map offers={mocks} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
