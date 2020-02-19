@@ -1,7 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import Map from "./map.jsx";
-import { OfferType, FEATURES } from '../../consts.js';
+import {OfferType, FEATURES} from '../../consts.js';
 
 const mocks = [{
   id: 1,
