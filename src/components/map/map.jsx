@@ -40,6 +40,10 @@ class Map extends PureComponent {
   }
 
   initMap(coords) {
+    if (!this._mapRef || !this._mapRef.current) {
+      return;
+    }
+
     this._mapInstance = leaflet.map(this._mapRef.current, this._mapSettings);
 
     const {center, zoom} = this._mapSettings;

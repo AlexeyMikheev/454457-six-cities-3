@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import TestRenderer  from "react-test-renderer";
 import Map from "./map.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
 
@@ -32,12 +32,14 @@ const mocks = [{
   lonlat: [52.3909553943508, 4.85309666406198]
 }];
 
-it(`Render App`, () => {
-
-  const tree = renderer.create(<Map offers={mocks}/>,
+it(`Render Map`, () => {
+  const tree = TestRenderer.create(<Map offers={mocks}/>,
       {
-        createNodeMock: () => {
-          return {};
+        createNodeMock: (element) => {
+          if (element.type === `div`) {
+            return document.createElement(`div`);
+          }
+          return null;
         }
       }).toJSON();
 

@@ -32,7 +32,7 @@ const mocks = [{
   lonlat: [52.3909553943508, 4.85309666406198]
 }];
 
-it(`Render App`, () => {
+it(`Render Main`, () => {
 
   const tree = renderer
     .create(<Main offers={mocks} onPlaceHeaderClick={() => {}} />)
