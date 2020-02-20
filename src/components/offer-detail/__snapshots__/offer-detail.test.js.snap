@@ -89,7 +89,7 @@ Array [
             Beautiful & luxurious apartment at great location
           </h1>
           <button
-            className="place-card__bookmark-button button "
+            className="property__bookmark-button button "
             type="button"
           >
             <svg
@@ -457,6 +457,18 @@ Array [
           </ul>
         </section>
       </div>
+      <section
+        className="map property__map"
+      >
+        <div
+          style={
+            Object {
+              "height": "100%",
+              "width": "100%",
+            }
+          }
+        />
+      </section>
     </div>
   </section>,
   <div

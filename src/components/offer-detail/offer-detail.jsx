@@ -4,6 +4,7 @@ import {MAX_RATING, ViewMode} from "../../consts.js";
 import {OfferShape, ReviewShape} from "../../settings.js";
 import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
+import Map from "../map/map.jsx";
 
 const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features, images} = offer;
@@ -88,8 +89,9 @@ const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
                 </p>
               </div>
             </div>
-            {<Reviews reviews={reviews} />}
+            <Reviews reviews={reviews} />
           </div>
+          <Map offers={nearOffers} viewMode={ViewMode.Near} />
         </div>
       </section>
       <div className="container">
