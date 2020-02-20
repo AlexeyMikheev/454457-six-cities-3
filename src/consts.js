@@ -37,5 +37,15 @@ export const OFFERTYPES = [
   OfferType.HOTEL
 ];
 
+export const ViewMode = {
+  Main: 0,
+  Near: 1
+};
+
+export const VIEWMODES = [
+  ViewMode.Main,
+  ViewMode.Near
+];
+
 export const MIN_RATING = 1;
 export const MAX_RATING = 5;

@@ -42,7 +42,7 @@ it(`Should welcome button be pressed`, () => {
   const onPlaceCardMouseEnter = jest.fn();
   const onPlaceCardMouseLeave = jest.fn();
 
-  const placeComponent = shallow(<Offer offer={mock} onPlaceHeaderClick={onPlaceHeaderClick} onPlaceCardMouseEnter={onPlaceCardMouseEnter} onPlaceCardMouseLeave={onPlaceCardMouseLeave} />);
+  const placeComponent = shallow(<Offer offer={mock} onPlaceHeaderClick={onPlaceHeaderClick} onPlaceCardMouseEnter={onPlaceCardMouseEnter} onPlaceCardMouseLeave={onPlaceCardMouseLeave} isNearViewMode={false}/>);
 
   const placeHeader = placeComponent.find(`h2.place-card__name`);
   const placeCard = placeComponent.find(`article.place-card`);

@@ -22,7 +22,7 @@ class App extends PureComponent {
 
   renderApp() {
     return (
-      <Main offers={this._offers} onPlaceHeaderClick={this.placeHeaderClickHandler}/>
+      <Main offers={this._offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
     );
   }
 
@@ -37,7 +37,7 @@ class App extends PureComponent {
 
     if (offer !== null) {
       return (
-        <OfferDetail offer={offer} reviews={this._reviews} />
+        <OfferDetail offer={offer} reviews={this._reviews} nearOffers={this._offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
       );
     }
     return this.renderApp();
