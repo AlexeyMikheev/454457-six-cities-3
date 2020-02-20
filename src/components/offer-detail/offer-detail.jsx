@@ -91,7 +91,7 @@ const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
             </div>
             <Reviews reviews={reviews} />
           </div>
-          <Map offers={nearOffers} viewMode={ViewMode.Near} />
+          <Map offers={nearOffers} activeOffer={offer} viewMode={ViewMode.Near} />
         </div>
       </section>
       <div className="container">

@@ -19,22 +19,22 @@ class Map extends PureComponent {
       zoomControl: false,
       marker: true
     };
-
-    this._markerTemplate = leaflet.icon({
-      iconUrl: `img/pin.svg`,
-      iconSize: [30, 30]
-    });
   }
 
   componentDidMount() {
-    const {offers} = this.props;
+    const {offers, activeOffer = null} = this.props;
 
     if (offers !== null) {
       const coords = offers.map((offer) => {
         return offer.lonlat;
       });
 
-      this.initMap(coords);
+      this.initMap();
+      this.addMapMarkers(coords);
+
+      if (activeOffer !== null) {
+        this.addMarker(activeOffer.lonlat, this.getMarkerTemplate(true));
+      }
     }
   }
 
@@ -42,7 +42,7 @@ class Map extends PureComponent {
     this.destroy();
   }
 
-  initMap(coords) {
+  initMap() {
     if (!this._mapRef || !this._mapRef.current) {
       return;
     }
@@ -55,21 +55,25 @@ class Map extends PureComponent {
     leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     }).addTo(this._mapInstance);
-
-    this.addMapMarkers(coords);
   }
 
   addMapMarkers(coords) {
     if (this._mapInstance !== null) {
       coords.forEach((lonlat) => {
-        this.addMarker(lonlat);
+        this.addMarker(lonlat, this.getMarkerTemplate());
       });
     }
   }
 
-  addMarker(lonlat) {
-    const icon = this._markerTemplate;
+  addMarker(lonlat, icon) {
     leaflet.marker(lonlat, {icon}).addTo(this._mapInstance);
+  }
+
+  getMarkerTemplate(isActive = false) {
+    return leaflet.icon({
+      iconUrl: isActive ? `img/pin-active.svg` : `img/pin.svg`,
+      iconSize: [30, 30]
+    });
   }
 
   destroy() {
@@ -87,8 +91,9 @@ class Map extends PureComponent {
 }
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
-  viewMode: PropTypes.oneOf(VIEWMODES)
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
+  activeOffer: PropTypes.shape(OfferShape),
+  viewMode: PropTypes.oneOf(VIEWMODES).isRequired
 };
 
 export default Map;
