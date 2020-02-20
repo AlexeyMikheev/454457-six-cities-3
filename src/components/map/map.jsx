@@ -22,19 +22,17 @@ class Map extends PureComponent {
   }
 
   componentDidMount() {
+    if (!this._mapRef || !this._mapRef.current) {
+      return;
+    }
+
     const {offers, activeOffer = null} = this.props;
 
-    if (offers !== null) {
-      const coords = offers.map((offer) => {
-        return offer.lonlat;
-      });
+    this.initMap();
+    this.addMapMarkers(offers);
 
-      this.initMap();
-      this.addMapMarkers(coords);
-
-      if (activeOffer !== null) {
-        this.addMarker(activeOffer.lonlat, this.getMarkerTemplate(true));
-      }
+    if (activeOffer !== null) {
+      this.addMarker(activeOffer.lonlat, this.getMarkerTemplate(true));
     }
   }
 
@@ -43,9 +41,6 @@ class Map extends PureComponent {
   }
 
   initMap() {
-    if (!this._mapRef || !this._mapRef.current) {
-      return;
-    }
 
     this._mapInstance = leaflet.map(this._mapRef.current, this._mapSettings);
 
@@ -57,10 +52,10 @@ class Map extends PureComponent {
     }).addTo(this._mapInstance);
   }
 
-  addMapMarkers(coords) {
+  addMapMarkers(offers) {
     if (this._mapInstance !== null) {
-      coords.forEach((lonlat) => {
-        this.addMarker(lonlat, this.getMarkerTemplate());
+      offers.forEach((offer) => {
+        this.addMarker(offer.lonlat, this.getMarkerTemplate());
       });
     }
   }

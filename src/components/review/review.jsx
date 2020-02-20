@@ -8,7 +8,7 @@ const Review = ({review}) => {
 
   const {name, avatar, rating, description, date} = review;
 
-  const displayDate = moment(date).format(`MMMM YYYY`);
+  const displayDate = moment(date).format(`MMMM dd, YYYY`);
   const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
 
   return (

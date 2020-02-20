@@ -10,10 +10,12 @@ const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features, images} = offer;
   const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
-  const MAX_DISPLAY_COUNT = 6;
+  const MAX_IMAGES_DISPLAY_COUNT = 6;
+  const MAX_NEAR_DISPLAY_COUNT = 3;
 
-  const displayImages = images.slice(0, MAX_DISPLAY_COUNT);
+  const displayImages = images.slice(0, MAX_IMAGES_DISPLAY_COUNT);
   const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
+  const displayNearOffers = nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT);
 
   return (
     <React.Fragment>
@@ -91,13 +93,13 @@ const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
             </div>
             <Reviews reviews={reviews} />
           </div>
-          <Map offers={nearOffers} activeOffer={offer} viewMode={ViewMode.Near} />
+          <Map offers={displayNearOffers} activeOffer={offer} viewMode={ViewMode.Near} />
         </div>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <Offers offers={nearOffers} viewMode={ViewMode.Near} onPlaceHeaderClick={onPlaceHeaderClick} />
+          <Offers offers={displayNearOffers} viewMode={ViewMode.Near} onPlaceHeaderClick={onPlaceHeaderClick} />
         </section>
       </div>
     </React.Fragment>

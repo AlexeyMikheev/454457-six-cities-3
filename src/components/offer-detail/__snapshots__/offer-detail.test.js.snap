@@ -332,7 +332,7 @@ Array [
                   className="reviews__time"
                   dateTime="2019-04-24"
                 >
-                  February 2020
+                  February Th, 2020
                 </time>
               </div>
             </li>
@@ -391,7 +391,7 @@ Array [
                   className="reviews__time"
                   dateTime="2019-04-24"
                 >
-                  February 2020
+                  February Th, 2020
                 </time>
               </div>
             </li>
@@ -450,7 +450,7 @@ Array [
                   className="reviews__time"
                   dateTime="2019-04-24"
                 >
-                  February 2020
+                  February Th, 2020
                 </time>
               </div>
             </li>
@@ -783,111 +783,6 @@ Array [
               className="place-card__type"
             >
               Hotel
-            </p>
-          </div>
-        </article>
-        <article
-          className="place-card near-places__card"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-          <div
-            className="place-card__mark"
-          >
-            <span>
-              Premium
-            </span>
-          </div>
-          <div
-            className="place-card__image-wrapper near-places__image-wrapper"
-          >
-            <a
-              xlinkHref="#"
-            >
-              <img
-                alt="Place image"
-                className="place-card__image"
-                height="200"
-                src="img/apartment-03.jpg"
-                width="260"
-              />
-            </a>
-          </div>
-          <div
-            className="place-card__info"
-          >
-            <div
-              className="place-card__price-wrapper"
-            >
-              <div
-                className="place-card__price"
-              >
-                <b
-                  className="place-card__price-value"
-                >
-                  €
-                  180
-                </b>
-                <span
-                  className="place-card__price-text"
-                >
-                  / night
-                </span>
-              </div>
-              <button
-                className="place-card__bookmark-button button "
-                type="button"
-              >
-                <svg
-                  className="place-card__bookmark-icon"
-                  height="19"
-                  width="18"
-                >
-                  <use
-                    xlinkHref="#icon-bookmark"
-                  />
-                </svg>
-                <span
-                  className="visually-hidden"
-                >
-                  In bookmarks
-                </span>
-              </button>
-            </div>
-            <div
-              className="place-card__rating rating"
-            >
-              <div
-                className="place-card__stars rating__stars"
-              >
-                <span
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                />
-                <span
-                  className="visually-hidden"
-                >
-                  Rating
-                </span>
-              </div>
-            </div>
-            <h2
-              className="place-card__name"
-              onClick={[Function]}
-            >
-              <a
-                href="#"
-              >
-                Nice, cozy, warm big bed apartment
-              </a>
-            </h2>
-            <p
-              className="place-card__type"
-            >
-              House
             </p>
           </div>
         </article>
