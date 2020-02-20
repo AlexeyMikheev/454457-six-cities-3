@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from "../main/main.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
-import {OfferShape, ReviewShape} from "../../settings.js";
+import {OfferShape} from "../../settings.js";
+<<<<<<< HEAD
+import offersMock from "../../mocks/offers.js";
+import reviewsMock from "../../mocks/reviews.js";
+=======
+>>>>>>> module4-task1
 
 class App extends PureComponent {
   constructor(props) {
@@ -13,7 +18,6 @@ class App extends PureComponent {
 
     this.state = {selectedOfferId: undefined};
     this._offers = this.props.offers;
-    this._reviews = this.props.reviews;
   }
 
   placeHeaderClickHandler(offerId) {
@@ -37,7 +41,7 @@ class App extends PureComponent {
 
     if (offer !== null) {
       return (
-        <OfferDetail offer={offer} reviews={this._reviews} />
+        <OfferDetail offer={offer} reviews={reviewsMock} />
       );
     }
     return this.renderApp();
@@ -71,8 +75,7 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired
 };
 
 
