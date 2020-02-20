@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {MAX_RATING} from '../../consts.js';
 import {OfferShape} from '../../settings.js';
 
-
 const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 

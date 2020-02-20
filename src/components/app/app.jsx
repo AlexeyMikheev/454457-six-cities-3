@@ -5,12 +5,13 @@ import Main from "../main/main.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import {OfferShape} from "../../settings.js";
 import offersMock from "../../mocks/offers.js";
+import reviewsMock from "../../mocks/reviews.js";
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
 
-    this._placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
+    this.placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
 
     this.state = {
       value: offersMock[0]
@@ -34,7 +35,7 @@ class App extends PureComponent {
 
     if (offer !== null) {
       return (
-        <OfferDetail offer={offer} />
+        <OfferDetail offer={offer} reviews={reviewsMock} />
       );
     }
     return this.renderApp();

@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {MAX_RATING} from "../../consts.js";
-import {OfferShape} from "../../settings";
+import {OfferShape, ReviewShape} from "../../settings.js";
+import Reviews from "../reviews/reviews.jsx";
 
-const OfferDetail = ({offer}) => {
+const OfferDetail = ({offer, reviews}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features, images} = offer;
   const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
@@ -85,6 +86,7 @@ const OfferDetail = ({offer}) => {
               </p>
             </div>
           </div>
+          {<Reviews reviews={reviews} />}
         </div>
       </div>
     </section>
@@ -93,6 +95,7 @@ const OfferDetail = ({offer}) => {
 
 OfferDetail.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
 };
 
 export default OfferDetail;
