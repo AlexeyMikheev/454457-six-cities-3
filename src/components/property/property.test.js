@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import OfferDetail from "./offer-detail.jsx";
+import Property from "./property.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
 
 const mock = {
@@ -177,9 +177,7 @@ const nearOffersMock = [
 
 it(`Render App`, () => {
 
-  const tree = renderer
-    .create(<OfferDetail offer={mock} reviews={reviewsMock} nearOffers={nearOffersMock} onPlaceHeaderClick={() => {}}/>)
-    .toJSON();
+  const tree = renderer.create(<Property offer={mock} reviews={reviewsMock} nearOffers={nearOffersMock} onPlaceHeaderClick={() => { }} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

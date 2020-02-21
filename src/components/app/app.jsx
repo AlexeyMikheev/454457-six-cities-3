@@ -2,7 +2,7 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from "../main/main.jsx";
-import OfferDetail from "../offer-detail/offer-detail.jsx";
+import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape} from "../../settings.js";
 
 class App extends PureComponent {
@@ -25,20 +25,20 @@ class App extends PureComponent {
     );
   }
 
-  renderOfferDetail() {
+  renderProperty() {
     if (!this.state.selectedOfferId) {
       return null;
     }
 
     const {offers, reviews} = this.props;
 
-    const offer = this._offers.find((item) => {
+    const offer = offers.find((item) => {
       return item.id === this.state.selectedOfferId;
     });
 
     if (offer !== null) {
       return (
-        <OfferDetail offer={offer} reviews={reviews} nearOffers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
+        <Property offer={offer} reviews={reviews} nearOffers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
       );
     }
     return this.renderApp();
@@ -47,7 +47,7 @@ class App extends PureComponent {
   renderMain() {
     if (this.state.selectedOfferId) {
       return (
-        this.renderOfferDetail()
+        this.renderProperty()
       );
     }
     return (
@@ -60,10 +60,10 @@ class App extends PureComponent {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            { this.renderMain() }
+            {this.renderMain()}
           </Route>
           <Route exact path="/dev-offer">
-            {this.renderOfferDetail()}
+            {this.renderProperty()}
           </Route>
         </Switch>
       </BrowserRouter>

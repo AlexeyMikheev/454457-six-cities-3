@@ -7,7 +7,7 @@ import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 
-const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
+const property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features, images} = offer;
   const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
@@ -104,11 +104,11 @@ const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   );
 };
 
-OfferDetail.propTypes = {
+property.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   onPlaceHeaderClick: PropTypes.func.isRequired
 };
 
-export default OfferDetail;
+export default property;
