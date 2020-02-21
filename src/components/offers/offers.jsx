@@ -33,7 +33,8 @@ export default class Offers extends PureComponent {
 
     return (
       <div className={`${isNearViewMode ? `near-places__list places__list` : `cities__places-list places__list tabs__content` }`}>
-        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={() => {
+        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
+          evt.preventDefault();
           onPlaceHeaderClick(offer.id);
         }} onPlaceCardMouseEnter={() => {
           this.placeCardMouseEnterHandler(offer.id);

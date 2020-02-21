@@ -32,13 +32,17 @@ class App extends PureComponent {
 
     const {offers, reviews} = this.props;
 
-    const offer = offers.find((item) => {
+    const activeOffer = offers.find((item) => {
       return item.id === this.state.selectedOfferId;
     });
 
-    if (offer !== null) {
+    const nearOffers = offers.filter((offer) => {
+      return activeOffer.id !== offer.id;
+    });
+
+    if (activeOffer !== null) {
       return (
-        <Property offer={offer} reviews={reviews} nearOffers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
+        <Property offer={activeOffer} reviews={reviews} nearOffers={nearOffers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
       );
     }
     return this.renderApp();
