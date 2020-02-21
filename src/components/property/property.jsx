@@ -2,13 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT} from "../../consts.js";
 import {OfferShape, ReviewShape} from "../../settings.js";
-import {getRatingPercents} from "../../utils.js";
 import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 
-const property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
+const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   const {images} = offer;
   const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
@@ -59,11 +58,11 @@ const property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   );
 };
 
-property.propTypes = {
+Property.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   onPlaceHeaderClick: PropTypes.func.isRequired
 };
 
-export default property;
+export default Property;
