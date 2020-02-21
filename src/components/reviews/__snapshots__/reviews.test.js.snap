@@ -72,7 +72,7 @@ exports[`Render Offer 1`] = `
           className="reviews__time"
           dateTime="2019-04-24"
         >
-          February Th, 2020
+          February Fr, 2020
         </time>
       </div>
     </li>
@@ -131,7 +131,7 @@ exports[`Render Offer 1`] = `
           className="reviews__time"
           dateTime="2019-04-24"
         >
-          February Th, 2020
+          February Fr, 2020
         </time>
       </div>
     </li>
@@ -190,7 +190,7 @@ exports[`Render Offer 1`] = `
           className="reviews__time"
           dateTime="2019-04-24"
         >
-          February Th, 2020
+          February Fr, 2020
         </time>
       </div>
     </li>

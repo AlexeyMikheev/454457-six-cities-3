@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {MAX_RATING, ViewMode} from "../../consts.js";
+import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT} from "../../consts.js";
 import {OfferShape, ReviewShape} from "../../settings.js";
+import {getRatingPercents} from "../../utils.js";
 import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
@@ -10,11 +11,8 @@ const OfferDetail = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features, images} = offer;
   const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
-  const MAX_IMAGES_DISPLAY_COUNT = 6;
-  const MAX_NEAR_DISPLAY_COUNT = 3;
-
   const displayImages = images.slice(0, MAX_IMAGES_DISPLAY_COUNT);
-  const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
+  const ratingPercent = getRatingPercents(rating);
   const displayNearOffers = nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT);
 
   return (

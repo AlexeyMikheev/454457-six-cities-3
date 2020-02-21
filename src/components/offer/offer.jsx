@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {MAX_RATING} from '../../consts.js';
+import {getRatingPercents} from '../../utils.js';
 import {OfferShape} from '../../settings.js';
 
 const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave, isNearViewMode}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 
-  const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
+  const ratingPercent = getRatingPercents(rating);
 
   return (
 

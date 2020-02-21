@@ -12,8 +12,6 @@ class App extends PureComponent {
     this.placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
 
     this.state = {selectedOfferId: undefined};
-    this._offers = this.props.offers;
-    this._reviews = this.props.reviews;
   }
 
   placeHeaderClickHandler(offerId) {
@@ -21,15 +19,18 @@ class App extends PureComponent {
   }
 
   renderApp() {
+    const {offers} = this.props;
     return (
-      <Main offers={this._offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
+      <Main offers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
     );
   }
 
   renderOfferDetail() {
     if (!this.state.selectedOfferId) {
-      return ``;
+      return null;
     }
+
+    const {offers, reviews} = this.props;
 
     const offer = this._offers.find((item) => {
       return item.id === this.state.selectedOfferId;
@@ -37,7 +38,7 @@ class App extends PureComponent {
 
     if (offer !== null) {
       return (
-        <OfferDetail offer={offer} reviews={this._reviews} nearOffers={this._offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
+        <OfferDetail offer={offer} reviews={reviews} nearOffers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
       );
     }
     return this.renderApp();

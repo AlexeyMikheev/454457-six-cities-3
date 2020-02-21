@@ -1,5 +1,4 @@
-export const Settings = {
-  OFFERS_COUNT: 17
-};
+import {MAX_RATING} from "./consts.js";
 
-export const places = [`Beautiful & luxurious apartment at great location`, `Wood and stone place`, `Canal View Prinsengracht`];
+export const getRatingPercents = (value) => Math.floor(value) * 100 / MAX_RATING;
+

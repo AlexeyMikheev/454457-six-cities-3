@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {MAX_RATING} from "../../consts.js";
+import {getRatingPercents} from "../../utils.js";
 import {ReviewShape} from '../../settings.js';
 import moment from "moment";
 
@@ -9,7 +9,7 @@ const Review = ({review}) => {
   const {name, avatar, rating, description, date} = review;
 
   const displayDate = moment(date).format(`MMMM dd, YYYY`);
-  const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
+  const ratingPercent = getRatingPercents(rating);
 
   return (
     <li className="reviews__item">

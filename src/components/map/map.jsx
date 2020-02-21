@@ -8,8 +8,6 @@ class Map extends PureComponent {
   constructor(props) {
     super(props);
 
-    this._viewMode = props.viewMode;
-
     this._mapRef = createRef();
     this._mapInstance = null;
 
@@ -26,7 +24,7 @@ class Map extends PureComponent {
       return;
     }
 
-    const {offers, activeOffer = null} = this.props;
+    const {offers, activeOffer} = this.props;
 
     this.initMap();
     this.addMapMarkers(offers);
@@ -77,13 +75,19 @@ class Map extends PureComponent {
   }
 
   render() {
-    const isNearViewMode = this._viewMode === ViewMode.Near;
+    const {viewMode} = this.props;
+
+    const isNearViewMode = viewMode === ViewMode.Near;
 
     return (
       <section className={`map ${isNearViewMode ? `property__map` : `cities__map`}`}><div style={{width: `100%`, height: `100%`}} ref={this._mapRef}></div></section>
     );
   }
 }
+
+Map.defaultProps = {
+  activeOffer: null
+};
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
