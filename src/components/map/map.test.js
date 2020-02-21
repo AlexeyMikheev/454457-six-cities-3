@@ -1,6 +1,6 @@
 import React from "react";
-import renderer from "react-test-renderer";
-import Offers from "./offers.jsx";
+import TestRenderer from "react-test-renderer";
+import Map from "./map.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
 
 const mocks = [{
@@ -32,11 +32,8 @@ const mocks = [{
   lonlat: [52.3909553943508, 4.85309666406198]
 }];
 
-it(`Render Offers`, () => {
-
-  const tree = renderer
-    .create(<Offers offers={mocks} onPlaceHeaderClick={() => {}}/>)
-    .toJSON();
+it(`Render Map`, () => {
+  const tree = TestRenderer.create(<Map offers={mocks} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

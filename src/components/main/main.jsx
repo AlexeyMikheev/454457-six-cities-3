@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Offers from '../offers/offers.jsx';
-import {OfferShape} from '../../settings.js';
+import Offers from "../offers/offers.jsx";
+import {OfferShape} from "../../settings.js";
+import Map from "../map/map.jsx";
 
 const Main = ({offers, onPlaceHeaderClick}) => {
   return (
@@ -15,6 +16,9 @@ const Main = ({offers, onPlaceHeaderClick}) => {
               <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <Offers offers={offers} onPlaceHeaderClick={onPlaceHeaderClick}/>
             </section>
+            <div className="cities__right-section">
+              <Map offers={offers}/>
+            </div>
           </div>
         </div>
       </main>

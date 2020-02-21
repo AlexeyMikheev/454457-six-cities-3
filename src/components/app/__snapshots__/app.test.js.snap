@@ -142,6 +142,21 @@ exports[`Render App 1`] = `
             </article>
           </div>
         </section>
+        <div
+          className="cities__right-section"
+        >
+          <section
+            className="cities__map map"
+          >
+            <div
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
+            />
+          </section>
+        </div>
       </div>
     </div>
   </main>

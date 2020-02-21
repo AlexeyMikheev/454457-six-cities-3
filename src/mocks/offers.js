@@ -29,7 +29,8 @@ export default [
       avatar: `img/avatar-angelina.jpg`,
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
-    }
+    },
+    lonlat: [52.3909553943508, 4.85309666406198]
   },
   {
     id: 2,
@@ -56,7 +57,8 @@ export default [
       avatar: `img/avatar-angelina.jpg`,
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
-    }
+    },
+    lonlat: [52.369553943508, 4.85309666406198]
   },
   {
     id: 3,
@@ -83,7 +85,8 @@ export default [
       avatar: `img/avatar-angelina.jpg`,
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
-    }
+    },
+    lonlat: [52.3909553943508, 4.929309666406198]
   },
   {
     id: 4,
@@ -110,34 +113,8 @@ export default [
       avatar: `img/avatar-angelina.jpg`,
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
-    }
-  },
-  {
-    id: 5,
-    isPremium: false,
-    cost: 80,
-    isMarked: true,
-    rating: 2.5,
-    name: `Wood and stone place`,
-    type: OfferType.ROOM,
-    image: `img/room.jpg`,
-    roomsCount: 4,
-    membersCount: 5,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    owner: {
-      name: `Angelina 4`,
-      avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      isTrust: true
-    }
-  },
+    },
+    lonlat: [52.3809553943508, 4.939309666406198]
+  }
 ];
 
