@@ -36,7 +36,7 @@ class Map extends PureComponent {
     const {activeOffer: prevActiveOffer} = prevProps;
     const {activeOffer} = this.props;
 
-    if (prevActiveOffer.id !== activeOffer.id) {
+    if (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id) {
       this.clearMarkers();
       this.initMarkers();
     }

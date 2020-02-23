@@ -1,6 +1,6 @@
 import {OfferType, FEATURES} from '../consts.js';
 
-export default [
+const offersMoke = [
   {
     id: 1,
     isPremium: true,
@@ -30,6 +30,10 @@ export default [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
+    city: {
+      id: 1,
+      name: `Paris`
+    },
     lonlat: [52.3909553943508, 4.85309666406198]
   },
   {
@@ -57,6 +61,10 @@ export default [
       avatar: `img/avatar-angelina.jpg`,
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
+    },
+    city: {
+      id: 2,
+      name: `Cologne`
     },
     lonlat: [52.369553943508, 4.85309666406198]
   },
@@ -86,6 +94,10 @@ export default [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
+    city: {
+      id: 3,
+      name: `Brussels`
+    },
     lonlat: [52.3909553943508, 4.929309666406198]
   },
   {
@@ -114,7 +126,108 @@ export default [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
+    city: {
+      id: 4,
+      name: `Amsterdam`
+    },
+    lonlat: [52.3809553943508, 4.939309666406198]
+  },
+  {
+    id: 5,
+    isPremium: true,
+    cost: 180,
+    isMarked: false,
+    rating: 5.1,
+    name: `Nice, cozy, warm big bed apartment`,
+    type: OfferType.HOUSE,
+    image: `img/apartment-03.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina 3`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    },
+    city: {
+      id: 5,
+      name: `Hamburg`
+    },
+    lonlat: [52.3809553943508, 4.939309666406198]
+  },
+  {
+    id: 6,
+    isPremium: true,
+    cost: 180,
+    isMarked: false,
+    rating: 5.1,
+    name: `Nice, cozy, warm big bed apartment`,
+    type: OfferType.HOUSE,
+    image: `img/apartment-03.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina 3`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    },
+    city: {
+      id: 6,
+      name: `Dusseldorf`
+    },
+    lonlat: [52.3809553943508, 4.939309666406198]
+  },
+  {
+    id: 7,
+    isPremium: true,
+    cost: 180,
+    isMarked: false,
+    rating: 5.1,
+    name: `Nice, cozy, warm big bed apartment`,
+    type: OfferType.HOUSE,
+    image: `img/apartment-03.jpg`,
+    roomsCount: 4,
+    membersCount: 5,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    owner: {
+      name: `Angelina 3`,
+      avatar: `img/avatar-angelina.jpg`,
+      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      isTrust: true
+    },
+    city: {
+      id: 1,
+      name: `Paris`
+    },
     lonlat: [52.3809553943508, 4.939309666406198]
   }
 ];
 
+export default offersMoke;
