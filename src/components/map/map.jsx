@@ -33,10 +33,11 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const {activeOffer: prevActiveOffer} = prevProps;
-    const {activeOffer} = this.props;
+    const {offers: prevOffers, activeOffer: prevActiveOffer} = prevProps;
+    const {offers, activeOffer} = this.props;
 
-    if (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id) {
+    if ((prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id) ||
+    (prevOffers && offers && prevOffers.length !== offers.length)) {
       this.clearMarkers();
       this.initMarkers();
     }

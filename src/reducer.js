@@ -5,6 +5,7 @@ const initialState = {
   currentOffers: [],
   currentOffer: null,
   cities: [],
+  reviews: [],
   currentCity: null
 };
 
@@ -28,7 +29,7 @@ const ActionCreator = {
   }),
 
   setCurrentCity: (cityId) => ({
-    type: ActionType.SET_CITY,
+    type: ActionType.SET_CURRENT_CITY,
     payload: cityId,
   }),
 
@@ -46,15 +47,21 @@ const reducer = (state = initialState, action) => {
       if (offers !== null) {
         state = extendObject(state, {offers});
 
-        const citiesIds = new Set(offers.map((offer) => offer.city.id));
-        const cities = offers.filter((offer) => citiesIds.has(offer.city.id));
+        const citiesMap = new Map();
+        offers.forEach((offer) => {
+          if (!citiesMap.has(offer.city.id)) {
+            citiesMap.set(offer.city.id, offer.city);
+          }
+        });
+
+        const cities = Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
 
         if (cities !== null && cities.length > 0) {
           const currentCity = cities[0];
           state = extendObject(state, {cities, currentCity});
 
           const currentOffers = state.offers.filter((offer) => offer.city.id === currentCity.id);
-          if (currentOffers !== null && currentOffers.length > 0) {
+          if (currentOffers !== null) {
             state = extendObject(state, {currentOffers});
           }
         }
@@ -73,13 +80,13 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_CURRENT_CITY:
       const cityId = action.payload;
 
-      const currentCity = state.cities.filter((city) => city.id === cityId);
+      const currentCity = state.cities.find((city) => city.id === cityId);
 
       if (currentCity !== null) {
-        state = extendObject(state, {city: currentCity});
+        state = extendObject(state, {currentCity});
 
         const currentOffers = state.offers.filter((offer) => offer.city.id === currentCity.id);
-        if (currentOffers !== null && currentOffers.length > 0) {
+        if (currentOffers !== null) {
           state = extendObject(state, {currentOffers});
         }
       }

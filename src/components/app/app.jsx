@@ -4,7 +4,7 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Property from "../property/property.jsx";
-import {OfferShape1, ReviewShape1} from "../../settings.js";
+import {OfferShape, ReviewShape, CityShapre} from "../../settings.js";
 import {ActionCreator} from "../../reducer.js";
 import offersMoke from '../../mocks/offers.js';
 import reviewsMoke from "../../mocks/reviews.js";
@@ -14,6 +14,7 @@ class App extends PureComponent {
     super(props);
 
     this.placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
+    this.cityClickHandler = this.cityClickHandler.bind(this);
   }
 
   componentDidMount() {
@@ -25,10 +26,14 @@ class App extends PureComponent {
     this.props.setCurrentOffer(offerId);
   }
 
+  cityClickHandler(cityId) {
+    this.props.setCurrentCity(cityId);
+  }
+
   renderApp() {
-    const {offers} = this.props;
+    const {offers, cities, selectedCity} = this.props;
     return (
-      <Main offers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
+      <Main offers={offers} cities={cities} currentCity={selectedCity} onCityClick={this.cityClickHandler} onPlaceHeaderClick={this.placeHeaderClickHandler}/>
     );
   }
 
@@ -81,19 +86,23 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape1)),
-  selectedOffer: PropTypes.shape(OfferShape1),
-  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape1)),
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
+  cities: PropTypes.arrayOf(PropTypes.shape(CityShapre)),
+  selectedOffer: PropTypes.shape(OfferShape),
+  selectedCity: PropTypes.shape(CityShapre),
+  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)),
   cityHeaderClickHandler: PropTypes.func,
   setOffers: PropTypes.func.isRequired,
   setReviews: PropTypes.func.isRequired,
   setCurrentOffer: PropTypes.func.isRequired,
+  setCurrentCity: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   cities: state.cities,
   offers: state.currentOffers,
   selectedOffer: state.currentOffer,
+  selectedCity: state.currentCity,
   reviews: state.reviews
 });
 
@@ -106,6 +115,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setCurrentOffer(offerId) {
     dispatch(ActionCreator.setCurrentOffer(offerId));
+  },
+  setCurrentCity(cityId) {
+    dispatch(ActionCreator.setCurrentCity(cityId));
   }
 });
 
