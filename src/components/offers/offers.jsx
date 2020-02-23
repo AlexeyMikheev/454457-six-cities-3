@@ -29,7 +29,7 @@ export default class Offers extends PureComponent {
   render() {
     const {offers, onPlaceHeaderClick, viewMode} = this.props;
 
-    const isNearViewMode = viewMode === ViewMode.Near;
+    const isNearViewMode = viewMode === ViewMode.Property;
 
     return (
       <div className={`${isNearViewMode ? `near-places__list places__list` : `cities__places-list places__list tabs__content` }`}>

@@ -2,7 +2,7 @@ import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
 import {OfferShape} from "../../settings.js";
-import {ViewMode, VIEWMODES} from '../../consts.js';
+import {ViewMode as ViewMode, VIEWMODES} from '../../consts.js';
 
 class Map extends PureComponent {
   constructor(props) {
@@ -102,7 +102,7 @@ class Map extends PureComponent {
   render() {
     const {viewMode} = this.props;
 
-    const isNearViewMode = viewMode === ViewMode.Near;
+    const isNearViewMode = viewMode === ViewMode.Property;
 
     return (
       <section className={`map ${isNearViewMode ? `property__map` : `cities__map`}`}><div style={{width: `100%`, height: `100%`}} ref={this._mapRef}></div></section>
