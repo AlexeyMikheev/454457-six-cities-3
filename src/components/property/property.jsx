@@ -45,13 +45,13 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
             </div>
             <Reviews reviews={reviews} />
           </div>
-          <Map offers={displayNearOffers} activeOffer={offer} viewMode={ViewMode.Near} />
+          <Map offers={displayNearOffers} activeOffer={offer} viewMode={ViewMode.Property} />
         </div>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <Offers offers={displayNearOffers} viewMode={ViewMode.Near} onPlaceHeaderClick={onPlaceHeaderClick} />
+          <Offers offers={displayNearOffers} viewMode={ViewMode.Property} onPlaceHeaderClick={onPlaceHeaderClick} />
         </section>
       </div>
     </React.Fragment>

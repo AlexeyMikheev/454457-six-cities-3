@@ -39,12 +39,12 @@ export const OFFERTYPES = [
 
 export const ViewMode = {
   Main: 0,
-  Near: 1
+  Property: 1
 };
 
 export const VIEWMODES = [
   ViewMode.Main,
-  ViewMode.Near
+  ViewMode.Property
 ];
 
 export const MIN_RATING = 1;
