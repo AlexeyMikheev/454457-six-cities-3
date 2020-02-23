@@ -31,11 +31,9 @@ const mock = {
   }
 };
 
-it(`Render App`, () => {
+it(`Render OfferDetail`, () => {
 
-  const tree = renderer
-    .create(<OfferDetail offer={mock} />)
-    .toJSON();
+  const tree = renderer.create(<OfferDetail offer={mock} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

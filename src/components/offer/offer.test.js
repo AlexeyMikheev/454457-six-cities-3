@@ -35,7 +35,7 @@ const mock = {
 it(`Render Offer`, () => {
 
   const tree = renderer
-    .create(<Offer offer={mock} onPlaceHeaderClick={() => {}} onPlaceCardMouseEnter={() => {}} onPlaceCardMouseLeave={() => {}} />)
+    .create(<Offer offer={mock} onPlaceHeaderClick={() => {}} onPlaceCardMouseEnter={() => {}} onPlaceCardMouseLeave={() => {}} isNearViewMode={false}/>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

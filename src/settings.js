@@ -22,3 +22,11 @@ export const OfferShape = {
   lonlat: PropTypes.arrayOf(PropTypes.number)
 };
 
+export const ReviewShape = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
+  date: PropTypes.number.isRequired,
+};

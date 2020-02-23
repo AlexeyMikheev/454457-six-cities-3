@@ -2,8 +2,8 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from "../main/main.jsx";
-import OfferDetail from "../offer-detail/offer-detail.jsx";
-import {OfferShape} from "../../settings.js";
+import Property from "../property/property.jsx";
+import {OfferShape, ReviewShape} from "../../settings.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -12,7 +12,6 @@ class App extends PureComponent {
     this.placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
 
     this.state = {selectedOfferId: undefined};
-    this._offers = this.props.offers;
   }
 
   placeHeaderClickHandler(offerId) {
@@ -20,23 +19,30 @@ class App extends PureComponent {
   }
 
   renderApp() {
+    const {offers} = this.props;
     return (
-      <Main offers={this._offers} onPlaceHeaderClick={this.placeHeaderClickHandler}/>
+      <Main offers={offers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
     );
   }
 
-  renderOfferDetail() {
+  renderProperty() {
     if (!this.state.selectedOfferId) {
-      return ``;
+      return null;
     }
 
-    const offer = this._offers.find((item) => {
+    const {offers, reviews} = this.props;
+
+    const activeOffer = offers.find((item) => {
       return item.id === this.state.selectedOfferId;
     });
 
-    if (offer !== null) {
+    const nearOffers = offers.filter((offer) => {
+      return activeOffer.id !== offer.id;
+    });
+
+    if (activeOffer !== null) {
       return (
-        <OfferDetail offer={offer} />
+        <Property offer={activeOffer} reviews={reviews} nearOffers={nearOffers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
       );
     }
     return this.renderApp();
@@ -45,7 +51,7 @@ class App extends PureComponent {
   renderMain() {
     if (this.state.selectedOfferId) {
       return (
-        this.renderOfferDetail()
+        this.renderProperty()
       );
     }
     return (
@@ -58,10 +64,10 @@ class App extends PureComponent {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            { this.renderMain() }
+            {this.renderMain()}
           </Route>
           <Route exact path="/dev-offer">
-            {this.renderOfferDetail()}
+            {this.renderProperty()}
           </Route>
         </Switch>
       </BrowserRouter>
@@ -70,7 +76,8 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
 };
 
 

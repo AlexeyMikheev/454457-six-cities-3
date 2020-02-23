@@ -1,23 +1,22 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {MAX_RATING} from '../../consts.js';
+import {getRatingPercents} from '../../utils.js';
 import {OfferShape} from '../../settings.js';
 
-
-const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave}) => {
+const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave, isNearViewMode}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 
-  const ratingPercent = Math.floor(rating) * 100 / MAX_RATING;
+  const ratingPercent = getRatingPercents(rating);
 
   return (
 
-    <article className="cities__place-card place-card" onMouseEnter={onPlaceCardMouseEnter} onMouseLeave={onPlaceCardMouseLeave}>
+    <article className={`place-card ${ isNearViewMode ? `near-places__card` : `cities__place-card` }`} onMouseEnter={onPlaceCardMouseEnter} onMouseLeave={onPlaceCardMouseLeave}>
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       }
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`place-card__image-wrapper ${ isNearViewMode ? `near-places__image-wrapper` : `cities__image-wrapper`}`}>
         <a xlinkHref="#">
           <img className="place-card__image" src={image} width="260" height="200" alt="Place image" />
         </a>
@@ -55,6 +54,7 @@ Offer.propTypes = {
   onPlaceHeaderClick: PropTypes.func.isRequired,
   onPlaceCardMouseEnter: PropTypes.func.isRequired,
   onPlaceCardMouseLeave: PropTypes.func.isRequired,
+  isNearViewMode: PropTypes.bool.isRequired
 };
 
 export default Offer;

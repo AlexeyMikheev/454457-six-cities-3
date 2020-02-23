@@ -2,6 +2,8 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import Offer from '../offer/offer.jsx';
 import {OfferShape} from '../../settings.js';
+import {ViewMode, VIEWMODES} from '../../consts.js';
+
 
 export default class Offers extends PureComponent {
   constructor(props) {
@@ -25,17 +27,20 @@ export default class Offers extends PureComponent {
   }
 
   render() {
-    const {offers} = this.props;
-    const {onPlaceHeaderClick} = this.props;
+    const {offers, onPlaceHeaderClick, viewMode} = this.props;
+
+    const isNearViewMode = viewMode === ViewMode.Property;
+
     return (
-      <div className="cities__places-list places__list tabs__content">
-        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={() => {
+      <div className={`${isNearViewMode ? `near-places__list places__list` : `cities__places-list places__list tabs__content` }`}>
+        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
+          evt.preventDefault();
           onPlaceHeaderClick(offer.id);
         }} onPlaceCardMouseEnter={() => {
           this.placeCardMouseEnterHandler(offer.id);
         }} onPlaceCardMouseLeave={() => {
           this.placeCardMouseLeaveHandler(undefined);
-        }} />)}
+        }} isNearViewMode={isNearViewMode} />)}
       </div>
     );
   }
@@ -43,5 +48,6 @@ export default class Offers extends PureComponent {
 
 Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  onPlaceHeaderClick: PropTypes.func.isRequired
+  onPlaceHeaderClick: PropTypes.func.isRequired,
+  viewMode: PropTypes.oneOf(VIEWMODES)
 };
