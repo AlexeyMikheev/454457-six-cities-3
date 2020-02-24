@@ -27,7 +27,10 @@ class App extends PureComponent {
   }
 
   cityClickHandler(cityId) {
-    this.props.setCurrentCity(cityId);
+    const {selectedCity} = this.props;
+    if (selectedCity && selectedCity.id !== cityId) {
+      this.props.setCurrentCity(cityId);
+    }
   }
 
   renderApp() {

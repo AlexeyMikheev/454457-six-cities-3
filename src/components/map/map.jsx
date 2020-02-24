@@ -10,6 +10,7 @@ class Map extends PureComponent {
     this._mapRef = createRef();
     this._map = null;
     this._markers = [];
+    this._isMapInit = false;
 
     this._mapSettings = {
       center: [52.38333, 4.9],
@@ -19,13 +20,16 @@ class Map extends PureComponent {
     };
   }
 
-  componentDidMount() {
-    if (!this._mapRef || !this._mapRef.current) {
-      return;
-    }
+  get isAvaliableInit() {
+    const {offers} = this.props;
+    return this._mapRef && this._mapRef.current && offers && offers.length;
+  }
 
-    this.initMap();
-    this.initMarkers();
+  componentDidMount() {
+    if (this.isAvaliableInit) {
+      this.initMap();
+      this.initMarkers();
+    }
   }
 
   componentWillUnmount() {
@@ -33,11 +37,31 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    if (!this.isAvaliableInit) {
+      return;
+    }
+
+    if (!this._isMapInit) {
+      this.initMap();
+    }
     const {offers: prevOffers, activeOffer: prevActiveOffer} = prevProps;
     const {offers, activeOffer} = this.props;
 
-    if ((prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id) ||
-    (prevOffers && offers && prevOffers.length !== offers.length)) {
+    const isActiveOfferChanged = (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id);
+
+    const isOfferschanged = !offers.every((offer) => {
+      return prevOffers.some((prevOffer) => {
+        return offer.id === prevOffer.id;
+      });
+    });
+
+    const isPrevOfferschanged = !prevOffers.every((prevOffer) => {
+      return offers.some((offer) => {
+        return prevOffer.id === offer.id;
+      });
+    });
+
+    if (isActiveOfferChanged || isOfferschanged || isPrevOfferschanged) {
       this.clearMarkers();
       this.initMarkers();
     }
@@ -53,6 +77,8 @@ class Map extends PureComponent {
     leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     }).addTo(this._map);
+
+    this._isMapInit = true;
   }
 
   clearMarkers() {
@@ -95,9 +121,12 @@ class Map extends PureComponent {
   }
 
   destroy() {
-    this._map.remove();
-    this._map = null;
-    this._markers = [];
+    if (this._isMapInit) {
+      this._map.remove();
+      this._map = null;
+      this._markers = [];
+      this._isMapInit = false;
+    }
   }
 
   render() {
