@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import Main from "./main.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
 
-const mocks = [{
+const mockOffers = [{
   id: 1,
   isPremium: true,
   cost: 120,
@@ -32,10 +32,37 @@ const mocks = [{
   lonlat: [52.3909553943508, 4.85309666406198]
 }];
 
+const mockCities = [
+  {
+    id: 1,
+    name: `Paris`
+  },
+  {
+    id: 2,
+    name: `Cologne`
+  },
+  {
+    id: 3,
+    name: `Brussels`
+  },
+  {
+    id: 4,
+    name: `Amsterdam`
+  },
+  {
+    id: 5,
+    name: `Hamburg`
+  },
+  {
+    id: 6,
+    name: `Dusseldorf`
+  },
+];
+
 it(`Render Main`, () => {
 
   const tree = renderer
-    .create(<Main offers={mocks} onPlaceHeaderClick={() => {}} />)
+    .create(<Main offers={mockOffers} cities={mockCities} currentCity={mockCities[0]} onCityClick={() => {}} onPlaceHeaderClick={() => {}} />)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

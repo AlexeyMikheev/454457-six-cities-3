@@ -9,11 +9,11 @@ const Locations = ({cities, activeCity, onCityClick}) => {
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {cities.map((city) =>
-          <li key={city.id} className="locations__item">
-            <a className={`locations__item-link tabs__item ${activeCity && city.id === activeCity.id ? `tabs__item--active` : ``}`} href="#" onClick={(evt) => {
-              evt.preventDefault();
-              onCityClick(city.id);
-            }}>
+          <li key={city.id} className="locations__item" onClick={(evt) => {
+            evt.preventDefault();
+            onCityClick(city.id);
+          }}>
+            <a className={`locations__item-link tabs__item ${activeCity && city.id === activeCity.id ? `tabs__item--active` : ``}`} href="#" >
               <span>{city.name}</span>
             </a>
           </li>
