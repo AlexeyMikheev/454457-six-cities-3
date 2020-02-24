@@ -30,3 +30,8 @@ export const ReviewShape = {
   description: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
 };
+
+export const CityShapre = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired
+};

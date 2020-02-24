@@ -1,4 +1,4 @@
-export default [
+const reviewsMoke = [
   {
     id: 1,
     name: `Max`,
@@ -32,3 +32,5 @@ export default [
     date: 1576868903507
   }
 ];
+
+export default reviewsMoke;

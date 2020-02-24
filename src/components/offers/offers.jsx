@@ -13,10 +13,7 @@ export default class Offers extends PureComponent {
 
     this._placeCardMouseEnterHandler = this.placeCardMouseEnterHandler.bind(this);
     this._placeCardMouseLeaveHandler = this.placeCardMouseLeaveHandler.bind(this);
-    this._placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
   }
-
-  placeHeaderClickHandler() {}
 
   placeCardMouseEnterHandler(offerId) {
     this.setState({activeOfferId: offerId});
