@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Offers from "../offers/offers.jsx";
 import Locations from "../locations/locations.jsx";
+import Sorting from "../sorting/sorting.jsx";
 import {ViewMode} from "../../consts.js";
 import {OfferShape, CityShapre} from "../../settings.js";
 import Map from "../map/map.jsx";
@@ -20,6 +21,7 @@ const Main = ({offers, cities, currentCity, onCityClick, onPlaceHeaderClick}) =>
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{title}</b>
+              <Sorting />
               <Offers offers={offers} viewMode={ViewMode.Main} onPlaceHeaderClick={onPlaceHeaderClick} />
             </section>
             <div className="cities__right-section">

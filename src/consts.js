@@ -54,3 +54,17 @@ export const MAX_REVIEWS_DISPLAY_COUNT = 10;
 
 export const MAX_IMAGES_DISPLAY_COUNT = 6;
 export const MAX_NEAR_DISPLAY_COUNT = 3;
+
+export const SortType = {
+  POPULAR: `Popular`,
+  PRICE_LH: `Price: low to high`,
+  PRICE_HL: `Price: high to low`,
+  TOPRATED: `Top rated first`
+};
+
+export const SORTTYPES = [
+  SortType.POPULAR,
+  SortType.PRICE_LH,
+  SortType.PRICE_HL,
+  SortType.TOPRATED
+];
