@@ -21,8 +21,8 @@ class Map extends PureComponent {
   }
 
   get isAvaliableInit() {
-    const {offers} = this.props;
-    return this._mapRef && this._mapRef.current && offers && offers.length;
+    const {offers, activeOffer} = this.props;
+    return this._mapRef && this._mapRef.current && ((offers && offers.length) || activeOffer);
   }
 
   componentDidMount() {

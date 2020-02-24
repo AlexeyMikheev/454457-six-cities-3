@@ -14,6 +14,12 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   const displayImages = images.slice(0, MAX_IMAGES_DISPLAY_COUNT);
   const displayNearOffers = nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT);
 
+  let nearOffersContainer = `No places to stay available`;
+
+  if (nearOffers.length > 0) {
+    nearOffersContainer = <Offers offers={displayNearOffers} viewMode={ViewMode.Property} onPlaceHeaderClick={onPlaceHeaderClick} />;
+  }
+
   return (
     <React.Fragment>
       <section className="property">
@@ -51,7 +57,7 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <Offers offers={displayNearOffers} viewMode={ViewMode.Property} onPlaceHeaderClick={onPlaceHeaderClick} />
+          {nearOffersContainer}
         </section>
       </div>
     </React.Fragment>
