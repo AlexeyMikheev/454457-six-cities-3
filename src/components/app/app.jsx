@@ -7,7 +7,8 @@ import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape, CityShapre} from "../../settings.js";
 import {ActionCreator} from "../../reducer.js";
 import offersMoke from '../../mocks/offers.js';
-import reviewsMoke from "../../mocks/reviews.js";
+import reviewsMocke from "../../mocks/reviews.js";
+import citiesMocke from "../../mocks/cities.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -19,7 +20,8 @@ class App extends PureComponent {
 
   componentDidMount() {
     this.props.setOffers(offersMoke);
-    this.props.setReviews(reviewsMoke);
+    this.props.setReviews(reviewsMocke);
+    this.props.setCities(citiesMocke);
   }
 
   placeHeaderClickHandler(offerId) {
@@ -97,6 +99,7 @@ App.propTypes = {
   cityHeaderClickHandler: PropTypes.func,
   setOffers: PropTypes.func.isRequired,
   setReviews: PropTypes.func.isRequired,
+  setCities: PropTypes.func.isRequired,
   setCurrentOffer: PropTypes.func.isRequired,
   setCurrentCity: PropTypes.func.isRequired,
 };
@@ -115,6 +118,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setReviews(reviews) {
     dispatch(ActionCreator.setReviews(reviews));
+  },
+  setCities(cities) {
+    dispatch(ActionCreator.setCities(cities));
   },
   setCurrentOffer(offerId) {
     dispatch(ActionCreator.setCurrentOffer(offerId));

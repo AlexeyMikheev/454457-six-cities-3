@@ -12,6 +12,7 @@ const initialState = {
 const ActionType = {
   SET_OFFERS: `SET_OFFERS`,
   SET_REVIEWS: `SET_REVIEWS`,
+  SET_CITIES: `SET_CITIES`,
   SET_CURRENT_CITY: `SET_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`
 };
@@ -26,6 +27,11 @@ const ActionCreator = {
   setOffers: (offers) => ({
     type: ActionType.SET_OFFERS,
     payload: offers
+  }),
+
+  setCities: (cities) => ({
+    type: ActionType.SET_CITIES,
+    payload: cities
   }),
 
   setCurrentCity: (cityId) => ({
@@ -46,25 +52,6 @@ const reducer = (state = initialState, action) => {
 
       if (offers !== null) {
         state = extendObject(state, {offers});
-
-        const citiesMap = new Map();
-        offers.forEach((offer) => {
-          if (!citiesMap.has(offer.city.id)) {
-            citiesMap.set(offer.city.id, offer.city);
-          }
-        });
-
-        const cities = Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
-
-        if (cities !== null && cities.length > 0) {
-          const currentCity = cities[0];
-          state = extendObject(state, {cities, currentCity});
-
-          const currentOffers = state.offers.filter((offer) => offer.city.id === currentCity.id);
-          if (currentOffers !== null) {
-            state = extendObject(state, {currentOffers});
-          }
-        }
       }
 
       return state;
@@ -77,6 +64,25 @@ const reducer = (state = initialState, action) => {
       }
       return state;
 
+    case ActionType.SET_CITIES:
+      const cities = action.payload;
+      if (cities !== null) {
+        state = extendObject(state, {cities});
+
+        if (cities.length > 0) {
+
+          const currentCity = cities[0];
+          state = extendObject(state, {cities, currentCity});
+
+          const currentOffers = state.offers.filter((offer) => offer.cityId === currentCity.id);
+          if (currentOffers !== null) {
+            state = extendObject(state, {currentOffers});
+          }
+        }
+      }
+
+      return state;
+
     case ActionType.SET_CURRENT_CITY:
       const cityId = action.payload;
 
@@ -85,7 +91,7 @@ const reducer = (state = initialState, action) => {
       if (currentCity !== null) {
         state = extendObject(state, {currentCity});
 
-        const currentOffers = state.offers.filter((offer) => offer.city.id === currentCity.id);
+        const currentOffers = state.offers.filter((offer) => offer.cityId === currentCity.id);
         if (currentOffers !== null) {
           state = extendObject(state, {currentOffers});
         }

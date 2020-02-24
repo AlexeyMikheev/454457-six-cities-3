@@ -36,7 +36,7 @@ exports[`Render App 1`] = `
           <b
             className="places__found"
           >
-            0 place to stay in 
+            No places to stay available
           </b>
           <div
             className="cities__places-list places__list tabs__content"

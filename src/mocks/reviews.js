@@ -1,4 +1,4 @@
-const reviewsMoke = [
+const reviewsMocke = [
   {
     id: 1,
     name: `Max`,
@@ -33,4 +33,4 @@ const reviewsMoke = [
   }
 ];
 
-export default reviewsMoke;
+export default reviewsMocke;

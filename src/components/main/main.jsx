@@ -8,7 +8,7 @@ import Map from "../map/map.jsx";
 
 const Main = ({offers, cities, currentCity, onCityClick, onPlaceHeaderClick}) => {
 
-  const title = `${offers.length} ${offers.length > 1 ? `places` : `place`} to stay in ${currentCity ? currentCity.name : ``}`;
+  const title = offers.length > 0 ? `${offers.length} ${offers.length > 1 ? `places` : `place`} to stay in ${currentCity ? currentCity.name : ``}` : `No places to stay available`;
 
   return (
     <div className="page page--gray page--main">

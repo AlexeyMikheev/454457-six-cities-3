@@ -16,7 +16,7 @@ const currentCityMock = citiesMock[0];
 
 const newCurrentCityMock = citiesMock[1];
 
-const offersMocke = [
+const offersMock = [
   {
     id: 1,
     isPremium: true,
@@ -46,10 +46,7 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 1,
-      name: `Paris`
-    },
+    cityId: 1,
     lonlat: [52.3909553943508, 4.85309666406198]
   },
   {
@@ -78,10 +75,7 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 2,
-      name: `Cologne`
-    },
+    cityId: 2,
     lonlat: [52.369553943508, 4.85309666406198]
   },
   {
@@ -110,15 +104,12 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 1,
-      name: `Paris`
-    },
+    cityId: 1,
     lonlat: [52.3909553943508, 4.929309666406198]
   }
 ];
 
-const currentofferMock = offersMocke[0];
+const currentofferMock = offersMock[0];
 
 const newOffersMocke = [
   {
@@ -147,17 +138,14 @@ const newOffersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 2,
-      name: `Cologne`
-    },
+    cityId: 2,
     lonlat: [52.369553943508, 4.85309666406198]
   }
 ];
 
-const currentOffersMock = offersMocke.filter((offer) => offer.city.id === currentCityMock.id);
+const currentOffersMock = offersMock.filter((offer) => offer.cityId === currentCityMock.id);
 
-const reviewsMoke = [
+const reviewsMock = [
   {
     id: 1,
     name: `Max`,
@@ -195,17 +183,17 @@ it(`Reducer should set reviews by a given value`, () => {
     cities: [],
     reviews: [],
     currentCity: null
-  }, ActionCreator.setReviews(reviewsMoke))).toEqual({
+  }, ActionCreator.setReviews(reviewsMock))).toEqual({
     offers: [],
     currentOffers: [],
     currentOffer: null,
     cities: [],
-    reviews: reviewsMoke,
+    reviews: reviewsMock,
     currentCity: null
   });
 });
 
-it(`Reducer should set offers and cities by a given value`, () => {
+it(`Reducer should set offers by a given value`, () => {
   expect(reducer({
     offers: [],
     currentOffers: [],
@@ -213,12 +201,30 @@ it(`Reducer should set offers and cities by a given value`, () => {
     cities: [],
     reviews: [],
     currentCity: null
-  }, ActionCreator.setOffers(offersMocke))).toEqual({
-    offers: offersMocke,
+  }, ActionCreator.setOffers(offersMock))).toEqual({
+    offers: offersMock,
+    currentOffers: [],
+    currentOffer: null,
+    cities: [],
+    reviews: [],
+    currentCity: null
+  });
+});
+
+it(`Reducer should set cities by a given value ang select first city`, () => {
+  expect(reducer({
+    offers: offersMock,
+    currentOffers: [],
+    currentOffer: null,
+    cities: [],
+    reviews: reviewsMock,
+    currentCity: null
+  }, ActionCreator.setCities(citiesMock))).toEqual({
+    offers: offersMock,
     currentOffers: currentOffersMock,
     currentOffer: null,
     cities: citiesMock,
-    reviews: [],
+    reviews: reviewsMock,
     currentCity: currentCityMock
   });
 });
@@ -226,14 +232,14 @@ it(`Reducer should set offers and cities by a given value`, () => {
 
 it(`Reducer should set current city and current offers by a given value`, () => {
   expect(reducer({
-    offers: offersMocke,
+    offers: offersMock,
     currentOffers: currentOffersMock,
     currentOffer: null,
     cities: citiesMock,
     reviews: [],
     currentCity: currentCityMock
   }, ActionCreator.setCurrentCity(newCurrentCityMock.id))).toEqual({
-    offers: offersMocke,
+    offers: offersMock,
     currentOffers: newOffersMocke,
     currentOffer: null,
     cities: citiesMock,
@@ -244,14 +250,14 @@ it(`Reducer should set current city and current offers by a given value`, () => 
 
 it(`Reducer should set current city and current offers by a given value`, () => {
   expect(reducer({
-    offers: offersMocke,
+    offers: offersMock,
     currentOffers: [],
     currentOffer: null,
     cities: [],
     reviews: [],
     currentCity: null
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
-    offers: offersMocke,
+    offers: offersMock,
     currentOffers: [],
     currentOffer: currentofferMock,
     cities: [],
