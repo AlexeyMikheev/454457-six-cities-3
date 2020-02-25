@@ -132,6 +132,7 @@ exports[`Render Main 1`] = `
               onClick={[Function]}
               tabIndex="0"
             >
+              Popular
               <svg
                 className="places__sorting-arrow"
                 height="4"
@@ -146,7 +147,7 @@ exports[`Render Main 1`] = `
               className="places__options places__options--custom "
             >
               <li
-                className="places__option "
+                className="places__option places__option--active"
                 onClick={[Function]}
                 tabIndex="0"
               >

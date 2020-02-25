@@ -4,6 +4,10 @@ export const getRatingPercents = (value) => Math.floor(value) * 100 / MAX_RATING
 
 export const extendObject = (a, b) => Object.assign({}, a, b);
 
+export const getFiltredOffersByProperty = (offers, propertyName, value) => {
+  return offers.filter((offer) => offer[propertyName] === value);
+};
+
 export const getSortedOffersByProperty = (offers, propertyName, asc = false) => {
   return offers.slice().sort((prev, next) => {
     const prevValue = prev[propertyName];
@@ -11,8 +15,7 @@ export const getSortedOffersByProperty = (offers, propertyName, asc = false) => 
 
     if (prevValue > nextValue) {
       return asc ? 1 : -1;
-    }
-    if (prevValue < nextValue) {
+    } else if (prevValue < nextValue) {
       return asc ? -1 : 1;
     }
     return 0;

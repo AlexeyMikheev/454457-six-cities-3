@@ -7,8 +7,8 @@ import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape, CityShapre} from "../../settings.js";
 import {ActionCreator} from "../../reducer.js";
 import offersMoke from '../../mocks/offers.js';
-import reviewsMocke from "../../mocks/reviews.js";
-import citiesMocke from "../../mocks/cities.js";
+import reviewsMock from "../../mocks/reviews.js";
+import citiesMock from "../../mocks/cities.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -20,8 +20,8 @@ class App extends PureComponent {
 
   componentDidMount() {
     this.props.setOffers(offersMoke);
-    this.props.setReviews(reviewsMocke);
-    this.props.setCities(citiesMocke);
+    this.props.setReviews(reviewsMock);
+    this.props.setCities(citiesMock);
   }
 
   placeHeaderClickHandler(offerId) {

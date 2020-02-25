@@ -1,4 +1,4 @@
-const citiesMocke = [
+const citiesMock = [
   {
     id: 1,
     name: `Paris`
@@ -25,4 +25,4 @@ const citiesMocke = [
   },
 ];
 
-export default citiesMocke;
+export default citiesMock;

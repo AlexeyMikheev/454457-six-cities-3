@@ -1,5 +1,5 @@
 import {reducer, ActionCreator} from "./reducer.js";
-import {OfferType, FEATURES} from './consts.js';
+import {OfferType, FEATURES, SortType} from './consts.js';
 
 const citiesMock = [
   {
@@ -149,6 +149,15 @@ const newOffersMocke = [
 
 const currentOffersMock = offersMock.filter((offer) => offer.cityId === currentCityMock.id);
 
+const sortedCurrentOffersMock = offersMock.filter((offer) => offer.cityId === currentCityMock.id).sort((prev, next) => {
+  if (prev.cost > next.cost) {
+    return 1;
+  } else if (prev.cost < next.cost) {
+    return -1;
+  }
+  return 0;
+});
+
 const reviewsMock = [
   {
     id: 1,
@@ -177,7 +186,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
     reviews: [],
     currentCity: null,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   });
 });
 
@@ -190,7 +199,7 @@ it(`Reducer should set reviews by a given value`, () => {
     reviews: [],
     currentCity: null,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   }, ActionCreator.setReviews(reviewsMock))).toEqual({
     offers: [],
     currentOffers: [],
@@ -199,7 +208,7 @@ it(`Reducer should set reviews by a given value`, () => {
     reviews: reviewsMock,
     currentCity: null,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   });
 });
 
@@ -212,7 +221,7 @@ it(`Reducer should set offers by a given value`, () => {
     reviews: [],
     currentCity: null,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   }, ActionCreator.setOffers(offersMock))).toEqual({
     offers: offersMock,
     currentOffers: [],
@@ -221,7 +230,7 @@ it(`Reducer should set offers by a given value`, () => {
     reviews: [],
     currentCity: null,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   });
 });
 
@@ -234,7 +243,7 @@ it(`Reducer should set cities by a given value ang select first city`, () => {
     reviews: reviewsMock,
     currentCity: null,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   }, ActionCreator.setCities(citiesMock))).toEqual({
     offers: offersMock,
     currentOffers: currentOffersMock,
@@ -243,7 +252,7 @@ it(`Reducer should set cities by a given value ang select first city`, () => {
     reviews: reviewsMock,
     currentCity: currentCityMock,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   });
 });
 
@@ -257,7 +266,7 @@ it(`Reducer should set current city and current offers by a given value`, () => 
     reviews: [],
     currentCity: currentCityMock,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   }, ActionCreator.setCurrentCity(newCurrentCityMock.id))).toEqual({
     offers: offersMock,
     currentOffers: newOffersMocke,
@@ -266,7 +275,29 @@ it(`Reducer should set current city and current offers by a given value`, () => 
     reviews: [],
     currentCity: newCurrentCityMock,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
+  });
+});
+
+it(`Reducer should set offers sort type by a given value`, () => {
+  expect(reducer({
+    offers: offersMock,
+    currentOffers: currentOffersMock,
+    currentOffer: null,
+    cities: citiesMock,
+    reviews: [],
+    currentCity: currentCityMock,
+    nearOffers: [],
+    sortType: SortType.POPULAR
+  }, ActionCreator.sortOffers(SortType.PRICE_LH))).toEqual({
+    offers: offersMock,
+    currentOffers: sortedCurrentOffersMock,
+    currentOffer: null,
+    cities: citiesMock,
+    reviews: [],
+    currentCity: currentCityMock,
+    nearOffers: [],
+    sortType: SortType.PRICE_LH
   });
 });
 
@@ -279,7 +310,7 @@ it(`Reducer should set current current offer by a given value`, () => {
     reviews: [],
     currentCity: null,
     nearOffers: [],
-    sortType: null
+    sortType: SortType.POPULAR
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
     offers: offersMock,
     currentOffers: [],
@@ -288,6 +319,6 @@ it(`Reducer should set current current offer by a given value`, () => {
     reviews: [],
     currentCity: null,
     nearOffers: nearOffersMock,
-    sortType: null
+    sortType: SortType.POPULAR
   });
 });

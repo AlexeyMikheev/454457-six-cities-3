@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import configureStore from "redux-mock-store";
 import App from "./app.jsx";
 import {Provider} from "react-redux";
-import {OfferType, FEATURES} from '../../consts';
+import {OfferType, FEATURES, SortType} from '../../consts';
 
 const mockStore = configureStore([]);
 
@@ -71,7 +71,8 @@ it(`Render App`, () => {
     currentOffer: null,
     cities: [],
     reviews: reviewsMock,
-    currentCity: null
+    currentCity: null,
+    sortType: SortType.POPULAR
   });
 
   const tree = renderer

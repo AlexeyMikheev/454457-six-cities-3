@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Main from "./main.jsx";
-import {OfferType, FEATURES} from '../../consts.js';
+import {OfferType, FEATURES, SortType} from '../../consts.js';
 
 const mockStore = configureStore([]);
 
@@ -73,7 +73,8 @@ it(`Render Main`, () => {
     cities: mockCities,
     reviews: [],
     currentCity: mockCities[0],
-    nearOffers: []
+    nearOffers: [],
+    sortType: SortType.POPULAR
   });
 
   const tree = renderer
