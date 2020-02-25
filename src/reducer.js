@@ -109,26 +109,29 @@ const setReviews = (state, action) => {
 
 const setCities = (state, action) => {
   const cities = action.payload;
-  if (cities !== null) {
-    let updatedState = extendObject({}, state);
 
-    updatedState = extendObject(updatedState, {cities});
-
-    if (cities.length > 0) {
-
-      const currentCity = cities[0];
-      updatedState = extendObject(updatedState, {cities, currentCity});
-
-      const {sortType} = updatedState;
-
-      const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.id);
-      if (currentOffers !== null) {
-        updatedState = extendObject(updatedState, {currentOffers});
-      }
-    }
-    return updatedState;
+  if (cities === null) {
+    return state;
   }
-  return state;
+
+  let updatedState = extendObject({}, state);
+
+  updatedState = extendObject(updatedState, {cities});
+
+  if (cities.length > 0) {
+
+    const currentCity = cities[0];
+    updatedState = extendObject(updatedState, {cities, currentCity});
+
+    const {sortType} = updatedState;
+
+    const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.id);
+    if (currentOffers !== null) {
+      updatedState = extendObject(updatedState, {currentOffers});
+    }
+  }
+  return updatedState;
+
 };
 
 const setCurrentCity = (state, action) => {
@@ -157,22 +160,24 @@ const setCurrentOffer = (state, action) => {
   const offerId = action.payload;
 
   const currentOffer = state.offers.find((offer) => offer.id === offerId);
-  if (currentOffer !== null) {
-    let updatedState = extendObject({}, state);
-
-    updatedState = extendObject(updatedState, {currentOffer});
-
-    const nearOffers = updatedState.offers.filter((offer) => {
-      return currentOffer.id !== offer.id;
-    });
-
-    if (nearOffers) {
-      updatedState = extendObject(updatedState, {nearOffers});
-    }
-
-    return updatedState;
+  if (currentOffer === null) {
+    return state;
   }
-  return state;
+
+  let updatedState = extendObject({}, state);
+
+  updatedState = extendObject(updatedState, {currentOffer});
+
+  const nearOffers = updatedState.offers.filter((offer) => {
+    return currentOffer.id !== offer.id;
+  });
+
+  if (nearOffers) {
+    updatedState = extendObject(updatedState, {nearOffers});
+  }
+
+  return updatedState;
+
 };
 
 const setHoveredOffer = (state, action) => {
