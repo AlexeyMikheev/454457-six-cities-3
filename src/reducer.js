@@ -184,6 +184,7 @@ const setHoveredOffer = (state, action) => {
   const offerId = action.payload;
 
   const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
+
   return extendObject(state, {hoveredOffer});
 };
 

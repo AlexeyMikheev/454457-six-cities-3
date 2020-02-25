@@ -185,7 +185,7 @@ const nearOffersMock = [
   }
 ];
 
-it(`Render App`, () => {
+it(`Render Property`, () => {
 
   const store = mockStore({
     offers: [],

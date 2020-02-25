@@ -97,7 +97,7 @@ class Map extends PureComponent {
   initMarkers() {
     const {offers, activeOffer, hoveredOffer} = this.props;
 
-    const displayOfferd = hoveredOffer !== null ? offers.slice().filter((offer) => offer.id !== hoveredOffer.id) : offers.slice();
+    const displayOfferd = hoveredOffer ? offers.slice().filter((offer) => offer.id !== hoveredOffer.id) : offers.slice();
 
     this.addMapMarkers(displayOfferd);
 
