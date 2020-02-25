@@ -46,15 +46,9 @@ class App extends PureComponent {
       return null;
     }
 
-    const {offers, reviews} = this.props;
-
-    const nearOffers = offers.filter((offer) => {
-      return selectedOffer.id !== offer.id;
-    });
-
     if (selectedOffer !== null) {
       return (
-        <Property offer={selectedOffer} reviews={reviews} nearOffers={nearOffers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
+        <Property />
       );
     }
     return this.renderApp();

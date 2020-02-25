@@ -1,7 +1,11 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
 import Offers from "./offers.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
+
+const mockStore = configureStore([]);
 
 const mocks = [{
   id: 1,
@@ -35,8 +39,18 @@ const mocks = [{
 
 it(`Render Offers`, () => {
 
+  const store = mockStore({
+    offers: mocks,
+    currentOffers: [],
+    currentOffer: null,
+    cities: [],
+    reviews: [],
+    currentCity: null,
+    nearOffers: []
+  });
+
   const tree = renderer
-    .create(<Offers offers={mocks} onPlaceHeaderClick={() => {}}/>)
+    .create(<Provider store={store}><Offers /></Provider>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

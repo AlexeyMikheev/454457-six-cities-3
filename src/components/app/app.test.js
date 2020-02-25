@@ -66,16 +66,16 @@ const reviewsMock = [
 it(`Render App`, () => {
 
   const store = mockStore({
-    offers: [],
+    offers: mocks,
     currentOffers: [],
     currentOffer: null,
     cities: [],
-    reviews: [],
+    reviews: reviewsMock,
     currentCity: null
   });
 
   const tree = renderer
-    .create(<Provider store={store}><App offers={mocks} reviews={reviewsMock} onPlaceHeaderClick={() => {}} /></Provider>)
+    .create(<Provider store={store}><App /></Provider>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

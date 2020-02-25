@@ -111,6 +111,10 @@ const offersMock = [
 
 const currentofferMock = offersMock[0];
 
+const nearOffersMock = offersMock.filter((offer) => {
+  return currentofferMock.id !== offer.id;
+});
+
 const newOffersMocke = [
   {
     id: 2,
@@ -171,7 +175,8 @@ it(`Reducer without additional parameters should return initial state`, () => {
     currentOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: []
   });
 });
 
@@ -182,14 +187,16 @@ it(`Reducer should set reviews by a given value`, () => {
     currentOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: []
   }, ActionCreator.setReviews(reviewsMock))).toEqual({
     offers: [],
     currentOffers: [],
     currentOffer: null,
     cities: [],
     reviews: reviewsMock,
-    currentCity: null
+    currentCity: null,
+    nearOffers: []
   });
 });
 
@@ -200,14 +207,16 @@ it(`Reducer should set offers by a given value`, () => {
     currentOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: []
   }, ActionCreator.setOffers(offersMock))).toEqual({
     offers: offersMock,
     currentOffers: [],
     currentOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: []
   });
 });
 
@@ -218,14 +227,16 @@ it(`Reducer should set cities by a given value ang select first city`, () => {
     currentOffer: null,
     cities: [],
     reviews: reviewsMock,
-    currentCity: null
+    currentCity: null,
+    nearOffers: []
   }, ActionCreator.setCities(citiesMock))).toEqual({
     offers: offersMock,
     currentOffers: currentOffersMock,
     currentOffer: null,
     cities: citiesMock,
     reviews: reviewsMock,
-    currentCity: currentCityMock
+    currentCity: currentCityMock,
+    nearOffers: []
   });
 });
 
@@ -237,31 +248,35 @@ it(`Reducer should set current city and current offers by a given value`, () => 
     currentOffer: null,
     cities: citiesMock,
     reviews: [],
-    currentCity: currentCityMock
+    currentCity: currentCityMock,
+    nearOffers: []
   }, ActionCreator.setCurrentCity(newCurrentCityMock.id))).toEqual({
     offers: offersMock,
     currentOffers: newOffersMocke,
     currentOffer: null,
     cities: citiesMock,
     reviews: [],
-    currentCity: newCurrentCityMock
+    currentCity: newCurrentCityMock,
+    nearOffers: []
   });
 });
 
-it(`Reducer should set current city and current offers by a given value`, () => {
+it(`Reducer should set current current offer by a given value`, () => {
   expect(reducer({
     offers: offersMock,
     currentOffers: [],
     currentOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: []
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
     offers: offersMock,
     currentOffers: [],
     currentOffer: currentofferMock,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: nearOffersMock
   });
 });
