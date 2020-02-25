@@ -1,11 +1,12 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import Offer from '../offer/offer.jsx';
 import {OfferShape} from '../../settings.js';
-import {ViewMode, VIEWMODES} from '../../consts.js';
+import {ViewMode, VIEWMODES, MAX_NEAR_DISPLAY_COUNT} from '../../consts.js';
+import {ActionCreator} from "../../reducer.js";
 
-
-export default class Offers extends PureComponent {
+class Offers extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -24,15 +25,17 @@ export default class Offers extends PureComponent {
   }
 
   render() {
-    const {offers, onPlaceHeaderClick, viewMode} = this.props;
+    const {offers, nearOffers, viewMode, setCurrentOffer} = this.props;
 
     const isNearViewMode = viewMode === ViewMode.Property;
 
+    const displayOffers = isNearViewMode ? nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT) : offers;
+
     return (
       <div className={`${isNearViewMode ? `near-places__list places__list` : `cities__places-list places__list tabs__content` }`}>
-        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
+        {displayOffers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
           evt.preventDefault();
-          onPlaceHeaderClick(offer.id);
+          setCurrentOffer(offer.id);
         }} onPlaceCardMouseEnter={() => {
           this.placeCardMouseEnterHandler(offer.id);
         }} onPlaceCardMouseLeave={() => {
@@ -45,6 +48,26 @@ export default class Offers extends PureComponent {
 
 Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  onPlaceHeaderClick: PropTypes.func.isRequired,
   viewMode: PropTypes.oneOf(VIEWMODES)
 };
+
+Offers.propTypes = {
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
+  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
+  setCurrentOffer: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  offers: state.currentOffers,
+  nearOffers: state.nearOffers,
+  currentCity: state.currentCity
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentOffer(offerId) {
+    dispatch(ActionCreator.setCurrentOffer(offerId));
+  }
+});
+
+export {Offers};
+export default connect(mapStateToProps, mapDispatchToProps)(Offers);

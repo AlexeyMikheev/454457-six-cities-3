@@ -3,6 +3,7 @@ import {extendObject} from "./utils.js";
 const initialState = {
   offers: [],
   currentOffers: [],
+  nearOffers: [],
   currentOffer: null,
   cities: [],
   reviews: [],
@@ -105,6 +106,14 @@ const reducer = (state = initialState, action) => {
       const currentOffer = state.offers.find((offer) => offer.id === offerId);
       if (currentOffer !== null) {
         state = extendObject(state, {currentOffer});
+
+        const nearOffers = state.offers.filter((offer) => {
+          return currentOffer.id !== offer.id;
+        });
+
+        if (nearOffers) {
+          state = extendObject(state, {nearOffers});
+        }
       }
 
       return state;

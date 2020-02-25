@@ -1,32 +1,51 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {CityShapre} from "../../settings.js";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 
+class Locations extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
 
-const Locations = ({cities, activeCity, onCityClick}) => {
-
-  return (
-    <section className="locations container">
-      <ul className="locations__list tabs__list">
-        {cities.map((city) =>
-          <li key={city.id} className="locations__item" onClick={(evt) => {
-            evt.preventDefault();
-            onCityClick(city.id);
-          }}>
-            <a className={`locations__item-link tabs__item ${activeCity && city.id === activeCity.id ? `tabs__item--active` : ``}`} href="#" >
-              <span>{city.name}</span>
-            </a>
-          </li>
-        )}
-      </ul>
-    </section>
-  );
-};
+  render() {
+    const {cities, currentCity, setCurrentCity} = this.props;
+    return (
+      <section className="locations container">
+        <ul className="locations__list tabs__list">
+          {cities.map((city) =>
+            <li key={city.id} className="locations__item" onClick={(evt) => {
+              evt.preventDefault();
+              setCurrentCity(city.id);
+            }}>
+              <a className={`locations__item-link tabs__item ${currentCity && city.id === currentCity.id ? `tabs__item--active` : ``}`} href="#" >
+                <span>{city.name}</span>
+              </a>
+            </li>
+          )}
+        </ul>
+      </section>
+    );
+  }
+}
 
 Locations.propTypes = {
   cities: PropTypes.arrayOf(PropTypes.shape(CityShapre)),
-  activeCity: PropTypes.shape(CityShapre),
-  onCityClick: PropTypes.func.isRequired
+  currentCity: PropTypes.shape(CityShapre),
+  setCurrentCity: PropTypes.func.isRequired
 };
 
-export default Locations;
+const mapStateToProps = (state) => ({
+  cities: state.cities,
+  currentCity: state.currentCity
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentCity(cityId) {
+    dispatch(ActionCreator.setCurrentCity(cityId));
+  }
+});
+
+export {Locations};
+export default connect(mapStateToProps, mapDispatchToProps)(Locations);

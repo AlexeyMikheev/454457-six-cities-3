@@ -36,9 +36,8 @@ class App extends PureComponent {
   }
 
   renderApp() {
-    const {offers, cities, selectedCity} = this.props;
     return (
-      <Main offers={offers} cities={cities} currentCity={selectedCity} onCityClick={this.cityClickHandler} onPlaceHeaderClick={this.placeHeaderClickHandler}/>
+      <Main/>
     );
   }
 

@@ -7,7 +7,7 @@ import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 
-const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
+const Property = ({offer, reviews, nearOffers}) => {
   const {images} = offer;
   const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
@@ -17,7 +17,7 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   let nearOffersContainer = `No places to stay available`;
 
   if (nearOffers.length > 0) {
-    nearOffersContainer = <Offers offers={displayNearOffers} viewMode={ViewMode.Property} onPlaceHeaderClick={onPlaceHeaderClick} />;
+    nearOffersContainer = <Offers viewMode={ViewMode.Property} />;
   }
 
   return (
