@@ -9,23 +9,10 @@ import {ActionCreator} from "../../reducer.js";
 class Offers extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {value: null};
-
-    this._placeCardMouseEnterHandler = this.placeCardMouseEnterHandler.bind(this);
-    this._placeCardMouseLeaveHandler = this.placeCardMouseLeaveHandler.bind(this);
-  }
-
-  placeCardMouseEnterHandler(offerId) {
-    this.setState({activeOfferId: offerId});
-  }
-
-  placeCardMouseLeaveHandler(offerId) {
-    this.setState({activeOfferId: offerId});
   }
 
   render() {
-    const {offers, nearOffers, viewMode, setCurrentOffer} = this.props;
+    const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer} = this.props;
 
     const isNearViewMode = viewMode === ViewMode.Property;
 
@@ -37,9 +24,9 @@ class Offers extends PureComponent {
           evt.preventDefault();
           setCurrentOffer(offer.id);
         }} onPlaceCardMouseEnter={() => {
-          this.placeCardMouseEnterHandler(offer.id);
+          setHoveredOffer(offer.id);
         }} onPlaceCardMouseLeave={() => {
-          this.placeCardMouseLeaveHandler(undefined);
+          setHoveredOffer(null);
         }} isNearViewMode={isNearViewMode} />)}
       </div>
     );
@@ -54,7 +41,8 @@ Offers.propTypes = {
 Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
-  setCurrentOffer: PropTypes.func.isRequired
+  setCurrentOffer: PropTypes.func.isRequired,
+  setHoveredOffer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -66,6 +54,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setCurrentOffer(offerId) {
     dispatch(ActionCreator.setCurrentOffer(offerId));
+  },
+  setHoveredOffer(offerId) {
+    dispatch(ActionCreator.setHoveredOffer(offerId));
   }
 });
 

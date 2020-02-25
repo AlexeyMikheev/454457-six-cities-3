@@ -13,7 +13,7 @@ class Property extends PureComponent {
     super(props);
   }
   render() {
-    const {offer, reviews, nearOffers} = this.props;
+    const {offer, reviews, nearOffers, hoveredOffer} = this.props;
     const {images} = offer;
     const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
@@ -57,7 +57,7 @@ class Property extends PureComponent {
               </div>
               <Reviews reviews={reviews} />
             </div>
-            <Map offers={displayNearOffers} activeOffer={offer} viewMode={ViewMode.Property} />
+            <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} />
           </div>
         </section>
         <div className="container">
@@ -73,6 +73,7 @@ class Property extends PureComponent {
 
 Property.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
+  hoveredOffer: PropTypes.shape(OfferShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired
 };
@@ -81,6 +82,7 @@ const mapStateToProps = (state) => ({
   offers: state.currentOffers,
   nearOffers: state.nearOffers,
   offer: state.currentOffer,
+  hoveredOffer: state.hoveredOffer,
   reviews: state.reviews
 });
 

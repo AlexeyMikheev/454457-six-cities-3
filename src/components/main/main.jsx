@@ -14,7 +14,7 @@ class Main extends PureComponent {
   }
 
   render() {
-    const {offers, currentCity} = this.props;
+    const {offers, currentCity, hoveredOffer} = this.props;
 
     const title = offers.length > 0 ? `${offers.length} ${offers.length > 1 ? `places` : `place`} to stay in ${currentCity ? currentCity.name : ``}` : `No places to stay available`;
 
@@ -32,7 +32,7 @@ class Main extends PureComponent {
                 <Offers viewMode={ViewMode.Main} />
               </section>
               <div className="cities__right-section">
-                <Map offers={offers} viewMode={ViewMode.Main} />
+                <Map offers={offers} hoveredOffer={hoveredOffer} viewMode={ViewMode.Main} />
               </div>
             </div>
           </div>
@@ -45,11 +45,13 @@ class Main extends PureComponent {
 Main.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   currentCity: PropTypes.shape(CityShapre),
+  hoveredOffer: PropTypes.shape(OfferShape),
 };
 
 const mapStateToProps = (state) => ({
   offers: state.currentOffers,
-  currentCity: state.currentCity
+  currentCity: state.currentCity,
+  hoveredOffer: state.hoveredOffer
 });
 
 export {Main};

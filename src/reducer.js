@@ -6,6 +6,7 @@ const initialState = {
   currentOffers: [],
   nearOffers: [],
   currentOffer: null,
+  hoveredOffer: null,
   cities: [],
   reviews: [],
   currentCity: null,
@@ -18,6 +19,7 @@ const ActionType = {
   SET_CITIES: `SET_CITIES`,
   SET_CURRENT_CITY: `SET_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
+  SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SORT_OFFERS: `SORT_OFFERS`,
 };
 
@@ -48,6 +50,11 @@ const ActionCreator = {
     payload: offerId,
   }),
 
+  setHoveredOffer: (offerId) => ({
+    type: ActionType.SET_HOVERED_OFFER,
+    payload: offerId,
+  }),
+
   sortOffers: (sortType) => ({
     type: ActionType.SORT_OFFERS,
     payload: sortType,
@@ -70,6 +77,9 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.SET_CURRENT_OFFER:
       return setCurrentOffer(state, action);
+
+    case ActionType.SET_HOVERED_OFFER:
+      return setHoveredOffer(state, action);
 
     case ActionType.SORT_OFFERS:
       return sortOffers(state, action);
@@ -149,6 +159,15 @@ const setCurrentOffer = (state, action) => {
       state = extendObject(state, {nearOffers});
     }
   }
+  return state;
+};
+
+const setHoveredOffer = (state, action) => {
+  const offerId = action.payload;
+
+  const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
+  state = extendObject(state, {hoveredOffer});
+
   return state;
 };
 
