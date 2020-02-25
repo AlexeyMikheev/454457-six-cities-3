@@ -17,11 +17,11 @@ class Offers extends PureComponent {
   }
 
   placeCardMouseEnterHandler(offerId) {
-    // this.setState({activeOfferId: offerId});
+    this.setState({activeOfferId: offerId});
   }
 
   placeCardMouseLeaveHandler(offerId) {
-    // this.setState({activeOfferId: offerId});
+    this.setState({activeOfferId: offerId});
   }
 
   render() {
