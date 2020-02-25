@@ -1,13 +1,15 @@
 import React, {PureComponent} from "react";
-import {SortType, SORTTYPES} from "../../consts.js";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {SORTTYPES} from "../../consts.js";
 import {extendObject} from "../../utils.js";
+import {ActionCreator} from "../../reducer.js";
 
-export default class Sorting extends PureComponent {
+class Sorting extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      sortType: SortType.POPULAR,
       isOpened: false
     };
   }
@@ -17,7 +19,9 @@ export default class Sorting extends PureComponent {
   }
 
   render() {
-    const {sortType, isOpened} = this.state;
+    const {sortType, sortOffers} = this.props;
+    const {isOpened} = this.state;
+
     const altIsOpened = !isOpened;
     return (
       <form className="places__sorting" action="#" method="get">
@@ -34,10 +38,28 @@ export default class Sorting extends PureComponent {
         </span>
         <ul className={`places__options places__options--custom ${isOpened ? `places__options--opened` : ``}`}>
           {SORTTYPES.map((type) => <li key={type} className={`places__option ${sortType === type ? `places__option--active` : ``}`} tabIndex="0" onClick={() => {
-            this.sortClickHandler(type);
+            sortOffers(type);
           }}>{type}</li>)}
         </ul>
       </form>
     );
   }
 }
+
+Sorting.propTypes = {
+  sortType: PropTypes.oneOf(SORTTYPES).isRequired,
+  sortOffers: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  sortType: state.sortType
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  sortOffers(sortType) {
+    dispatch(ActionCreator.sortOffers(sortType));
+  }
+});
+
+export {Sorting};
+export default connect(mapStateToProps, mapDispatchToProps)(Sorting);
