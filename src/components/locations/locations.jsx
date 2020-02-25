@@ -41,11 +41,9 @@ const mapStateToProps = (state) => ({
   currentCity: state.currentCity
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentCity(cityId) {
-    dispatch(ActionCreator.setCurrentCity(cityId));
-  }
-});
+const mapDispatchToProps = {
+  setCurrentCity: ActionCreator.setCurrentCity
+};
 
 export {Locations};
 export default connect(mapStateToProps, mapDispatchToProps)(Locations);

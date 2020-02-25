@@ -105,23 +105,13 @@ const mapStateToProps = (state) => ({
   reviews: state.reviews
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setOffers(offers) {
-    dispatch(ActionCreator.setOffers(offers));
-  },
-  setReviews(reviews) {
-    dispatch(ActionCreator.setReviews(reviews));
-  },
-  setCities(cities) {
-    dispatch(ActionCreator.setCities(cities));
-  },
-  setCurrentOffer(offerId) {
-    dispatch(ActionCreator.setCurrentOffer(offerId));
-  },
-  setCurrentCity(cityId) {
-    dispatch(ActionCreator.setCurrentCity(cityId));
-  }
-});
+const mapDispatchToProps = {
+  setOffers: ActionCreator.setOffers,
+  setReviews: ActionCreator.setReviews,
+  setCities: ActionCreator.setCities,
+  setCurrentOffer: ActionCreator.setCurrentOffer,
+  setCurrentCity: ActionCreator.setCurrentCity
+};
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App);

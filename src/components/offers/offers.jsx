@@ -51,14 +51,10 @@ const mapStateToProps = (state) => ({
   currentCity: state.currentCity
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentOffer(offerId) {
-    dispatch(ActionCreator.setCurrentOffer(offerId));
-  },
-  setHoveredOffer(offerId) {
-    dispatch(ActionCreator.setHoveredOffer(offerId));
-  }
-});
+const mapDispatchToProps = {
+  setCurrentOffer: ActionCreator.setCurrentOffer,
+  setHoveredOffer: ActionCreator.setHoveredOffer
+};
 
 export {Offers};
 export default connect(mapStateToProps, mapDispatchToProps)(Offers);

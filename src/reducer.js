@@ -92,7 +92,7 @@ const setOffers = (state, action) => {
   const offers = action.payload;
 
   if (offers !== null) {
-    state = extendObject(state, {offers});
+    return extendObject(state, {offers});
   }
   return state;
 };
@@ -102,7 +102,7 @@ const setReviews = (state, action) => {
   const reviews = action.payload;
 
   if (reviews !== null && reviews.length > 0) {
-    state = extendObject(state, {reviews});
+    return extendObject(state, {reviews});
   }
   return state;
 };
@@ -110,20 +110,23 @@ const setReviews = (state, action) => {
 const setCities = (state, action) => {
   const cities = action.payload;
   if (cities !== null) {
-    state = extendObject(state, {cities});
+    let updatedState = extendObject({}, state);
+
+    updatedState = extendObject(updatedState, {cities});
 
     if (cities.length > 0) {
 
       const currentCity = cities[0];
-      state = extendObject(state, {cities, currentCity});
+      updatedState = extendObject(updatedState, {cities, currentCity});
 
-      const {sortType} = state;
+      const {sortType} = updatedState;
 
       const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.id);
       if (currentOffers !== null) {
-        state = extendObject(state, {currentOffers});
+        updatedState = extendObject(updatedState, {currentOffers});
       }
     }
+    return updatedState;
   }
   return state;
 };
@@ -134,14 +137,18 @@ const setCurrentCity = (state, action) => {
   const currentCity = state.cities.find((city) => city.id === cityId);
 
   if (currentCity !== null) {
-    state = extendObject(state, {currentCity});
+    let updatedState = extendObject({}, state);
 
-    const {sortType} = state;
+    updatedState = extendObject(updatedState, {currentCity});
+
+    const {sortType} = updatedState;
 
     const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.id);
     if (currentOffers !== null) {
-      state = extendObject(state, {currentOffers});
+      updatedState = extendObject(updatedState, {currentOffers});
     }
+
+    return updatedState;
   }
   return state;
 };
@@ -151,13 +158,19 @@ const setCurrentOffer = (state, action) => {
 
   const currentOffer = state.offers.find((offer) => offer.id === offerId);
   if (currentOffer !== null) {
-    state = extendObject(state, {currentOffer});
-    const nearOffers = state.offers.filter((offer) => {
+    let updatedState = extendObject({}, state);
+
+    updatedState = extendObject(updatedState, {currentOffer});
+
+    const nearOffers = updatedState.offers.filter((offer) => {
       return currentOffer.id !== offer.id;
     });
+
     if (nearOffers) {
-      state = extendObject(state, {nearOffers});
+      updatedState = extendObject(updatedState, {nearOffers});
     }
+
+    return updatedState;
   }
   return state;
 };
@@ -166,9 +179,7 @@ const setHoveredOffer = (state, action) => {
   const offerId = action.payload;
 
   const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
-  state = extendObject(state, {hoveredOffer});
-
-  return state;
+  return extendObject(state, {hoveredOffer});
 };
 
 const sortOffers = (state, action) => {
@@ -178,13 +189,15 @@ const sortOffers = (state, action) => {
     return state;
   }
 
-  const {currentCity} = state;
-  state = extendObject(state, {sortType});
+  let updatedState = extendObject({}, state);
 
-  const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.id);
-  state = extendObject(state, {currentOffers});
+  const {currentCity} = updatedState;
+  updatedState = extendObject(updatedState, {sortType});
 
-  return state;
+  const currentOffers = getCurrentOffers(updatedState.offers, sortType, currentCity.id);
+  updatedState = extendObject(updatedState, {currentOffers});
+
+  return updatedState;
 };
 
 const getCurrentOffers = (offers, sortType, cityId) => {

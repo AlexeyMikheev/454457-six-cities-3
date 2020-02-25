@@ -55,11 +55,9 @@ const mapStateToProps = (state) => ({
   sortType: state.sortType
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  sortOffers(sortType) {
-    dispatch(ActionCreator.sortOffers(sortType));
-  }
-});
+const mapDispatchToProps = {
+  sortOffers: ActionCreator.sortOffers
+};
 
 export {Sorting};
 export default connect(mapStateToProps, mapDispatchToProps)(Sorting);
