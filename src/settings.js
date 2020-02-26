@@ -19,6 +19,7 @@ export const OfferShape = {
     description: PropTypes.string.isRequired,
     isTrust: PropTypes.bool.isRequired,
   }).isRequired,
+  cityId: PropTypes.number.isRequired,
   lonlat: PropTypes.arrayOf(PropTypes.number)
 };
 
@@ -29,4 +30,9 @@ export const ReviewShape = {
   rating: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
+};
+
+export const CityShapre = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired
 };

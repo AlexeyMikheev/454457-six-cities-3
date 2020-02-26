@@ -1,11 +1,19 @@
 import React from "react";
 import ReactDom from "react-dom";
+import {createStore} from "redux";
+import {Provider} from "react-redux";
 import App from "./components/app/app.jsx";
-import offers from './mocks/offers.js';
-import reviews from "./mocks/reviews.js";
+import {reducer} from "./reducer.js";
+
+const store = createStore(
+    reducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+);
 
 ReactDom.render(
-    <App offers={offers} reviews={reviews}/>,
-    document.getElementById(`root`)
+    <Provider store={store}>
+      <App />
+    </Provider>
+    , document.getElementById(`root`)
 );
 

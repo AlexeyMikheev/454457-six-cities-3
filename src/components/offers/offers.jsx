@@ -1,45 +1,32 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import Offer from '../offer/offer.jsx';
 import {OfferShape} from '../../settings.js';
-import {ViewMode, VIEWMODES} from '../../consts.js';
+import {ViewMode, VIEWMODES, MAX_NEAR_DISPLAY_COUNT} from '../../consts.js';
+import {ActionCreator} from "../../reducer.js";
 
-
-export default class Offers extends PureComponent {
+class Offers extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {value: null};
-
-    this._placeCardMouseEnterHandler = this.placeCardMouseEnterHandler.bind(this);
-    this._placeCardMouseLeaveHandler = this.placeCardMouseLeaveHandler.bind(this);
-    this._placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
-  }
-
-  placeHeaderClickHandler() {}
-
-  placeCardMouseEnterHandler(offerId) {
-    this.setState({activeOfferId: offerId});
-  }
-
-  placeCardMouseLeaveHandler(offerId) {
-    this.setState({activeOfferId: offerId});
   }
 
   render() {
-    const {offers, onPlaceHeaderClick, viewMode} = this.props;
+    const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer} = this.props;
 
     const isNearViewMode = viewMode === ViewMode.Property;
 
+    const displayOffers = isNearViewMode ? nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT) : offers;
+
     return (
       <div className={`${isNearViewMode ? `near-places__list places__list` : `cities__places-list places__list tabs__content` }`}>
-        {offers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
+        {displayOffers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
           evt.preventDefault();
-          onPlaceHeaderClick(offer.id);
+          setCurrentOffer(offer.id);
         }} onPlaceCardMouseEnter={() => {
-          this.placeCardMouseEnterHandler(offer.id);
+          setHoveredOffer(offer.id);
         }} onPlaceCardMouseLeave={() => {
-          this.placeCardMouseLeaveHandler(undefined);
+          setHoveredOffer(null);
         }} isNearViewMode={isNearViewMode} />)}
       </div>
     );
@@ -48,6 +35,26 @@ export default class Offers extends PureComponent {
 
 Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  onPlaceHeaderClick: PropTypes.func.isRequired,
   viewMode: PropTypes.oneOf(VIEWMODES)
 };
+
+Offers.propTypes = {
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
+  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
+  setCurrentOffer: PropTypes.func.isRequired,
+  setHoveredOffer: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  offers: state.currentOffers,
+  nearOffers: state.nearOffers,
+  currentCity: state.currentCity
+});
+
+const mapDispatchToProps = {
+  setCurrentOffer: ActionCreator.setCurrentOffer,
+  setHoveredOffer: ActionCreator.setHoveredOffer
+};
+
+export {Offers};
+export default connect(mapStateToProps, mapDispatchToProps)(Offers);

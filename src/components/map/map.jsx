@@ -10,6 +10,7 @@ class Map extends PureComponent {
     this._mapRef = createRef();
     this._map = null;
     this._markers = [];
+    this._isMapInit = false;
 
     this._mapSettings = {
       center: [52.38333, 4.9],
@@ -19,13 +20,16 @@ class Map extends PureComponent {
     };
   }
 
-  componentDidMount() {
-    if (!this._mapRef || !this._mapRef.current) {
-      return;
-    }
+  get isAvaliableInit() {
+    const {offers, activeOffer} = this.props;
+    return this._mapRef && this._mapRef.current && ((offers && offers.length) || activeOffer);
+  }
 
-    this.initMap();
-    this.initMarkers();
+  componentDidMount() {
+    if (this.isAvaliableInit) {
+      this.initMap();
+      this.initMarkers();
+    }
   }
 
   componentWillUnmount() {
@@ -33,10 +37,35 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const {activeOffer: prevActiveOffer} = prevProps;
-    const {activeOffer} = this.props;
+    if (!this.isAvaliableInit) {
+      return;
+    }
 
-    if (prevActiveOffer.id !== activeOffer.id) {
+    if (!this._isMapInit) {
+      this.initMap();
+    }
+    const {offers: prevOffers, activeOffer: prevActiveOffer, hoveredOffer: prevHoveredOffer} = prevProps;
+    const {offers, activeOffer, hoveredOffer} = this.props;
+
+    const isActiveOfferChanged = (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id);
+
+    const isHoveredOfferChanged = (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id) ||
+    (prevHoveredOffer !== null && hoveredOffer === null) ||
+    (prevHoveredOffer === null && hoveredOffer !== null);
+
+    const isOfferschanged = !offers.every((offer) => {
+      return prevOffers.some((prevOffer) => {
+        return offer.id === prevOffer.id;
+      });
+    });
+
+    const isPrevOfferschanged = !prevOffers.every((prevOffer) => {
+      return offers.some((offer) => {
+        return prevOffer.id === offer.id;
+      });
+    });
+
+    if (isActiveOfferChanged || isOfferschanged || isPrevOfferschanged || isHoveredOfferChanged) {
       this.clearMarkers();
       this.initMarkers();
     }
@@ -52,6 +81,8 @@ class Map extends PureComponent {
     leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     }).addTo(this._map);
+
+    this._isMapInit = true;
   }
 
   clearMarkers() {
@@ -64,9 +95,15 @@ class Map extends PureComponent {
   }
 
   initMarkers() {
-    const {offers, activeOffer} = this.props;
+    const {offers, activeOffer, hoveredOffer} = this.props;
 
-    this.addMapMarkers(offers);
+    const displayOfferd = hoveredOffer ? offers.slice().filter((offer) => offer.id !== hoveredOffer.id) : offers.slice();
+
+    this.addMapMarkers(displayOfferd);
+
+    if (hoveredOffer !== null) {
+      this.addMarker(hoveredOffer.lonlat, this.getMarkerTemplate(true));
+    }
 
     if (activeOffer !== null) {
       this.addMarker(activeOffer.lonlat, this.getMarkerTemplate(true));
@@ -94,9 +131,12 @@ class Map extends PureComponent {
   }
 
   destroy() {
-    this._map.remove();
-    this._map = null;
-    this._markers = [];
+    if (this._isMapInit) {
+      this._map.remove();
+      this._map = null;
+      this._markers = [];
+      this._isMapInit = false;
+    }
   }
 
   render() {
@@ -111,12 +151,14 @@ class Map extends PureComponent {
 }
 
 Map.defaultProps = {
-  activeOffer: null
+  activeOffer: null,
+  hoveredOffer: null
 };
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   activeOffer: PropTypes.shape(OfferShape),
+  hoveredOffer: PropTypes.shape(OfferShape),
   viewMode: PropTypes.oneOf(VIEWMODES).isRequired
 };
 
