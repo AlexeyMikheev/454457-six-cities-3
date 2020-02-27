@@ -7,6 +7,9 @@ import Sorting from "../sorting/sorting.jsx";
 import {ViewMode} from "../../consts.js";
 import {OfferShape, CityShapre} from "../../settings.js";
 import Map from "../map/map.jsx";
+import withBooleanState from "../../hoks/with-boolean-state.js";
+
+const SortingWithState = withBooleanState(Sorting);
 
 class Main extends PureComponent {
   constructor(props) {
@@ -28,7 +31,7 @@ class Main extends PureComponent {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{title}</b>
-                <Sorting />
+                <SortingWithState />
                 <Offers viewMode={ViewMode.Main} />
               </section>
               <div className="cities__right-section">

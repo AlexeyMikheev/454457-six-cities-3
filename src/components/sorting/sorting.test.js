@@ -23,7 +23,7 @@ it(`Render Sorting`, () => {
   });
 
   const tree = renderer
-    .create(<Provider store={store}><Sorting /></Provider>)
+    .create(<Provider store={store} isOpened={false} onToggleChange={() => {}}><Sorting /></Provider>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();
