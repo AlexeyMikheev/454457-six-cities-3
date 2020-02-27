@@ -7,7 +7,8 @@ import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape, CityShapre} from "../../settings.js";
 import {ActionCreator} from "../../reducer.js";
 import offersMoke from '../../mocks/offers.js';
-import reviewsMoke from "../../mocks/reviews.js";
+import reviewsMock from "../../mocks/reviews.js";
+import citiesMock from "../../mocks/cities.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -19,7 +20,8 @@ class App extends PureComponent {
 
   componentDidMount() {
     this.props.setOffers(offersMoke);
-    this.props.setReviews(reviewsMoke);
+    this.props.setReviews(reviewsMock);
+    this.props.setCities(citiesMock);
   }
 
   placeHeaderClickHandler(offerId) {
@@ -34,9 +36,8 @@ class App extends PureComponent {
   }
 
   renderApp() {
-    const {offers, cities, selectedCity} = this.props;
     return (
-      <Main offers={offers} cities={cities} currentCity={selectedCity} onCityClick={this.cityClickHandler} onPlaceHeaderClick={this.placeHeaderClickHandler}/>
+      <Main/>
     );
   }
 
@@ -45,15 +46,9 @@ class App extends PureComponent {
       return null;
     }
 
-    const {offers, reviews} = this.props;
-
-    const nearOffers = offers.filter((offer) => {
-      return selectedOffer.id !== offer.id;
-    });
-
     if (selectedOffer !== null) {
       return (
-        <Property offer={selectedOffer} reviews={reviews} nearOffers={nearOffers} onPlaceHeaderClick={this.placeHeaderClickHandler} />
+        <Property />
       );
     }
     return this.renderApp();
@@ -97,6 +92,7 @@ App.propTypes = {
   cityHeaderClickHandler: PropTypes.func,
   setOffers: PropTypes.func.isRequired,
   setReviews: PropTypes.func.isRequired,
+  setCities: PropTypes.func.isRequired,
   setCurrentOffer: PropTypes.func.isRequired,
   setCurrentCity: PropTypes.func.isRequired,
 };
@@ -109,20 +105,13 @@ const mapStateToProps = (state) => ({
   reviews: state.reviews
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setOffers(offers) {
-    dispatch(ActionCreator.setOffers(offers));
-  },
-  setReviews(reviews) {
-    dispatch(ActionCreator.setReviews(reviews));
-  },
-  setCurrentOffer(offerId) {
-    dispatch(ActionCreator.setCurrentOffer(offerId));
-  },
-  setCurrentCity(cityId) {
-    dispatch(ActionCreator.setCurrentCity(cityId));
-  }
-});
+const mapDispatchToProps = {
+  setOffers: ActionCreator.setOffers,
+  setReviews: ActionCreator.setReviews,
+  setCities: ActionCreator.setCities,
+  setCurrentOffer: ActionCreator.setCurrentOffer,
+  setCurrentCity: ActionCreator.setCurrentCity
+};
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App);

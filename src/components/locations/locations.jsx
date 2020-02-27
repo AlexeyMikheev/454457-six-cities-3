@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {CityShapre} from "../../settings.js";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 
-
-const Locations = ({cities, activeCity, onCityClick}) => {
-
+const Locations = ({cities, currentCity, setCurrentCity}) => {
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {cities.map((city) =>
           <li key={city.id} className="locations__item" onClick={(evt) => {
             evt.preventDefault();
-            onCityClick(city.id);
+            setCurrentCity(city.id);
           }}>
-            <a className={`locations__item-link tabs__item ${activeCity && city.id === activeCity.id ? `tabs__item--active` : ``}`} href="#" >
+            <a className={`locations__item-link tabs__item ${currentCity && city.id === currentCity.id ? `tabs__item--active` : ``}`} href="#" >
               <span>{city.name}</span>
             </a>
           </li>
@@ -25,8 +25,18 @@ const Locations = ({cities, activeCity, onCityClick}) => {
 
 Locations.propTypes = {
   cities: PropTypes.arrayOf(PropTypes.shape(CityShapre)),
-  activeCity: PropTypes.shape(CityShapre),
-  onCityClick: PropTypes.func.isRequired
+  currentCity: PropTypes.shape(CityShapre),
+  setCurrentCity: PropTypes.func.isRequired
 };
 
-export default Locations;
+const mapStateToProps = (state) => ({
+  cities: state.cities,
+  currentCity: state.currentCity
+});
+
+const mapDispatchToProps = {
+  setCurrentCity: ActionCreator.setCurrentCity
+};
+
+export {Locations};
+export default connect(mapStateToProps, mapDispatchToProps)(Locations);

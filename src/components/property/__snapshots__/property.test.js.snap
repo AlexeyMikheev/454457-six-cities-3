@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Render App 1`] = `
+exports[`Render Property 1`] = `
 Array [
   <section
     className="property"
@@ -332,7 +332,7 @@ Array [
                   className="reviews__time"
                   dateTime="2019-04-24"
                 >
-                  February Mo, 2020
+                  February Tu, 2020
                 </time>
               </div>
             </li>
@@ -391,7 +391,7 @@ Array [
                   className="reviews__time"
                   dateTime="2019-04-24"
                 >
-                  February Mo, 2020
+                  February Tu, 2020
                 </time>
               </div>
             </li>
@@ -450,7 +450,7 @@ Array [
                   className="reviews__time"
                   dateTime="2019-04-24"
                 >
-                  February Mo, 2020
+                  February Tu, 2020
                 </time>
               </div>
             </li>

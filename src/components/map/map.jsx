@@ -44,10 +44,14 @@ class Map extends PureComponent {
     if (!this._isMapInit) {
       this.initMap();
     }
-    const {offers: prevOffers, activeOffer: prevActiveOffer} = prevProps;
-    const {offers, activeOffer} = this.props;
+    const {offers: prevOffers, activeOffer: prevActiveOffer, hoveredOffer: prevHoveredOffer} = prevProps;
+    const {offers, activeOffer, hoveredOffer} = this.props;
 
     const isActiveOfferChanged = (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id);
+
+    const isHoveredOfferChanged = (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id) ||
+    (prevHoveredOffer !== null && hoveredOffer === null) ||
+    (prevHoveredOffer === null && hoveredOffer !== null);
 
     const isOfferschanged = !offers.every((offer) => {
       return prevOffers.some((prevOffer) => {
@@ -61,7 +65,7 @@ class Map extends PureComponent {
       });
     });
 
-    if (isActiveOfferChanged || isOfferschanged || isPrevOfferschanged) {
+    if (isActiveOfferChanged || isOfferschanged || isPrevOfferschanged || isHoveredOfferChanged) {
       this.clearMarkers();
       this.initMarkers();
     }
@@ -91,9 +95,15 @@ class Map extends PureComponent {
   }
 
   initMarkers() {
-    const {offers, activeOffer} = this.props;
+    const {offers, activeOffer, hoveredOffer} = this.props;
 
-    this.addMapMarkers(offers);
+    const displayOfferd = hoveredOffer ? offers.slice().filter((offer) => offer.id !== hoveredOffer.id) : offers.slice();
+
+    this.addMapMarkers(displayOfferd);
+
+    if (hoveredOffer !== null) {
+      this.addMarker(hoveredOffer.lonlat, this.getMarkerTemplate(true));
+    }
 
     if (activeOffer !== null) {
       this.addMarker(activeOffer.lonlat, this.getMarkerTemplate(true));
@@ -141,12 +151,14 @@ class Map extends PureComponent {
 }
 
 Map.defaultProps = {
-  activeOffer: null
+  activeOffer: null,
+  hoveredOffer: null
 };
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   activeOffer: PropTypes.shape(OfferShape),
+  hoveredOffer: PropTypes.shape(OfferShape),
   viewMode: PropTypes.oneOf(VIEWMODES).isRequired
 };
 

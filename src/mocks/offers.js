@@ -1,6 +1,6 @@
 import {OfferType, FEATURES} from '../consts.js';
 
-const offersMoke = [
+const offersMocke = [
   {
     id: 1,
     isPremium: true,
@@ -30,10 +30,7 @@ const offersMoke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 1,
-      name: `Paris`
-    },
+    cityId: 1,
     lonlat: [52.3909553943508, 4.85309666406198]
   },
   {
@@ -62,10 +59,7 @@ const offersMoke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 2,
-      name: `Cologne`
-    },
+    cityId: 2,
     lonlat: [52.369553943508, 4.85309666406198]
   },
   {
@@ -94,10 +88,7 @@ const offersMoke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 3,
-      name: `Brussels`
-    },
+    cityId: 3,
     lonlat: [52.3909553943508, 4.929309666406198]
   },
   {
@@ -126,10 +117,7 @@ const offersMoke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 4,
-      name: `Amsterdam`
-    },
+    cityId: 3,
     lonlat: [52.3809553943508, 4.939309666406198]
   },
   {
@@ -158,10 +146,7 @@ const offersMoke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 5,
-      name: `Hamburg`
-    },
+    cityId: 4,
     lonlat: [52.3809553943508, 4.939309666406198]
   },
   {
@@ -190,10 +175,7 @@ const offersMoke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 6,
-      name: `Dusseldorf`
-    },
+    cityId: 5,
     lonlat: [52.3809553943508, 4.939309666406198]
   },
   {
@@ -222,12 +204,9 @@ const offersMoke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 1,
-      name: `Paris`
-    },
+    cityId: 5,
     lonlat: [52.3809553943508, 4.939309666406198]
   }
 ];
 
-export default offersMoke;
+export default offersMocke;

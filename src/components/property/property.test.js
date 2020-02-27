@@ -1,7 +1,11 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
 import Property from "./property.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
+
+const mockStore = configureStore([]);
 
 const mock = {
   id: 1,
@@ -28,7 +32,9 @@ const mock = {
     avatar: `img/avatar-angelina.jpg`,
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     isTrust: true
-  }
+  },
+  cityId: 1,
+  lonlat: [52.3909553943508, 4.85309666406198]
 };
 
 const reviewsMock = [
@@ -87,6 +93,7 @@ const nearOffersMock = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
+    cityId: 1,
     lonlat: [52.3909553943508, 4.85309666406198]
   },
   {
@@ -115,6 +122,7 @@ const nearOffersMock = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
+    cityId: 2,
     lonlat: [52.369553943508, 4.85309666406198]
   },
   {
@@ -143,6 +151,7 @@ const nearOffersMock = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
+    cityId: 3,
     lonlat: [52.3909553943508, 4.929309666406198]
   },
   {
@@ -171,13 +180,24 @@ const nearOffersMock = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
+    cityId: 4,
     lonlat: [52.3809553943508, 4.939309666406198]
   }
 ];
 
-it(`Render App`, () => {
+it(`Render Property`, () => {
 
-  const tree = renderer.create(<Property offer={mock} reviews={reviewsMock} nearOffers={nearOffersMock} onPlaceHeaderClick={() => { }} />).toJSON();
+  const store = mockStore({
+    offers: [],
+    currentOffers: [],
+    currentOffer: mock,
+    cities: [],
+    reviews: reviewsMock,
+    currentCity: null,
+    nearOffers: nearOffersMock
+  });
+
+  const tree = renderer.create(<Provider store={store}><Property /></Provider>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

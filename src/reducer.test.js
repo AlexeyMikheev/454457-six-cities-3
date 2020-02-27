@@ -1,5 +1,5 @@
 import {reducer, ActionCreator} from "./reducer.js";
-import {OfferType, FEATURES} from './consts.js';
+import {OfferType, FEATURES, SortType} from './consts.js';
 
 const citiesMock = [
   {
@@ -16,7 +16,7 @@ const currentCityMock = citiesMock[0];
 
 const newCurrentCityMock = citiesMock[1];
 
-const offersMocke = [
+const offersMock = [
   {
     id: 1,
     isPremium: true,
@@ -46,10 +46,7 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 1,
-      name: `Paris`
-    },
+    cityId: 1,
     lonlat: [52.3909553943508, 4.85309666406198]
   },
   {
@@ -78,10 +75,7 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 2,
-      name: `Cologne`
-    },
+    cityId: 2,
     lonlat: [52.369553943508, 4.85309666406198]
   },
   {
@@ -110,15 +104,16 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 1,
-      name: `Paris`
-    },
+    cityId: 1,
     lonlat: [52.3909553943508, 4.929309666406198]
   }
 ];
 
-const currentofferMock = offersMocke[0];
+const currentofferMock = offersMock[0];
+
+const nearOffersMock = offersMock.filter((offer) => {
+  return currentofferMock.id !== offer.id;
+});
 
 const newOffersMocke = [
   {
@@ -147,17 +142,23 @@ const newOffersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    city: {
-      id: 2,
-      name: `Cologne`
-    },
+    cityId: 2,
     lonlat: [52.369553943508, 4.85309666406198]
   }
 ];
 
-const currentOffersMock = offersMocke.filter((offer) => offer.city.id === currentCityMock.id);
+const currentOffersMock = offersMock.filter((offer) => offer.cityId === currentCityMock.id);
 
-const reviewsMoke = [
+const sortedCurrentOffersMock = offersMock.filter((offer) => offer.cityId === currentCityMock.id).sort((prev, next) => {
+  if (prev.cost > next.cost) {
+    return 1;
+  } else if (prev.cost < next.cost) {
+    return -1;
+  }
+  return 0;
+});
+
+const reviewsMock = [
   {
     id: 1,
     name: `Max`,
@@ -181,9 +182,12 @@ it(`Reducer without additional parameters should return initial state`, () => {
     offers: [],
     currentOffers: [],
     currentOffer: null,
+    hoveredOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
   });
 });
 
@@ -192,70 +196,166 @@ it(`Reducer should set reviews by a given value`, () => {
     offers: [],
     currentOffers: [],
     currentOffer: null,
+    hoveredOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
-  }, ActionCreator.setReviews(reviewsMoke))).toEqual({
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
+  }, ActionCreator.setReviews(reviewsMock))).toEqual({
     offers: [],
     currentOffers: [],
     currentOffer: null,
+    hoveredOffer: null,
     cities: [],
-    reviews: reviewsMoke,
-    currentCity: null
+    reviews: reviewsMock,
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
   });
 });
 
-it(`Reducer should set offers and cities by a given value`, () => {
+it(`Reducer should set offers by a given value`, () => {
   expect(reducer({
     offers: [],
     currentOffers: [],
     currentOffer: null,
+    hoveredOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
-  }, ActionCreator.setOffers(offersMocke))).toEqual({
-    offers: offersMocke,
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
+  }, ActionCreator.setOffers(offersMock))).toEqual({
+    offers: offersMock,
+    currentOffers: [],
+    currentOffer: null,
+    hoveredOffer: null,
+    cities: [],
+    reviews: [],
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
+  });
+});
+
+it(`Reducer should set cities by a given value ang select first city`, () => {
+  expect(reducer({
+    offers: offersMock,
+    currentOffers: [],
+    currentOffer: null,
+    hoveredOffer: null,
+    cities: [],
+    reviews: reviewsMock,
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
+  }, ActionCreator.setCities(citiesMock))).toEqual({
+    offers: offersMock,
     currentOffers: currentOffersMock,
     currentOffer: null,
+    hoveredOffer: null,
     cities: citiesMock,
-    reviews: [],
-    currentCity: currentCityMock
+    reviews: reviewsMock,
+    currentCity: currentCityMock,
+    nearOffers: [],
+    sortType: SortType.POPULAR
   });
 });
 
 
 it(`Reducer should set current city and current offers by a given value`, () => {
   expect(reducer({
-    offers: offersMocke,
+    offers: offersMock,
     currentOffers: currentOffersMock,
     currentOffer: null,
+    hoveredOffer: null,
     cities: citiesMock,
     reviews: [],
-    currentCity: currentCityMock
+    currentCity: currentCityMock,
+    nearOffers: [],
+    sortType: SortType.POPULAR
   }, ActionCreator.setCurrentCity(newCurrentCityMock.id))).toEqual({
-    offers: offersMocke,
+    offers: offersMock,
     currentOffers: newOffersMocke,
     currentOffer: null,
+    hoveredOffer: null,
     cities: citiesMock,
     reviews: [],
-    currentCity: newCurrentCityMock
+    currentCity: newCurrentCityMock,
+    nearOffers: [],
+    sortType: SortType.POPULAR
   });
 });
 
-it(`Reducer should set current city and current offers by a given value`, () => {
+it(`Reducer should set offers sort type by a given value`, () => {
   expect(reducer({
-    offers: offersMocke,
+    offers: offersMock,
+    currentOffers: currentOffersMock,
+    currentOffer: null,
+    hoveredOffer: null,
+    cities: citiesMock,
+    reviews: [],
+    currentCity: currentCityMock,
+    nearOffers: [],
+    sortType: SortType.POPULAR
+  }, ActionCreator.sortOffers(SortType.PRICE_LH))).toEqual({
+    offers: offersMock,
+    currentOffers: sortedCurrentOffersMock,
+    currentOffer: null,
+    hoveredOffer: null,
+    cities: citiesMock,
+    reviews: [],
+    currentCity: currentCityMock,
+    nearOffers: [],
+    sortType: SortType.PRICE_LH
+  });
+});
+
+it(`Reducer should set current current offer by a given value`, () => {
+  expect(reducer({
+    offers: offersMock,
     currentOffers: [],
     currentOffer: null,
+    hoveredOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
-    offers: offersMocke,
+    offers: offersMock,
     currentOffers: [],
     currentOffer: currentofferMock,
+    hoveredOffer: null,
     cities: [],
     reviews: [],
-    currentCity: null
+    currentCity: null,
+    nearOffers: nearOffersMock,
+    sortType: SortType.POPULAR
+  });
+});
+
+it(`Reducer should set current current offer by a given value`, () => {
+  expect(reducer({
+    offers: offersMock,
+    currentOffers: [],
+    currentOffer: null,
+    hoveredOffer: null,
+    cities: [],
+    reviews: [],
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
+  }, ActionCreator.setHoveredOffer(currentofferMock.id))).toEqual({
+    offers: offersMock,
+    currentOffers: [],
+    currentOffer: null,
+    hoveredOffer: currentofferMock,
+    cities: [],
+    reviews: [],
+    currentCity: null,
+    nearOffers: [],
+    sortType: SortType.POPULAR
   });
 });

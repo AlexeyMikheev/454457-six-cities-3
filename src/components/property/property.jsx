@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT} from "../../consts.js";
 import {OfferShape, ReviewShape} from "../../settings.js";
@@ -6,8 +7,9 @@ import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
+import PropertyGallery from "../property-gallery/property-gallery.jsx";
 
-const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
+const Property = ({offer, reviews, nearOffers, hoveredOffer}) => {
   const {images} = offer;
   const {name: ownerName, avatar, description, isTrust} = offer.owner;
 
@@ -17,20 +19,14 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
   let nearOffersContainer = `No places to stay available`;
 
   if (nearOffers.length > 0) {
-    nearOffersContainer = <Offers offers={displayNearOffers} viewMode={ViewMode.Property} onPlaceHeaderClick={onPlaceHeaderClick} />;
+    nearOffersContainer = <Offers viewMode={ViewMode.Property} />;
   }
 
   return (
     <React.Fragment>
       <section className="property">
         <div className="property__gallery-container container">
-          <div className="property__gallery">
-            {displayImages.map((imageSrc, i) => (
-              <div key={imageSrc + i} className="property__image-wrapper">
-                <img className="property__image" src={imageSrc} alt="Photo studio" />
-              </div>
-            ))}
-          </div>
+          <PropertyGallery images={displayImages} />
         </div>
         <div className="property__container container">
           <div className="property__wrapper">
@@ -38,7 +34,7 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
             <div className="property__host">
               <h2 className="property__host-title">Meet the host</h2>
               <div className="property__host-user user">
-                <div className={`property__avatar-wrapper user__avatar-wrapper ${ isTrust ? `property__avatar-wrapper--pro` : ``}`}>
+                <div className={`property__avatar-wrapper user__avatar-wrapper ${isTrust ? `property__avatar-wrapper--pro` : ``}`}>
                   <img className="property__avatar user__avatar" src={avatar} width="74" height="74" alt="Host avatar" />
                 </div>
                 <span className="property__user-name">{ownerName}</span>
@@ -51,7 +47,7 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
             </div>
             <Reviews reviews={reviews} />
           </div>
-          <Map offers={displayNearOffers} activeOffer={offer} viewMode={ViewMode.Property} />
+          <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} />
         </div>
       </section>
       <div className="container">
@@ -66,9 +62,19 @@ const Property = ({offer, reviews, nearOffers, onPlaceHeaderClick}) => {
 
 Property.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
+  hoveredOffer: PropTypes.shape(OfferShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
-  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  onPlaceHeaderClick: PropTypes.func.isRequired
+  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired
 };
 
-export default Property;
+const mapStateToProps = (state) => ({
+  offers: state.currentOffers,
+  nearOffers: state.nearOffers,
+  offer: state.currentOffer,
+  hoveredOffer: state.hoveredOffer,
+  reviews: state.reviews
+});
+
+export {Property};
+export default connect(mapStateToProps)(Property);
+

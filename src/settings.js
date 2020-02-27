@@ -19,6 +19,7 @@ export const OfferShape = {
     description: PropTypes.string.isRequired,
     isTrust: PropTypes.bool.isRequired,
   }).isRequired,
+  cityId: PropTypes.number.isRequired,
   lonlat: PropTypes.arrayOf(PropTypes.number)
 };
 
