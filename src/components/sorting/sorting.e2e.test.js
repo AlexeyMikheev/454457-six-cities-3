@@ -30,8 +30,8 @@ it(`Should sorting be toggled`, () => {
   const onToggleChange = jest.fn();
 
   const sortingComponent = shallow(<Provider store={store}><Sorting isToggled={false} onToggleChange={onToggleChange}/></Provider>);
-debugger;
-  const placesSorting = sortingComponent.find(`form.places__sorting`);
+
+  const placesSorting = sortingComponent.find(`span.places__sorting-type`);
 
   placesSorting.simulate(`click`);
 
