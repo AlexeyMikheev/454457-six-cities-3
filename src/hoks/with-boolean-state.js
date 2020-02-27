@@ -19,7 +19,7 @@ const withBooleanState = (Component) => {
 
       return <Component
         {...this.props}
-        isOpened={isToggled}
+        isToggled={isToggled}
         onToggleChange = {
           () => {
             this.setState(extendObject(this.state, {isToggled: altIsToggled}));
