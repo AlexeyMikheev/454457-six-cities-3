@@ -14,10 +14,6 @@ class Sorting extends PureComponent {
     };
   }
 
-  sortClickHandler(sortType) {
-    this.setState(extendObject(this.state, {sortType}));
-  }
-
   render() {
     const {sortType, sortOffers} = this.props;
     const {isOpened} = this.state;
