@@ -6,7 +6,7 @@ import {SORTTYPES} from "../../consts.js";
 import {ActionCreator} from "../../reducer.js";
 
 const Sorting = (props) => {
-  const {sortType, sortOffers, isOpened, onToggleChange} = props;
+  const {sortType, sortOffers, isToggled, onToggleChange} = props;
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -17,7 +17,7 @@ const Sorting = (props) => {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${isOpened ? `places__options--opened` : ``}`}>
+      <ul className={`places__options places__options--custom ${isToggled ? `places__options--opened` : ``}`}>
         {SORTTYPES.map((type) => <li key={type} className={`places__option ${sortType === type ? `places__option--active` : ``}`} tabIndex="0" onClick={() => {
           sortOffers(type);
         }}>{type}</li>)}
@@ -28,7 +28,7 @@ const Sorting = (props) => {
 
 Sorting.propTypes = {
   sortType: PropTypes.oneOf(SORTTYPES).isRequired,
-  isOpened: PropTypes.bool.isRequired,
+  isToggled: PropTypes.bool.isRequired,
   sortOffers: PropTypes.func.isRequired,
   onToggleChange: PropTypes.func.isRequired
 };

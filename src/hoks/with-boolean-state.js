@@ -8,21 +8,21 @@ const withBooleanState = (Component) => {
       super(props);
 
       this.state = {
-        isOpened: false,
+        isToggled: false,
       };
     }
 
     render() {
-      const {isOpened} = this.state;
+      const {isToggled} = this.state;
 
-      const altIsOpened = !isOpened;
+      const altIsToggled = !isToggled;
 
       return <Component
         {...this.props}
-        isOpened={isOpened}
+        isOpened={isToggled}
         onToggleChange = {
           () => {
-            this.setState(extendObject(this.state, {isOpened: altIsOpened}));
+            this.setState(extendObject(this.state, {isToggled: altIsToggled}));
           }}
       />;
     }
