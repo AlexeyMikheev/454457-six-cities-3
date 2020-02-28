@@ -63,4 +63,4 @@ OfferDetail.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired
 };
 
-export default OfferDetail;
+export default React.memo(OfferDetail);

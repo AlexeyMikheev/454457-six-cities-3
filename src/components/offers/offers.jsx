@@ -23,7 +23,7 @@ class Offers extends PureComponent {
         {displayOffers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
           evt.preventDefault();
           setCurrentOffer(offer.id);
-        }} onPlaceCardMouseEnter={() => {
+        }} onPlaceCardMouseOver={() => {
           setHoveredOffer(offer.id);
         }} onPlaceCardMouseLeave={() => {
           setHoveredOffer(null);
