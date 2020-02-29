@@ -11,7 +11,7 @@ const mock = {
   date: new Date().valueOf()
 };
 
-it(`Render Offer`, () => {
+it(`Render Reviews`, () => {
 
   const tree = renderer
     .create(<Review review={mock} />)
