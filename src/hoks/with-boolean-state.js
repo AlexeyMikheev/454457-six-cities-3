@@ -10,20 +10,23 @@ const withBooleanState = (Component) => {
       this.state = {
         isToggled: false,
       };
+
+      this.onToggleHandler = this.onToggleHandler.bind(this);
+    }
+
+    onToggleHandler() {
+      const {isToggled} = this.state;
+
+      this.setState(extendObject(this.state, {isToggled: !isToggled}));
     }
 
     render() {
       const {isToggled} = this.state;
 
-      const altIsToggled = !isToggled;
-
       return <Component
         {...this.props}
         isToggled={isToggled}
-        onToggleChange = {
-          () => {
-            this.setState(extendObject(this.state, {isToggled: altIsToggled}));
-          }}
+        onToggleChange = {this.onToggleHandler}
       />;
     }
   }

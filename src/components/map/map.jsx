@@ -162,4 +162,4 @@ Map.propTypes = {
   viewMode: PropTypes.oneOf(VIEWMODES).isRequired
 };
 
-export default React.memo(Map);
+export default Map;
