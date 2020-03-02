@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import {getRatingPercents} from '../../utils.js';
 import {OfferShape} from '../../settings.js';
 
-const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMouseLeave, isNearViewMode}) => {
+const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMouseLeave, isNearViewMode}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 
   const ratingPercent = getRatingPercents(rating);
 
   return (
 
-    <article className={`place-card ${ isNearViewMode ? `near-places__card` : `cities__place-card` }`} onMouseEnter={onPlaceCardMouseEnter} onMouseLeave={onPlaceCardMouseLeave}>
+    <article className={`place-card ${ isNearViewMode ? `near-places__card` : `cities__place-card` }`} onMouseOver={onPlaceCardMouseOver} onMouseLeave={onPlaceCardMouseLeave}>
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
@@ -52,9 +52,9 @@ const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseEnter, onPlaceCardMou
 Offer.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
   onPlaceHeaderClick: PropTypes.func.isRequired,
-  onPlaceCardMouseEnter: PropTypes.func.isRequired,
+  onPlaceCardMouseOver: PropTypes.func.isRequired,
   onPlaceCardMouseLeave: PropTypes.func.isRequired,
   isNearViewMode: PropTypes.bool.isRequired
 };
 
-export default Offer;
+export default React.memo(Offer);

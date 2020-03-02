@@ -38,12 +38,12 @@ const mock = {
   lonlat: [52.3909553943508, 4.85309666406198]
 };
 
-it(`Should welcome button be pressed`, () => {
+it(`Should offer click, mouseenter, mouseleave`, () => {
   const onPlaceHeaderClick = jest.fn();
-  const onPlaceCardMouseEnter = jest.fn();
+  const onPlaceCardMouseOver = jest.fn();
   const onPlaceCardMouseLeave = jest.fn();
 
-  const placeComponent = shallow(<Offer offer={mock} onPlaceHeaderClick={onPlaceHeaderClick} onPlaceCardMouseEnter={onPlaceCardMouseEnter} onPlaceCardMouseLeave={onPlaceCardMouseLeave} isNearViewMode={false}/>);
+  const placeComponent = shallow(<Offer offer={mock} onPlaceHeaderClick={onPlaceHeaderClick} onPlaceCardMouseOver={onPlaceCardMouseOver} onPlaceCardMouseLeave={onPlaceCardMouseLeave} isNearViewMode={false}/>);
 
   const placeHeader = placeComponent.find(`h2.place-card__name`);
   const placeCard = placeComponent.find(`article.place-card`);
@@ -51,8 +51,8 @@ it(`Should welcome button be pressed`, () => {
   placeHeader.simulate(`click`);
   expect(onPlaceHeaderClick).toHaveBeenCalledTimes(1);
 
-  placeCard.simulate(`mouseenter`);
-  expect(onPlaceCardMouseEnter).toHaveBeenCalledTimes(1);
+  placeCard.simulate(`mouseover`);
+  expect(onPlaceCardMouseOver).toHaveBeenCalledTimes(1);
 
   placeCard.simulate(`mouseleave`);
   expect(onPlaceCardMouseLeave).toHaveBeenCalledTimes(1);
