@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Review from "./review.jsx";
 
-const mockDate = new Date(0);
+const mockDate = new Date(0).valueOf();
 
 const mock = {
   id: 1,
