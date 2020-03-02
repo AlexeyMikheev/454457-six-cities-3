@@ -175,7 +175,7 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    cityId: 5,
+    cityId: 4,
     lonlat: [52.3809553943508, 4.939309666406198]
   },
   {
@@ -204,7 +204,7 @@ const offersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    cityId: 5,
+    cityId: 4,
     lonlat: [52.3809553943508, 4.939309666406198]
   }
 ];

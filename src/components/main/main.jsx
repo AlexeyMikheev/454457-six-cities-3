@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import Offers from "../offers/offers.jsx";
 import Locations from "../locations/locations.jsx";
 import Sorting from "../sorting/sorting.jsx";
+import MainEmpty from "../main-empty/main-empty.jsx";
 import {ViewMode} from "../../consts.js";
 import {OfferShape, CityShapre} from "../../settings.js";
 import Map from "../map/map.jsx";
@@ -16,31 +17,45 @@ class Main extends PureComponent {
     super(props);
   }
 
-  render() {
+  renderContent() {
     const {offers, currentCity, hoveredOffer} = this.props;
 
     const title = offers.length > 0 ? `${offers.length} ${offers.length > 1 ? `places` : `place`} to stay in ${currentCity ? currentCity.name : ``}` : `No places to stay available`;
 
     return (
-      <div className="page page--gray page--main">
-        <main className="page__main page__main--index">
-          <h1 className="visually-hidden">Cities</h1>
-          <Locations />
-          <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{title}</b>
-                <SortingWithState />
-                <Offers viewMode={ViewMode.Main} />
-              </section>
-              <div className="cities__right-section">
-                <Map offers={offers} hoveredOffer={hoveredOffer} viewMode={ViewMode.Main} />
-              </div>
-            </div>
-          </div>
-        </main>
+      <div className="cities__places-container container">
+        <section className="cities__places places">
+          <h2 className="visually-hidden">Places</h2>
+          <b className="places__found">{title}</b>
+          <SortingWithState />
+          <Offers viewMode={ViewMode.Main} />
+        </section>
+        <div className="cities__right-section">
+          <Map offers={offers} hoveredOffer={hoveredOffer} viewMode={ViewMode.Main} />
+        </div>
       </div>
+    );
+  }
+
+  renderEmpty() {
+    return (
+      <MainEmpty />
+    );
+  }
+
+  render() {
+    const {offers} = this.props;
+
+    const isHasDisplayOffers = offers.length > 0;
+
+    return (
+      <main className={`page__main page__main--index ${!isHasDisplayOffers ? `page__main--index-empty` : ``}`}>
+        <h1 className="visually-hidden">Cities</h1>
+        <Locations />
+        <div className="cities">
+          { isHasDisplayOffers ? this.renderContent() : this.renderEmpty()}
+        </div>
+      </main>
     );
   }
 }
@@ -57,5 +72,5 @@ const mapStateToProps = (state) => ({
   hoveredOffer: state.hoveredOffer
 });
 
-export {Main};
+export { Main };
 export default connect(mapStateToProps)(Main);

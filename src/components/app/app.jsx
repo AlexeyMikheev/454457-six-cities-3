@@ -37,7 +37,9 @@ class App extends PureComponent {
 
   renderApp() {
     return (
-      <Main/>
+      <div className="page page--gray page--main">
+        <Main/>
+      </div>
     );
   }
 
