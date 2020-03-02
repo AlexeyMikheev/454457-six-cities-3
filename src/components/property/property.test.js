@@ -37,6 +37,8 @@ const mock = {
   lonlat: [52.3909553943508, 4.85309666406198]
 };
 
+const mockDate = new Date(0);
+
 const reviewsMock = [
   {
     id: 1,
@@ -44,7 +46,7 @@ const reviewsMock = [
     avatar: `img/avatar-max.jpg`,
     rating: 4.5,
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
-    date: new Date().valueOf()
+    date: mockDate
   },
   {
     id: 2,
@@ -52,7 +54,7 @@ const reviewsMock = [
     avatar: `img/avatar-max.jpg`,
     rating: 0,
     description: `The building is green and from 18th century.`,
-    date: new Date().valueOf()
+    date: mockDate
   },
   {
     id: 3,
@@ -60,7 +62,7 @@ const reviewsMock = [
     avatar: `img/avatar-max.jpg`,
     rating: 3.5,
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    date: new Date().valueOf()
+    date: mockDate
   }];
 
 const nearOffersMock = [

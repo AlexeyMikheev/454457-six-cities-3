@@ -2,6 +2,8 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Reviews from "./reviews.jsx";
 
+const mockDate = new Date(0).valueOf();
+
 const mocks = [
   {
     id: 1,
@@ -9,7 +11,7 @@ const mocks = [
     avatar: `img/avatar-max.jpg`,
     rating: 4.5,
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
-    date: new Date().valueOf()
+    date: mockDate
   },
   {
     id: 2,
@@ -17,7 +19,7 @@ const mocks = [
     avatar: `img/avatar-max.jpg`,
     rating: 0,
     description: `The building is green and from 18th century.`,
-    date: new Date().valueOf()
+    date: mockDate
   },
   {
     id: 3,
@@ -25,7 +27,7 @@ const mocks = [
     avatar: `img/avatar-max.jpg`,
     rating: 3.5,
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    date: new Date().valueOf()
+    date: mockDate
   }];
 
 it(`Render Offer`, () => {

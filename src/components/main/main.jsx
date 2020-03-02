@@ -72,5 +72,5 @@ const mapStateToProps = (state) => ({
   hoveredOffer: state.hoveredOffer
 });
 
-export { Main };
+export {Main};
 export default connect(mapStateToProps)(Main);
