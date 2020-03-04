@@ -21,6 +21,7 @@ const ActionType = {
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SORT_OFFERS: `SORT_OFFERS`,
+  LOAD_OFFERS: `LOAD_OFFERS`,
 };
 
 const ActionCreator = {
@@ -59,6 +60,22 @@ const ActionCreator = {
     type: ActionType.SORT_OFFERS,
     payload: sortType,
   }),
+
+  loadOffers: (offers) => {
+    return {
+      type: ActionType.LOAD_OFFERS,
+      payload: offers,
+    };
+  },
+};
+
+const Operation = {
+  loadOffers: () => (dispatch, getState, api) => {
+    return api.get(`/hotels`)
+      .then((response) => {
+        dispatch(ActionCreator.loadOffers(response.data));
+      });
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -83,6 +100,9 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.SORT_OFFERS:
       return sortOffers(state, action);
+
+    case ActionType.LOAD_OFFERS:
+      return loadOffers(state, action);
 
     default: return state;
   }
@@ -224,4 +244,10 @@ const getCurrentOffers = (offers, sortType, cityId) => {
   }
 };
 
-export {reducer, ActionType, ActionCreator};
+const loadOffers = (state, action) => {
+  return extendObject(state, {
+    questions: action.payload,
+  });
+};
+
+export {reducer, Operation, ActionType, ActionCreator};

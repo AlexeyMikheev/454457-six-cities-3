@@ -1,5 +1,9 @@
-import {reducer, ActionCreator} from "./reducer.js";
+import MockAdapter from "axios-mock-adapter";
+import {reducer, ActionCreator, ActionType, Operation} from "./reducer.js";
 import {OfferType, FEATURES, SortType} from './consts.js';
+import {createAPI} from "./api.js";
+
+const api = createAPI(() => {});
 
 const citiesMock = [
   {
@@ -357,5 +361,26 @@ it(`Reducer should set current current offer by a given value`, () => {
     currentCity: null,
     nearOffers: [],
     sortType: SortType.POPULAR
+  });
+});
+
+describe(`Operation work correctly`, () => {
+  it(`Should make a correct API call to /hotels`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const questionLoader = Operation.loadOffers();
+
+    apiMock
+      .onGet(`/hotels`)
+      .reply(200, [{fake: true}]);
+
+    return questionLoader(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.LOAD_OFFERS,
+          payload: [{fake: true}],
+        });
+      });
   });
 });
