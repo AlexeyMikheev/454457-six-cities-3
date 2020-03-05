@@ -1,5 +1,6 @@
 import {extendObject, getSortedOffersByProperty, getFiltredOffersByProperty} from "./utils.js";
 import {SortType} from "./consts.js";
+import Offer from "./model/offer.js";
 
 const initialState = {
   offers: [],
@@ -21,7 +22,7 @@ const ActionType = {
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SORT_OFFERS: `SORT_OFFERS`,
-  LOAD_OFFERS: `LOAD_OFFERS`,
+  LOAD_DATA: `LOAD_DATA`,
 };
 
 const ActionCreator = {
@@ -61,19 +62,19 @@ const ActionCreator = {
     payload: sortType,
   }),
 
-  loadOffers: (offers) => {
+  loadData: (offers) => {
     return {
-      type: ActionType.LOAD_OFFERS,
+      type: ActionType.LOAD_DATA,
       payload: offers,
     };
   },
 };
 
 const Operation = {
-  loadOffers: () => (dispatch, getState, api) => {
+  loadData: () => (dispatch, getState, api) => {
     return api.get(`/hotels`)
       .then((response) => {
-        dispatch(ActionCreator.loadOffers(response.data));
+        dispatch(ActionCreator.loadData(response.data));
       });
   },
 };
@@ -85,9 +86,6 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.SET_REVIEWS:
       return setReviews(state, action);
-
-    case ActionType.SET_CITIES:
-      return setCities(state, action);
 
     case ActionType.SET_CURRENT_CITY:
       return setCurrentCity(state, action);
@@ -101,8 +99,8 @@ const reducer = (state = initialState, action) => {
     case ActionType.SORT_OFFERS:
       return sortOffers(state, action);
 
-    case ActionType.LOAD_OFFERS:
-      return loadOffers(state, action);
+    case ActionType.LOAD_DATA:
+      return loadData(state, action);
 
     default: return state;
   }
@@ -127,37 +125,10 @@ const setReviews = (state, action) => {
   return state;
 };
 
-const setCities = (state, action) => {
-  const cities = action.payload;
-
-  if (cities === null) {
-    return state;
-  }
-
-  let updatedState = extendObject({}, state);
-
-  updatedState = extendObject(updatedState, {cities});
-
-  if (cities.length > 0) {
-
-    const currentCity = cities[0];
-    updatedState = extendObject(updatedState, {cities, currentCity});
-
-    const {sortType} = updatedState;
-
-    const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.id);
-    if (currentOffers !== null) {
-      updatedState = extendObject(updatedState, {currentOffers});
-    }
-  }
-  return updatedState;
-
-};
-
 const setCurrentCity = (state, action) => {
-  const cityId = action.payload;
+  const cityName = action.payload;
 
-  const currentCity = state.cities.find((city) => city.id === cityId);
+  const currentCity = state.cities.find((city) => city.name === cityName);
 
   if (currentCity !== null) {
     let updatedState = extendObject({}, state);
@@ -166,7 +137,7 @@ const setCurrentCity = (state, action) => {
 
     const {sortType} = updatedState;
 
-    const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.id);
+    const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.name);
     if (currentOffers !== null) {
       updatedState = extendObject(updatedState, {currentOffers});
     }
@@ -220,34 +191,61 @@ const sortOffers = (state, action) => {
   const {currentCity} = updatedState;
   updatedState = extendObject(updatedState, {sortType});
 
-  const currentOffers = getCurrentOffers(updatedState.offers, sortType, currentCity.id);
+  const currentOffers = getCurrentOffers(updatedState.offers, sortType, currentCity.name);
   updatedState = extendObject(updatedState, {currentOffers});
 
   return updatedState;
 };
 
-const getCurrentOffers = (offers, sortType, cityId) => {
+const getCurrentOffers = (offers, sortType, value) => {
   switch (sortType) {
     case SortType.POPULAR:
-      const popularOffersByCity = getFiltredOffersByProperty(offers, `cityId`, cityId);
+      const popularOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
       return getSortedOffersByProperty(popularOffersByCity, `isPremium`);
     case SortType.PRICE_HL:
-      const HLOffersByCity = getFiltredOffersByProperty(offers, `cityId`, cityId);
+      const HLOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
       return getSortedOffersByProperty(HLOffersByCity, `cost`);
     case SortType.PRICE_LH:
-      const LHOffersByCity = getFiltredOffersByProperty(offers, `cityId`, cityId);
+      const LHOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
       return getSortedOffersByProperty(LHOffersByCity, `cost`, true);
     case SortType.TOPRATED:
-      const topRatedOffersByCity = getFiltredOffersByProperty(offers, `cityId`, cityId);
+      const topRatedOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
       return getSortedOffersByProperty(topRatedOffersByCity, `rating`);
     default: return offers;
   }
 };
 
-const loadOffers = (state, action) => {
-  return extendObject(state, {
-    questions: action.payload,
+const loadData = (state, action) => {
+  const values = action.payload;
+
+  const offers = Offer.parseOffers(values);
+
+  const citiesMap = new Map();
+  offers.forEach((offer) => {
+    if (!citiesMap.has(offer.city.name)) {
+      citiesMap.set(offer.city.name, offer.city);
+    }
   });
+
+  let updatedState = extendObject({}, state);
+
+  updatedState = extendObject(updatedState, {offers});
+
+  const cities = Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
+
+  if (cities.length > 0) {
+    const currentCity = cities[0];
+    updatedState = extendObject(updatedState, {cities, currentCity});
+
+    const {sortType} = updatedState;
+
+    const currentOffers = getCurrentOffers(updatedState.offers, sortType, currentCity.name);
+    if (currentOffers !== null) {
+      updatedState = extendObject(updatedState, {currentOffers});
+    }
+  }
+
+  return updatedState;
 };
 
 export {reducer, Operation, ActionType, ActionCreator};

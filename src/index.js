@@ -14,7 +14,7 @@ const store = createStore(
     applyMiddleware(thunk.withExtraArgument(api))
 );
 
-store.dispatch(Operation.loadOffers());
+store.dispatch(Operation.loadData());
 
 ReactDom.render(
     <Provider store={store}>

@@ -27,10 +27,11 @@ const mock = {
     `img/apartment-01.jpg`,
   ],
   features: FEATURES,
+  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
   owner: {
+    id: 1,
     name: `Angelina`,
     avatar: `img/avatar-angelina.jpg`,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     isTrust: true
   },
   cityId: 1,
@@ -89,10 +90,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 2,
       name: `Angelina`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 1,
@@ -118,10 +120,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 1,
       name: `Angelina 1`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 2,
@@ -147,10 +150,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 2,
       name: `Angelina 2`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 3,
@@ -176,10 +180,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 3,
       name: `Angelina 3`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 4,

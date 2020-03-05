@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {CityShapre} from "../../settings.js";
+import {CityShape} from "../../settings.js";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../reducer.js";
 
@@ -9,11 +9,11 @@ const Locations = ({cities, currentCity, setCurrentCity}) => {
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {cities.map((city) =>
-          <li key={city.id} className="locations__item" onClick={(evt) => {
+          <li key={city.name} className="locations__item" onClick={(evt) => {
             evt.preventDefault();
-            setCurrentCity(city.id);
+            setCurrentCity(city.name);
           }}>
-            <a className={`locations__item-link tabs__item ${currentCity && city.id === currentCity.id ? `tabs__item--active` : ``}`} href="#" >
+            <a className={`locations__item-link tabs__item ${currentCity && city.name === currentCity.name ? `tabs__item--active` : ``}`} href="#" >
               <span>{city.name}</span>
             </a>
           </li>
@@ -24,8 +24,8 @@ const Locations = ({cities, currentCity, setCurrentCity}) => {
 };
 
 Locations.propTypes = {
-  cities: PropTypes.arrayOf(PropTypes.shape(CityShapre)),
-  currentCity: PropTypes.shape(CityShapre),
+  cities: PropTypes.arrayOf(PropTypes.shape(CityShape)),
+  currentCity: PropTypes.shape(CityShape),
   setCurrentCity: PropTypes.func.isRequired
 };
 

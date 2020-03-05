@@ -50,7 +50,7 @@ const offersMock = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    cityId: 1,
+    cityName: `Paris`,
     lonlat: [52.3909553943508, 4.85309666406198]
   },
   {
@@ -79,7 +79,7 @@ const offersMock = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    cityId: 2,
+    cityName: `Cologne`,
     lonlat: [52.369553943508, 4.85309666406198]
   },
   {
@@ -102,13 +102,14 @@ const offersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 2,
       name: `Angelina 2`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    cityId: 1,
+    cityName: `Paris`,
     lonlat: [52.3909553943508, 4.929309666406198]
   }
 ];
@@ -146,14 +147,14 @@ const newOffersMocke = [
       description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
-    cityId: 2,
+    cityName: `Cologne`,
     lonlat: [52.369553943508, 4.85309666406198]
   }
 ];
 
-const currentOffersMock = offersMock.filter((offer) => offer.cityId === currentCityMock.id);
+const currentOffersMock = offersMock.filter((offer) => offer.cityName === currentCityMock.name);
 
-const sortedCurrentOffersMock = offersMock.filter((offer) => offer.cityId === currentCityMock.id).sort((prev, next) => {
+const sortedCurrentOffersMock = offersMock.filter((offer) => offer.cityName === currentCityMock.name).sort((prev, next) => {
   if (prev.cost > next.cost) {
     return 1;
   } else if (prev.cost < next.cost) {
@@ -243,30 +244,6 @@ it(`Reducer should set offers by a given value`, () => {
   });
 });
 
-it(`Reducer should set cities by a given value ang select first city`, () => {
-  expect(reducer({
-    offers: offersMock,
-    currentOffers: [],
-    currentOffer: null,
-    hoveredOffer: null,
-    cities: [],
-    reviews: reviewsMock,
-    currentCity: null,
-    nearOffers: [],
-    sortType: SortType.POPULAR
-  }, ActionCreator.setCities(citiesMock))).toEqual({
-    offers: offersMock,
-    currentOffers: currentOffersMock,
-    currentOffer: null,
-    hoveredOffer: null,
-    cities: citiesMock,
-    reviews: reviewsMock,
-    currentCity: currentCityMock,
-    nearOffers: [],
-    sortType: SortType.POPULAR
-  });
-});
-
 
 it(`Reducer should set current city and current offers by a given value`, () => {
   expect(reducer({
@@ -279,7 +256,7 @@ it(`Reducer should set current city and current offers by a given value`, () => 
     currentCity: currentCityMock,
     nearOffers: [],
     sortType: SortType.POPULAR
-  }, ActionCreator.setCurrentCity(newCurrentCityMock.id))).toEqual({
+  }, ActionCreator.setCurrentCity(newCurrentCityMock.name))).toEqual({
     offers: offersMock,
     currentOffers: newOffersMocke,
     currentOffer: null,
@@ -368,7 +345,7 @@ describe(`Operation work correctly`, () => {
   it(`Should make a correct API call to /hotels`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
-    const questionLoader = Operation.loadOffers();
+    const questionLoader = Operation.loadData();
 
     apiMock
       .onGet(`/hotels`)
@@ -378,7 +355,7 @@ describe(`Operation work correctly`, () => {
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
-          type: ActionType.LOAD_OFFERS,
+          type: ActionType.LOAD_DATA,
           payload: [{fake: true}],
         });
       });
