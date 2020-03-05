@@ -4,6 +4,7 @@ import Sorting from "./sorting.jsx";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import {SortType} from "../../consts.js";
+import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
@@ -11,7 +12,7 @@ const mock = SortType.POPULAR;
 
 it(`Render Sorting`, () => {
 
-  const store = mockStore({
+  const store = mockStore({[NameSpace.DATA]: {
     offers: [],
     currentOffers: [],
     currentOffer: null,
@@ -20,7 +21,7 @@ it(`Render Sorting`, () => {
     currentCity: null,
     nearOffers: [],
     sortType: mock
-  });
+  }});
 
   const tree = renderer
     .create(<Provider store={store}><Sorting isToggled={false} onToggleChange={() => {}}/></Provider>)

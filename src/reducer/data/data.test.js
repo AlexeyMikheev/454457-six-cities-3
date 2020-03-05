@@ -1,7 +1,7 @@
 import MockAdapter from "axios-mock-adapter";
-import {reducer, ActionCreator, ActionType, Operation} from "./reducer.js";
-import {OfferType, FEATURES, SortType} from './consts.js';
-import {createAPI} from "./api.js";
+import {createAPI} from "../../api.js";
+import {reducer, Operation, ActionCreator, ActionType} from "./data.js";
+import {OfferType, FEATURES, SortType} from '../../consts.js';
 
 const api = createAPI(() => {});
 
@@ -220,31 +220,6 @@ it(`Reducer should set reviews by a given value`, () => {
   });
 });
 
-it(`Reducer should set offers by a given value`, () => {
-  expect(reducer({
-    offers: [],
-    currentOffers: [],
-    currentOffer: null,
-    hoveredOffer: null,
-    cities: [],
-    reviews: [],
-    currentCity: null,
-    nearOffers: [],
-    sortType: SortType.POPULAR
-  }, ActionCreator.setOffers(offersMock))).toEqual({
-    offers: offersMock,
-    currentOffers: [],
-    currentOffer: null,
-    hoveredOffer: null,
-    cities: [],
-    reviews: [],
-    currentCity: null,
-    nearOffers: [],
-    sortType: SortType.POPULAR
-  });
-});
-
-
 it(`Reducer should set current city and current offers by a given value`, () => {
   expect(reducer({
     offers: offersMock,
@@ -317,7 +292,7 @@ it(`Reducer should set current current offer by a given value`, () => {
   });
 });
 
-it(`Reducer should set current current offer by a given value`, () => {
+it(`Reducer should set current hovered offer by a given value`, () => {
   expect(reducer({
     offers: offersMock,
     currentOffers: [],

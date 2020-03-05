@@ -2,6 +2,7 @@ import React from "react";
 import TestRenderer from "react-test-renderer";
 import Map from "./map.jsx";
 import {OfferType, FEATURES, ViewMode} from '../../consts.js';
+import NameSpace from "../../reducer/name-space.js";
 
 const mocks = [{
   id: 1,

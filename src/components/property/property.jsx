@@ -8,6 +8,7 @@ import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
+import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getReviews, getHoveredOffer} from "../../reducer/data/selectors.js";
 
 const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity}) => {
   const {images, description} = offer;
@@ -69,12 +70,12 @@ Property.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.currentOffers,
-  nearOffers: state.nearOffers,
-  offer: state.currentOffer,
-  hoveredOffer: state.hoveredOffer,
-  reviews: state.reviews,
-  currentCity: state.currentCity
+  offers: getCurrentOffers(state),
+  nearOffers: getNearOffers(state),
+  offer: getCurrentOffer(state),
+  hoveredOffer: getHoveredOffer(state),
+  reviews: getReviews(state),
+  currentCity: getCurrentCity(state)
 });
 
 export {Property};

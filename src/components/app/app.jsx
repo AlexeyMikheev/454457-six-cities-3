@@ -5,7 +5,8 @@ import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator} from "../../reducer/data/data.js";
+import {getCurrentOffer, getCurrentCity, getReviews} from "../../reducer/data/selectors.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -77,31 +78,20 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
-  cities: PropTypes.arrayOf(PropTypes.shape(CityShape)),
   selectedOffer: PropTypes.shape(OfferShape),
   selectedCity: PropTypes.shape(CityShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)),
-  cityHeaderClickHandler: PropTypes.func,
-  setOffers: PropTypes.func.isRequired,
-  setReviews: PropTypes.func.isRequired,
-  setCities: PropTypes.func.isRequired,
   setCurrentOffer: PropTypes.func.isRequired,
   setCurrentCity: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  cities: state.cities,
-  offers: state.currentOffers,
-  selectedOffer: state.currentOffer,
-  selectedCity: state.currentCity,
-  reviews: state.reviews
+  selectedOffer: getCurrentOffer(state),
+  selectedCity: getCurrentCity(state),
+  reviews: getReviews(state)
 });
 
 const mapDispatchToProps = {
-  setOffers: ActionCreator.setOffers,
-  setReviews: ActionCreator.setReviews,
-  setCities: ActionCreator.setCities,
   setCurrentOffer: ActionCreator.setCurrentOffer,
   setCurrentCity: ActionCreator.setCurrentCity
 };

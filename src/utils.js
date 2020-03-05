@@ -1,4 +1,4 @@
-import {MAX_RATING, OfferType} from "./consts.js";
+import {MAX_RATING, OfferType, SortType} from "./consts.js";
 
 export const getRatingPercents = (value) => Math.floor(value) * 100 / MAX_RATING;
 
@@ -37,5 +37,23 @@ export const getOfferType = (type) => {
     case OfferType.HOTEL.toLowerCase():
       return OfferType.HOTEL;
     default: return null;
+  }
+};
+
+export const getCurrentOffers = (offers, sortType, value) => {
+  switch (sortType) {
+    case SortType.POPULAR:
+      const popularOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
+      return getSortedOffersByProperty(popularOffersByCity, `isPremium`);
+    case SortType.PRICE_HL:
+      const HLOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
+      return getSortedOffersByProperty(HLOffersByCity, `cost`);
+    case SortType.PRICE_LH:
+      const LHOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
+      return getSortedOffersByProperty(LHOffersByCity, `cost`, true);
+    case SortType.TOPRATED:
+      const topRatedOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
+      return getSortedOffersByProperty(topRatedOffersByCity, `rating`);
+    default: return offers;
   }
 };

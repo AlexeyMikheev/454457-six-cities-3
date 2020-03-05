@@ -1,28 +1,26 @@
-import {extendObject, getSortedOffersByProperty, getFiltredOffersByProperty} from "./utils.js";
-import {SortType} from "./consts.js";
-import Offer from "./model/offer.js";
+import {extendObject, getCurrentOffers} from "../../utils.js";
+import {SortType} from "../../consts.js";
+import Offer from "../../model/offer.js";
 
 const initialState = {
+  cities: [],
+  currentCity: null,
   offers: [],
   currentOffers: [],
+  hoveredOffer: null,
   nearOffers: [],
   currentOffer: null,
-  hoveredOffer: null,
-  cities: [],
   reviews: [],
-  currentCity: null,
   sortType: SortType.POPULAR
 };
 
 const ActionType = {
-  SET_OFFERS: `SET_OFFERS`,
   SET_REVIEWS: `SET_REVIEWS`,
-  SET_CITIES: `SET_CITIES`,
   SET_CURRENT_CITY: `SET_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SORT_OFFERS: `SORT_OFFERS`,
-  LOAD_DATA: `LOAD_DATA`,
+  LOAD_DATA: `LOAD_DATA`
 };
 
 const ActionCreator = {
@@ -30,16 +28,6 @@ const ActionCreator = {
   setReviews: (reviews) => ({
     type: ActionType.SET_REVIEWS,
     payload: reviews
-  }),
-
-  setOffers: (offers) => ({
-    type: ActionType.SET_OFFERS,
-    payload: offers
-  }),
-
-  setCities: (cities) => ({
-    type: ActionType.SET_CITIES,
-    payload: cities
   }),
 
   setCurrentCity: (cityId) => ({
@@ -67,7 +55,7 @@ const ActionCreator = {
       type: ActionType.LOAD_DATA,
       payload: offers,
     };
-  },
+  }
 };
 
 const Operation = {
@@ -81,8 +69,6 @@ const Operation = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.SET_OFFERS:
-      return setOffers(state, action);
 
     case ActionType.SET_REVIEWS:
       return setReviews(state, action);
@@ -93,11 +79,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_CURRENT_OFFER:
       return setCurrentOffer(state, action);
 
-    case ActionType.SET_HOVERED_OFFER:
-      return setHoveredOffer(state, action);
-
     case ActionType.SORT_OFFERS:
       return sortOffers(state, action);
+
+    case ActionType.SET_HOVERED_OFFER:
+      return setHoveredOffer(state, action);
 
     case ActionType.LOAD_DATA:
       return loadData(state, action);
@@ -105,16 +91,6 @@ const reducer = (state = initialState, action) => {
     default: return state;
   }
 };
-
-const setOffers = (state, action) => {
-  const offers = action.payload;
-
-  if (offers !== null) {
-    return extendObject(state, {offers});
-  }
-  return state;
-};
-
 
 const setReviews = (state, action) => {
   const reviews = action.payload;
@@ -168,15 +144,6 @@ const setCurrentOffer = (state, action) => {
   }
 
   return updatedState;
-
-};
-
-const setHoveredOffer = (state, action) => {
-  const offerId = action.payload;
-
-  const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
-
-  return extendObject(state, {hoveredOffer});
 };
 
 const sortOffers = (state, action) => {
@@ -197,22 +164,13 @@ const sortOffers = (state, action) => {
   return updatedState;
 };
 
-const getCurrentOffers = (offers, sortType, value) => {
-  switch (sortType) {
-    case SortType.POPULAR:
-      const popularOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(popularOffersByCity, `isPremium`);
-    case SortType.PRICE_HL:
-      const HLOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(HLOffersByCity, `cost`);
-    case SortType.PRICE_LH:
-      const LHOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(LHOffersByCity, `cost`, true);
-    case SortType.TOPRATED:
-      const topRatedOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(topRatedOffersByCity, `rating`);
-    default: return offers;
-  }
+
+const setHoveredOffer = (state, action) => {
+  const offerId = action.payload;
+
+  const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
+
+  return extendObject(state, {hoveredOffer});
 };
 
 const loadData = (state, action) => {
@@ -247,5 +205,6 @@ const loadData = (state, action) => {
 
   return updatedState;
 };
+
 
 export {reducer, Operation, ActionType, ActionCreator};

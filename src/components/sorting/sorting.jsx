@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {SORTTYPES} from "../../consts.js";
 
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator} from "../../reducer/data/data.js";
+import {getSortType} from "../../reducer/data/selectors";
 
 const Sorting = (props) => {
   const {sortType, sortOffers, isToggled, onToggleChange} = props;
@@ -34,7 +35,7 @@ Sorting.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  sortType: state.sortType
+  sortType: getSortType(state)
 });
 
 const mapDispatchToProps = {

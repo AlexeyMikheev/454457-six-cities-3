@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Locations from "./locations.jsx";
+import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
@@ -40,7 +41,7 @@ const mock = {
 
 it(`Render Offer`, () => {
 
-  const store = mockStore({
+  const store = mockStore({[NameSpace.DATA]: {
     offers: [],
     currentOffers: [],
     currentOffer: null,
@@ -48,7 +49,7 @@ it(`Render Offer`, () => {
     reviews: [],
     currentCity: mock,
     nearOffers: []
-  });
+  }});
 
   const tree = renderer
     .create(<Provider store={store}><Locations /></Provider>)

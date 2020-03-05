@@ -9,6 +9,7 @@ import {ViewMode} from "../../consts.js";
 import {OfferShape, CityShape} from "../../settings.js";
 import Map from "../map/map.jsx";
 import withBooleanState from "../../hoks/with-boolean-state.js";
+import {getCurrentOffers, getCurrentCity, getHoveredOffer} from "../../reducer/data/selectors.js";
 
 const SortingWithState = withBooleanState(Sorting);
 
@@ -61,15 +62,15 @@ class Main extends PureComponent {
 }
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   currentCity: PropTypes.shape(CityShape),
   hoveredOffer: PropTypes.shape(OfferShape),
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.currentOffers,
-  currentCity: state.currentCity,
-  hoveredOffer: state.hoveredOffer
+  offers: getCurrentOffers(state),
+  currentCity: getCurrentCity(state),
+  hoveredOffer: getHoveredOffer(state)
 });
 
 export {Main};
