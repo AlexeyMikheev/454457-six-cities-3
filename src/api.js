@@ -16,7 +16,7 @@ export const createAPI = (onUnauthorized) => {
   const onFail = (err) => {
     const {response} = err;
 
-    if (response.status === ErrorType.UNAUTHORIZED) {
+    if (response && response.status === ErrorType.UNAUTHORIZED) {
       onUnauthorized();
       throw err;
     }

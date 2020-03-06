@@ -2,20 +2,22 @@ import {createSelector} from "reselect";
 import NameSpace from "../name-space.js";
 import {getPreparedOffers} from "../../utils.js";
 
+const NAME_SPACE = NameSpace.DATA;
+
 export const getCities = (state) => {
-  return state[NameSpace.DATA].cities;
+  return state[NAME_SPACE].cities;
 };
 
 export const getOffers = (state) => {
-  return state[NameSpace.DATA].offers;
+  return state[NAME_SPACE].offers;
 };
 
 export const getSortType = (state) => {
-  return state[NameSpace.DATA].sortType;
+  return state[NAME_SPACE].sortType;
 };
 
 export const getCurrentOfferId = (state) => {
-  return state[NameSpace.DATA].currentOfferId;
+  return state[NAME_SPACE].currentOfferId;
 };
 
 export const getCurrentOffer = createSelector(
@@ -27,7 +29,7 @@ export const getCurrentOffer = createSelector(
 );
 
 export const getCurrentCityName = (state) => {
-  return state[NameSpace.DATA].currentCityName;
+  return state[NAME_SPACE].currentCityName;
 };
 
 export const getCurrentCity = createSelector(
@@ -39,11 +41,11 @@ export const getCurrentCity = createSelector(
 );
 
 export const getReviews = (state) => {
-  return state[NameSpace.DATA].reviews;
+  return state[NAME_SPACE].reviews;
 };
 
 export const getHoveredOfferId = (state) => {
-  return state[NameSpace.DATA].hoveredOfferId;
+  return state[NAME_SPACE].hoveredOfferId;
 };
 
 export const getHoveredOffer = createSelector(

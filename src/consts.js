@@ -73,6 +73,15 @@ export const ErrorType = {
   UNAUTHORIZED: 401
 };
 
-
 export const TIMEOUT = 5000;
 export const URL = `https://htmlacademy-react-3.appspot.com/six-cities`;
+
+export const AuthStatus = {
+  NO_AUTH: `NO_AUTH`,
+  AUTH: `AUTH`
+};
+
+export const AuthStatuses = [
+  AuthStatus.NO_AUTH,
+  AuthStatus.AUTH
+];

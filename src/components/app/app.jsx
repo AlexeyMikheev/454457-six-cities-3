@@ -7,6 +7,7 @@ import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
 import {ActionCreator} from "../../reducer/data/data.js";
 import {getCurrentOffer, getCurrentCity, getReviews} from "../../reducer/data/selectors.js";
+import Header from "../header/header.jsx";
 
 class App extends PureComponent {
   constructor(props) {
@@ -29,9 +30,12 @@ class App extends PureComponent {
 
   renderApp() {
     return (
-      <div className="page page--gray page--main">
-        <Main/>
-      </div>
+      <React.Fragment>
+        <Header />
+        <div className="page page--gray page--main">
+          <Main/>
+        </div>
+      </React.Fragment>
     );
   }
 
@@ -42,7 +46,12 @@ class App extends PureComponent {
 
     if (selectedOffer !== null) {
       return (
-        <Property />
+        <React.Fragment>
+          <Header />
+          <div className="page page--gray page--property">
+            <Property />
+          </div>
+        </React.Fragment>
       );
     }
     return this.renderApp();
