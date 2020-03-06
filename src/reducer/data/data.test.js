@@ -116,53 +116,6 @@ const offersMock = [
 
 const currentofferMock = offersMock[0];
 
-const nearOffersMock = offersMock.filter((offer) => {
-  return currentofferMock.id !== offer.id;
-});
-
-const newOffersMocke = [
-  {
-    id: 2,
-    isPremium: false,
-    cost: 80,
-    isMarked: true,
-    rating: 3,
-    name: `Wood and stone place`,
-    type: OfferType.ROOM,
-    image: `img/room.jpg`,
-    roomsCount: 2,
-    membersCount: 1,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    owner: {
-      name: `Angelina 1`,
-      avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      isTrust: true
-    },
-    cityName: `Cologne`,
-    lonlat: [52.369553943508, 4.85309666406198]
-  }
-];
-
-const currentOffersMock = offersMock.filter((offer) => offer.cityName === currentCityMock.name);
-
-const sortedCurrentOffersMock = offersMock.filter((offer) => offer.cityName === currentCityMock.name).sort((prev, next) => {
-  if (prev.cost > next.cost) {
-    return 1;
-  } else if (prev.cost < next.cost) {
-    return -1;
-  }
-  return 0;
-});
-
 const reviewsMock = [
   {
     id: 1,
