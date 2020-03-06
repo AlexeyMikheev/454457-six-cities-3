@@ -23,9 +23,12 @@ class Login extends PureComponent {
   }
 
   render() {
+    const {error} = this.props;
+
     return (
       <div className="page__login-container container">
         <section className="login">
+          { error && <div className="login__error">{error}</div> }
           <h1 className="login__title">Sign in</h1>
           <form className="login__form form" action="" onSubmit={this.handleSubmit}>
             <div className="login__input-wrapper form__input-wrapper">
@@ -53,6 +56,7 @@ class Login extends PureComponent {
 
 Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired
 };
 
 

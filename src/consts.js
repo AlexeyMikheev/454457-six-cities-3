@@ -70,7 +70,8 @@ export const SORTTYPES = [
 ];
 
 export const ErrorType = {
-  UNAUTHORIZED: 401
+  UNAUTHORIZED: 401,
+  BABREQUEST: 400
 };
 
 export const TIMEOUT = 5000;

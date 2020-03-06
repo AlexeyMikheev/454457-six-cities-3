@@ -7,6 +7,11 @@ exports[`Render Login 1`] = `
   <section
     className="login"
   >
+    <div
+      className="login__error"
+    >
+      Error auth
+    </div>
     <h1
       className="login__title"
     >

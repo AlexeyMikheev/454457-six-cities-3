@@ -3,18 +3,13 @@ import ReactDom from "react-dom";
 import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
-import {AuthStatus} from "./consts";
 import App from "./components/app/app.jsx";
 import reducer from "./reducer/reducer.js";
 import {Operation} from "./reducer/data/data.js";
-import {Operation as UserOperation, ActionCreator} from "./reducer/user/user.js";
+import {Operation as UserOperation} from "./reducer/user/user.js";
 import {createAPI} from "./api.js";
 
-const onUnauthorized = () => {
-  store.dispatch(ActionCreator.checkAuth(AuthStatus.NO_AUTH));
-};
-
-const api = createAPI(onUnauthorized);
+const api = createAPI();
 
 const store = createStore(
     reducer,

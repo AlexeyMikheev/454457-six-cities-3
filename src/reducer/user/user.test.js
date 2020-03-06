@@ -8,7 +8,8 @@ const api = createAPI(() => {});
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(undefined, {})).toEqual({
     authStatus: AuthStatus.NO_AUTH,
-    authInfo: null
+    authInfo: null,
+    authError: null
   });
 });
 

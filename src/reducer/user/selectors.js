@@ -11,3 +11,7 @@ export const getAuthInfo = (state) => {
   return state[NAME_SPACE].authInfo;
 };
 
+export const getAuthError = (state) => {
+  return state[NAME_SPACE].authError;
+};
+

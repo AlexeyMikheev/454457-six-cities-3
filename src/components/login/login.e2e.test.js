@@ -9,7 +9,7 @@ Enzyme.configure({
 
 it(`Should login submit`, () => {
   const onSubmitHanler = jest.fn();
-  const loginComponent = mount(<Login onSubmit={onSubmitHanler} />);
+  const loginComponent = mount(<Login onSubmit={onSubmitHanler} error={`Error auth`}/>);
 
   const form = loginComponent.find(`form.login__form`);
 

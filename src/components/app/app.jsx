@@ -10,7 +10,7 @@ import {ActionCreator} from "../../reducer/data/data.js";
 import {getCurrentOffer, getCurrentCity, getReviews} from "../../reducer/data/selectors.js";
 import Header from "../header/header.jsx";
 import {AuthStatus, AuthStatuses} from "../../consts.js";
-import {getAuthStatus} from "../../reducer/user/selectors.js";
+import {getAuthStatus, getAuthError} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 
 class App extends PureComponent {
@@ -43,12 +43,12 @@ class App extends PureComponent {
     );
   }
 
-  renderLogin(login) {
+  renderLogin(login, authError) {
     return (
       <React.Fragment>
         <Header />
         <div className="page page--gray page--login">
-          <Login onSubmit={login}/>
+          <Login onSubmit={login} error={authError}/>
         </div>
       </React.Fragment>
     );
@@ -73,12 +73,12 @@ class App extends PureComponent {
   }
 
   renderMain() {
-    const {selectedOffer, authStatus, login} = this.props;
+    const {selectedOffer, authStatus, login, authError} = this.props;
 
 
     if (authStatus === AuthStatus.NO_AUTH) {
       return (
-        this.renderLogin(login)
+        this.renderLogin(login, authError)
       );
     } else if (selectedOffer) {
       return (
@@ -113,7 +113,8 @@ App.propTypes = {
   setCurrentOffer: PropTypes.func.isRequired,
   setCurrentCity: PropTypes.func.isRequired,
   authStatus: PropTypes.oneOf(AuthStatuses),
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
+  authError: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -121,6 +122,7 @@ const mapStateToProps = (state) => ({
   selectedCity: getCurrentCity(state),
   reviews: getReviews(state),
   authStatus: getAuthStatus(state),
+  authError: getAuthError(state)
 });
 
 const mapDispatchToProps = {
