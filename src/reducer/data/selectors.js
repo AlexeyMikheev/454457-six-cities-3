@@ -14,22 +14,45 @@ export const getSortType = (state) => {
   return state[NameSpace.DATA].sortType;
 };
 
-export const getCurrentOffer = (state) => {
-  return state[NameSpace.DATA].currentOffer;
+export const getCurrentOfferId = (state) => {
+  return state[NameSpace.DATA].currentOfferId;
 };
 
-export const getCurrentCity = (state) => {
-  return state[NameSpace.DATA].currentCity;
+export const getCurrentOffer = createSelector(
+    getOffers,
+    getCurrentOfferId,
+    (offers, currentOfferId) => {
+      return offers && currentOfferId ? offers.find((offer) => offer.id === currentOfferId) : null;
+    }
+);
+
+export const getCurrentCityName = (state) => {
+  return state[NameSpace.DATA].currentCityName;
 };
+
+export const getCurrentCity = createSelector(
+    getCities,
+    getCurrentCityName,
+    (cities, currentCityName) => {
+      return cities && currentCityName ? cities.find((city) => city.name === currentCityName) : null;
+    }
+);
 
 export const getReviews = (state) => {
   return state[NameSpace.DATA].reviews;
 };
 
-export const getHoveredOffer = (state) => {
-  return state[NameSpace.DATA].hoveredOffer;
+export const getHoveredOfferId = (state) => {
+  return state[NameSpace.DATA].hoveredOfferId;
 };
 
+export const getHoveredOffer = createSelector(
+    getOffers,
+    getHoveredOfferId,
+    (offers, hoveredOfferId) => {
+      return offers && hoveredOfferId ? offers.find((offer) => offer.id === hoveredOfferId) : null;
+    }
+);
 
 export const getCurrentOffers = createSelector(
     getOffers,

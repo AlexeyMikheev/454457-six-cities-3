@@ -4,10 +4,10 @@ import Offer from "../../model/offer.js";
 
 const initialState = {
   cities: [],
-  currentCity: null,
+  currentCityName: null,
   offers: [],
-  hoveredOffer: null,
-  currentOffer: null,
+  hoveredOfferId: null,
+  currentOfferId: null,
   reviews: [],
   sortType: SortType.POPULAR
 };
@@ -28,9 +28,9 @@ const ActionCreator = {
     payload: reviews
   }),
 
-  setCurrentCity: (cityId) => ({
+  setCurrentCity: (cityName) => ({
     type: ActionType.SET_CURRENT_CITY,
-    payload: cityId,
+    payload: cityName,
   }),
 
   setCurrentOffer: (offerId) => ({
@@ -104,8 +104,8 @@ const setCurrentCity = (state, action) => {
 
   const currentCity = state.cities.find((city) => city.name === cityName);
 
-  if (currentCity !== null) {
-    return extendObject(state, {currentCity});
+  if (currentCity) {
+    return extendObject(state, {currentCityName: currentCity.name});
   }
   return state;
 };
@@ -114,8 +114,8 @@ const setCurrentOffer = (state, action) => {
   const offerId = action.payload;
 
   const currentOffer = state.offers.find((offer) => offer.id === offerId);
-  if (currentOffer !== null) {
-    return extendObject(state, {currentOffer});
+  if (currentOffer) {
+    return extendObject(state, {currentOfferId: currentOffer.id});
   }
 
   return state;
@@ -136,8 +136,10 @@ const setHoveredOffer = (state, action) => {
   const offerId = action.payload;
 
   const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
-
-  return extendObject(state, {hoveredOffer});
+  if (hoveredOffer) {
+    return extendObject(state, {hoveredOfferId: hoveredOffer.id});
+  }
+  return extendObject(state, {hoveredOfferId: null});
 };
 
 const loadData = (state, action) => {
@@ -160,11 +162,10 @@ const loadData = (state, action) => {
 
   if (cities.length > 0) {
     const currentCity = cities[0];
-    updatedState = extendObject(updatedState, {cities, currentCity});
+    updatedState = extendObject(updatedState, {cities, currentCityName: currentCity.name});
   }
 
   return updatedState;
 };
-
 
 export {reducer, Operation, ActionType, ActionCreator};

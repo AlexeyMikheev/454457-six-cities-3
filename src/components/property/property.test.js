@@ -8,7 +8,7 @@ import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
-const mock = {
+const mock = [{
   id: 1,
   isPremium: true,
   cost: 120,
@@ -37,7 +37,7 @@ const mock = {
   },
   cityId: 1,
   lonlat: [52.3909553943508, 4.85309666406198]
-};
+}];
 
 const mockDate = new Date(0).valueOf();
 
@@ -196,12 +196,11 @@ const nearOffersMock = [
 it(`Render Property`, () => {
 
   const store = mockStore({[NameSpace.DATA]: {
-    offers: [],
-    currentOffers: [],
-    currentOffer: mock,
+    offers: mock,
+    currentOfferId: mock[0].id,
     cities: [],
     reviews: reviewsMock,
-    currentCity: null,
+    currentCityName: null,
     nearOffers: nearOffersMock
   }});
 
