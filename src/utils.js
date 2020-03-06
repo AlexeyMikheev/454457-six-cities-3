@@ -40,7 +40,7 @@ export const getOfferType = (type) => {
   }
 };
 
-export const getCurrentOffers = (offers, sortType, value) => {
+export const getPreparedOffers = (offers, sortType, value) => {
   switch (sortType) {
     case SortType.POPULAR:
       const popularOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);

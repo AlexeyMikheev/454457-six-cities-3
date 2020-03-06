@@ -1,4 +1,4 @@
-import {extendObject, getCurrentOffers} from "../../utils.js";
+import {extendObject} from "../../utils.js";
 import {SortType} from "../../consts.js";
 import Offer from "../../model/offer.js";
 
@@ -19,7 +19,7 @@ const ActionType = {
   SET_CURRENT_CITY: `SET_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
-  SORT_OFFERS: `SORT_OFFERS`,
+  SET_SORT_TYPE: `SET_SORT_TYPE`,
   LOAD_DATA: `LOAD_DATA`
 };
 
@@ -45,8 +45,8 @@ const ActionCreator = {
     payload: offerId,
   }),
 
-  sortOffers: (sortType) => ({
-    type: ActionType.SORT_OFFERS,
+  setSortType: (sortType) => ({
+    type: ActionType.SET_SORT_TYPE,
     payload: sortType,
   }),
 
@@ -79,8 +79,8 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_CURRENT_OFFER:
       return setCurrentOffer(state, action);
 
-    case ActionType.SORT_OFFERS:
-      return sortOffers(state, action);
+    case ActionType.SET_SORT_TYPE:
+      return setSortType(state, action);
 
     case ActionType.SET_HOVERED_OFFER:
       return setHoveredOffer(state, action);
@@ -107,18 +107,7 @@ const setCurrentCity = (state, action) => {
   const currentCity = state.cities.find((city) => city.name === cityName);
 
   if (currentCity !== null) {
-    let updatedState = extendObject({}, state);
-
-    updatedState = extendObject(updatedState, {currentCity});
-
-    const {sortType} = updatedState;
-
-    const currentOffers = getCurrentOffers(state.offers, sortType, currentCity.name);
-    if (currentOffers !== null) {
-      updatedState = extendObject(updatedState, {currentOffers});
-    }
-
-    return updatedState;
+    return extendObject(state, {currentCity});
   }
   return state;
 };
@@ -127,41 +116,21 @@ const setCurrentOffer = (state, action) => {
   const offerId = action.payload;
 
   const currentOffer = state.offers.find((offer) => offer.id === offerId);
-  if (currentOffer === null) {
-    return state;
+  if (currentOffer !== null) {
+    return extendObject(state, {currentOffer});
   }
 
-  let updatedState = extendObject({}, state);
-
-  updatedState = extendObject(updatedState, {currentOffer});
-
-  const nearOffers = updatedState.offers.filter((offer) => {
-    return currentOffer.id !== offer.id;
-  });
-
-  if (nearOffers) {
-    updatedState = extendObject(updatedState, {nearOffers});
-  }
-
-  return updatedState;
+  return state;
 };
 
-const sortOffers = (state, action) => {
+const setSortType = (state, action) => {
   const sortType = action.payload;
 
   if (sortType === state.sortType) {
     return state;
   }
 
-  let updatedState = extendObject({}, state);
-
-  const {currentCity} = updatedState;
-  updatedState = extendObject(updatedState, {sortType});
-
-  const currentOffers = getCurrentOffers(updatedState.offers, sortType, currentCity.name);
-  updatedState = extendObject(updatedState, {currentOffers});
-
-  return updatedState;
+  return extendObject(state, {sortType});
 };
 
 
@@ -194,13 +163,6 @@ const loadData = (state, action) => {
   if (cities.length > 0) {
     const currentCity = cities[0];
     updatedState = extendObject(updatedState, {cities, currentCity});
-
-    const {sortType} = updatedState;
-
-    const currentOffers = getCurrentOffers(updatedState.offers, sortType, currentCity.name);
-    if (currentOffers !== null) {
-      updatedState = extendObject(updatedState, {currentOffers});
-    }
   }
 
   return updatedState;

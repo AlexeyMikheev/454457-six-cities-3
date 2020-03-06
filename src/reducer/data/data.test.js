@@ -255,7 +255,7 @@ it(`Reducer should set offers sort type by a given value`, () => {
     currentCity: currentCityMock,
     nearOffers: [],
     sortType: SortType.POPULAR
-  }, ActionCreator.sortOffers(SortType.PRICE_LH))).toEqual({
+  }, ActionCreator.setSortType(SortType.PRICE_LH))).toEqual({
     offers: offersMock,
     currentOffers: sortedCurrentOffersMock,
     currentOffer: null,
