@@ -3,11 +3,15 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main.jsx";
+import Login from "../login/login.jsx";
 import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
 import {ActionCreator} from "../../reducer/data/data.js";
 import {getCurrentOffer, getCurrentCity, getReviews} from "../../reducer/data/selectors.js";
 import Header from "../header/header.jsx";
+import {AuthStatus, AuthStatuses} from "../../consts.js";
+import {getAuthStatus} from "../../reducer/user/selectors.js";
+import {Operation as UserOperation} from "../../reducer/user/user.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -39,6 +43,17 @@ class App extends PureComponent {
     );
   }
 
+  renderLogin(login) {
+    return (
+      <React.Fragment>
+        <Header />
+        <div className="page page--gray page--login">
+          <Login onSubmit={login}/>
+        </div>
+      </React.Fragment>
+    );
+  }
+
   renderProperty(selectedOffer) {
     if (!selectedOffer) {
       return null;
@@ -58,9 +73,14 @@ class App extends PureComponent {
   }
 
   renderMain() {
-    const {selectedOffer} = this.props;
+    const {selectedOffer, authStatus, login} = this.props;
 
-    if (selectedOffer) {
+
+    if (authStatus === AuthStatus.NO_AUTH) {
+      return (
+        this.renderLogin(login)
+      );
+    } else if (selectedOffer) {
       return (
         this.renderProperty(selectedOffer)
       );
@@ -92,17 +112,21 @@ App.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)),
   setCurrentOffer: PropTypes.func.isRequired,
   setCurrentCity: PropTypes.func.isRequired,
+  authStatus: PropTypes.oneOf(AuthStatuses),
+  login: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   selectedOffer: getCurrentOffer(state),
   selectedCity: getCurrentCity(state),
-  reviews: getReviews(state)
+  reviews: getReviews(state),
+  authStatus: getAuthStatus(state),
 });
 
 const mapDispatchToProps = {
   setCurrentOffer: ActionCreator.setCurrentOffer,
-  setCurrentCity: ActionCreator.setCurrentCity
+  setCurrentCity: ActionCreator.setCurrentCity,
+  login: UserOperation.login
 };
 
 export {App};

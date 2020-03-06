@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {AuthInfo as AuthInfoShape} from "../../settings.js";
 import {AuthStatus, AuthStatuses} from "../../consts.js";
-import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
+import {getAuthStatus, getAuthInfo} from "../../reducer/user/selectors.js";
 
-const Header = ({authStatus}) => {
-  const authInfo = authStatus === AuthStatus.AUTH ? `Oliver.conner@gmail.com` : `Sing in`;
+const Header = ({authStatus, authInfo}) => {
+  const userInfo = authStatus === AuthStatus.AUTH ? authInfo.email : `Sing in`;
   return (
     <header className="header">
       <div className="container">
@@ -21,7 +22,7 @@ const Header = ({authStatus}) => {
                 <a className="header__nav-link header__nav-link--profile" xlinkHref="#">
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
-                  <span className="header__user-name user__name">{authInfo}</span>
+                  <span className="header__user-name user__name">{userInfo}</span>
                 </a>
               </li>
             </ul>
@@ -33,11 +34,13 @@ const Header = ({authStatus}) => {
 };
 
 Header.propTypes = {
-  authStatus: PropTypes.oneOf(AuthStatuses)
+  authStatus: PropTypes.oneOf(AuthStatuses),
+  authInfo: PropTypes.shape(AuthInfoShape)
 };
 
 const mapStateToProps = (state) => ({
-  authStatus: getAuthorizationStatus(state),
+  authStatus: getAuthStatus(state),
+  authInfo: getAuthInfo(state),
 });
 
 export {Header};
