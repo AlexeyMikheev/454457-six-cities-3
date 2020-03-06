@@ -185,13 +185,11 @@ const reviewsMock = [
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(undefined, {})).toEqual({
     offers: [],
-    currentOffers: [],
     currentOffer: null,
     hoveredOffer: null,
     cities: [],
     reviews: [],
     currentCity: null,
-    nearOffers: [],
     sortType: SortType.POPULAR
   });
 });
@@ -199,71 +197,59 @@ it(`Reducer without additional parameters should return initial state`, () => {
 it(`Reducer should set reviews by a given value`, () => {
   expect(reducer({
     offers: [],
-    currentOffers: [],
     currentOffer: null,
     hoveredOffer: null,
     cities: [],
     reviews: [],
     currentCity: null,
-    nearOffers: [],
     sortType: SortType.POPULAR
   }, ActionCreator.setReviews(reviewsMock))).toEqual({
     offers: [],
-    currentOffers: [],
     currentOffer: null,
     hoveredOffer: null,
     cities: [],
     reviews: reviewsMock,
     currentCity: null,
-    nearOffers: [],
     sortType: SortType.POPULAR
   });
 });
 
-it(`Reducer should set current city and current offers by a given value`, () => {
+it(`Reducer should set current city by a given value`, () => {
   expect(reducer({
     offers: offersMock,
-    currentOffers: currentOffersMock,
     currentOffer: null,
     hoveredOffer: null,
     cities: citiesMock,
     reviews: [],
     currentCity: currentCityMock,
-    nearOffers: [],
     sortType: SortType.POPULAR
   }, ActionCreator.setCurrentCity(newCurrentCityMock.name))).toEqual({
     offers: offersMock,
-    currentOffers: newOffersMocke,
     currentOffer: null,
     hoveredOffer: null,
     cities: citiesMock,
     reviews: [],
     currentCity: newCurrentCityMock,
-    nearOffers: [],
     sortType: SortType.POPULAR
   });
 });
 
-it(`Reducer should set offers sort type by a given value`, () => {
+it(`Reducer should set sort type type by a given value`, () => {
   expect(reducer({
     offers: offersMock,
-    currentOffers: currentOffersMock,
     currentOffer: null,
     hoveredOffer: null,
     cities: citiesMock,
     reviews: [],
     currentCity: currentCityMock,
-    nearOffers: [],
     sortType: SortType.POPULAR
   }, ActionCreator.setSortType(SortType.PRICE_LH))).toEqual({
     offers: offersMock,
-    currentOffers: sortedCurrentOffersMock,
     currentOffer: null,
     hoveredOffer: null,
     cities: citiesMock,
     reviews: [],
     currentCity: currentCityMock,
-    nearOffers: [],
     sortType: SortType.PRICE_LH
   });
 });
@@ -271,23 +257,19 @@ it(`Reducer should set offers sort type by a given value`, () => {
 it(`Reducer should set current current offer by a given value`, () => {
   expect(reducer({
     offers: offersMock,
-    currentOffers: [],
     currentOffer: null,
     hoveredOffer: null,
     cities: [],
     reviews: [],
     currentCity: null,
-    nearOffers: [],
     sortType: SortType.POPULAR
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
     offers: offersMock,
-    currentOffers: [],
     currentOffer: currentofferMock,
     hoveredOffer: null,
     cities: [],
     reviews: [],
     currentCity: null,
-    nearOffers: nearOffersMock,
     sortType: SortType.POPULAR
   });
 });
@@ -295,23 +277,19 @@ it(`Reducer should set current current offer by a given value`, () => {
 it(`Reducer should set current hovered offer by a given value`, () => {
   expect(reducer({
     offers: offersMock,
-    currentOffers: [],
     currentOffer: null,
     hoveredOffer: null,
     cities: [],
     reviews: [],
     currentCity: null,
-    nearOffers: [],
     sortType: SortType.POPULAR
   }, ActionCreator.setHoveredOffer(currentofferMock.id))).toEqual({
     offers: offersMock,
-    currentOffers: [],
     currentOffer: null,
     hoveredOffer: currentofferMock,
     cities: [],
     reviews: [],
     currentCity: null,
-    nearOffers: [],
     sortType: SortType.POPULAR
   });
 });
