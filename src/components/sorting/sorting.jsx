@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {SORTTYPES} from "../../consts.js";
 
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator} from "../../reducer/data/data.js";
+import {getSortType} from "../../reducer/data/selectors";
 
 const Sorting = (props) => {
-  const {sortType, sortOffers, isToggled, onToggleChange} = props;
+  const {sortType, setSortType, isToggled, onToggleChange} = props;
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -19,7 +20,7 @@ const Sorting = (props) => {
       </span>
       <ul className={`places__options places__options--custom ${isToggled ? `places__options--opened` : ``}`}>
         {SORTTYPES.map((type) => <li key={type} className={`places__option ${sortType === type ? `places__option--active` : ``}`} tabIndex="0" onClick={() => {
-          sortOffers(type);
+          setSortType(type);
         }}>{type}</li>)}
       </ul>
     </form>
@@ -29,16 +30,16 @@ const Sorting = (props) => {
 Sorting.propTypes = {
   sortType: PropTypes.oneOf(SORTTYPES).isRequired,
   isToggled: PropTypes.bool.isRequired,
-  sortOffers: PropTypes.func.isRequired,
+  setSortType: PropTypes.func.isRequired,
   onToggleChange: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  sortType: state.sortType
+  sortType: getSortType(state)
 });
 
 const mapDispatchToProps = {
-  sortOffers: ActionCreator.sortOffers
+  setSortType: ActionCreator.setSortType
 };
 
 export {Sorting};

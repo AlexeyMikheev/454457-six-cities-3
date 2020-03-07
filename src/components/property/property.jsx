@@ -2,16 +2,17 @@ import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT} from "../../consts.js";
-import {OfferShape, ReviewShape} from "../../settings.js";
+import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
 import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
+import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getReviews, getHoveredOffer} from "../../reducer/data/selectors.js";
 
-const Property = ({offer, reviews, nearOffers, hoveredOffer}) => {
-  const {images} = offer;
-  const {name: ownerName, avatar, description, isTrust} = offer.owner;
+const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity}) => {
+  const {images, description} = offer;
+  const {name: ownerName, avatar, isTrust} = offer.owner;
 
   const displayImages = images.slice(0, MAX_IMAGES_DISPLAY_COUNT);
   const displayNearOffers = nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT);
@@ -47,7 +48,7 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer}) => {
             </div>
             <Reviews reviews={reviews} />
           </div>
-          <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} />
+          <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} currentCity={currentCity}/>
         </div>
       </section>
       <div className="container">
@@ -64,15 +65,17 @@ Property.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
   hoveredOffer: PropTypes.shape(OfferShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
-  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired
+  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
+  currentCity: PropTypes.shape(CityShape)
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.currentOffers,
-  nearOffers: state.nearOffers,
-  offer: state.currentOffer,
-  hoveredOffer: state.hoveredOffer,
-  reviews: state.reviews
+  offers: getCurrentOffers(state),
+  nearOffers: getNearOffers(state),
+  offer: getCurrentOffer(state),
+  hoveredOffer: getHoveredOffer(state),
+  reviews: getReviews(state),
+  currentCity: getCurrentCity(state)
 });
 
 export {Property};

@@ -5,6 +5,7 @@ import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import {SortType} from "../../consts.js";
 import Sorting from "./sorting.jsx";
+import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
@@ -16,7 +17,7 @@ Enzyme.configure({
 
 it(`Should sorting be toggled`, () => {
 
-  const store = mockStore({
+  const store = mockStore({[NameSpace.DATA]: {
     offers: [],
     currentOffers: [],
     currentOffer: null,
@@ -25,7 +26,7 @@ it(`Should sorting be toggled`, () => {
     currentCity: null,
     nearOffers: [],
     sortType: mock
-  });
+  }});
 
   const onToggleChange = jest.fn();
 

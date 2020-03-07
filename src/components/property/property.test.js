@@ -4,10 +4,11 @@ import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Property from "./property.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
+import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
-const mock = {
+const mock = [{
   id: 1,
   isPremium: true,
   cost: 120,
@@ -27,15 +28,16 @@ const mock = {
     `img/apartment-01.jpg`,
   ],
   features: FEATURES,
+  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
   owner: {
+    id: 1,
     name: `Angelina`,
     avatar: `img/avatar-angelina.jpg`,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     isTrust: true
   },
   cityId: 1,
   lonlat: [52.3909553943508, 4.85309666406198]
-};
+}];
 
 const mockDate = new Date(0).valueOf();
 
@@ -89,10 +91,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 2,
       name: `Angelina`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 1,
@@ -118,10 +121,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 1,
       name: `Angelina 1`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 2,
@@ -147,10 +151,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 2,
       name: `Angelina 2`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 3,
@@ -176,10 +181,11 @@ const nearOffersMock = [
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     owner: {
+      id: 3,
       name: `Angelina 3`,
       avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       isTrust: true
     },
     cityId: 4,
@@ -189,15 +195,14 @@ const nearOffersMock = [
 
 it(`Render Property`, () => {
 
-  const store = mockStore({
-    offers: [],
-    currentOffers: [],
-    currentOffer: mock,
+  const store = mockStore({[NameSpace.DATA]: {
+    offers: mock,
+    currentOfferId: mock[0].id,
     cities: [],
     reviews: reviewsMock,
-    currentCity: null,
+    currentCityName: null,
     nearOffers: nearOffersMock
-  });
+  }});
 
   const tree = renderer.create(<Provider store={store}><Property /></Provider>).toJSON();
 

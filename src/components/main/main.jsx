@@ -6,9 +6,10 @@ import Locations from "../locations/locations.jsx";
 import Sorting from "../sorting/sorting.jsx";
 import MainEmpty from "../main-empty/main-empty.jsx";
 import {ViewMode} from "../../consts.js";
-import {OfferShape, CityShapre} from "../../settings.js";
+import {OfferShape, CityShape} from "../../settings.js";
 import Map from "../map/map.jsx";
 import withBooleanState from "../../hoks/with-boolean-state.js";
+import {getCurrentOffers, getCurrentCity, getHoveredOffer} from "../../reducer/data/selectors.js";
 
 const SortingWithState = withBooleanState(Sorting);
 
@@ -31,7 +32,7 @@ class Main extends PureComponent {
           <Offers viewMode={ViewMode.Main} />
         </section>
         <div className="cities__right-section">
-          <Map offers={offers} hoveredOffer={hoveredOffer} viewMode={ViewMode.Main} />
+          <Map offers={offers} hoveredOffer={hoveredOffer} viewMode={ViewMode.Main} currentCity={currentCity}/>
         </div>
       </div>
     );
@@ -61,15 +62,15 @@ class Main extends PureComponent {
 }
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  currentCity: PropTypes.shape(CityShapre),
+  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
+  currentCity: PropTypes.shape(CityShape),
   hoveredOffer: PropTypes.shape(OfferShape),
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.currentOffers,
-  currentCity: state.currentCity,
-  hoveredOffer: state.hoveredOffer
+  offers: getCurrentOffers(state),
+  currentCity: getCurrentCity(state),
+  hoveredOffer: getHoveredOffer(state)
 });
 
 export {Main};

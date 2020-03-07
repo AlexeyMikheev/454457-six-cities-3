@@ -4,11 +4,9 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Property from "../property/property.jsx";
-import {OfferShape, ReviewShape, CityShapre} from "../../settings.js";
-import {ActionCreator} from "../../reducer.js";
-import offersMoke from '../../mocks/offers.js';
-import reviewsMock from "../../mocks/reviews.js";
-import citiesMock from "../../mocks/cities.js";
+import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
+import {ActionCreator} from "../../reducer/data/data.js";
+import {getCurrentOffer, getCurrentCity, getReviews} from "../../reducer/data/selectors.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -16,12 +14,6 @@ class App extends PureComponent {
 
     this.placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
     this.cityClickHandler = this.cityClickHandler.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.setOffers(offersMoke);
-    this.props.setReviews(reviewsMock);
-    this.props.setCities(citiesMock);
   }
 
   placeHeaderClickHandler(offerId) {
@@ -86,31 +78,20 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
-  cities: PropTypes.arrayOf(PropTypes.shape(CityShapre)),
   selectedOffer: PropTypes.shape(OfferShape),
-  selectedCity: PropTypes.shape(CityShapre),
+  selectedCity: PropTypes.shape(CityShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)),
-  cityHeaderClickHandler: PropTypes.func,
-  setOffers: PropTypes.func.isRequired,
-  setReviews: PropTypes.func.isRequired,
-  setCities: PropTypes.func.isRequired,
   setCurrentOffer: PropTypes.func.isRequired,
   setCurrentCity: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  cities: state.cities,
-  offers: state.currentOffers,
-  selectedOffer: state.currentOffer,
-  selectedCity: state.currentCity,
-  reviews: state.reviews
+  selectedOffer: getCurrentOffer(state),
+  selectedCity: getCurrentCity(state),
+  reviews: getReviews(state)
 });
 
 const mapDispatchToProps = {
-  setOffers: ActionCreator.setOffers,
-  setReviews: ActionCreator.setReviews,
-  setCities: ActionCreator.setCities,
   setCurrentOffer: ActionCreator.setCurrentOffer,
   setCurrentCity: ActionCreator.setCurrentCity
 };

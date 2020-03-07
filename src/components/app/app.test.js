@@ -3,7 +3,8 @@ import renderer from "react-test-renderer";
 import configureStore from "redux-mock-store";
 import App from "./app.jsx";
 import {Provider} from "react-redux";
-import {OfferType, FEATURES, SortType} from '../../consts';
+import {OfferType, FEATURES, SortType} from "../../consts";
+import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
@@ -27,10 +28,11 @@ const mocks = [{
     `img/apartment-01.jpg`,
   ],
   features: FEATURES,
+  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
   owner: {
+    id: 1,
     name: `Angelina`,
     avatar: `img/avatar-angelina.jpg`,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     isTrust: true
   },
   lonlat: [52.3909553943508, 4.85309666406198]
@@ -68,13 +70,15 @@ const reviewsMock = [
 it(`Render App`, () => {
 
   const store = mockStore({
-    offers: mocks,
-    currentOffers: [],
-    currentOffer: null,
-    cities: [],
-    reviews: reviewsMock,
-    currentCity: null,
-    sortType: SortType.POPULAR
+    [NameSpace.DATA]: {
+      offers: mocks,
+      currentOffers: [],
+      currentOffer: null,
+      cities: [],
+      reviews: reviewsMock,
+      currentCity: null,
+      sortType: SortType.POPULAR
+    }
   });
 
   const tree = renderer

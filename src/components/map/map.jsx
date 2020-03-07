@@ -1,7 +1,7 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
-import {OfferShape} from "../../settings.js";
+import {OfferShape, CityShape} from "../../settings.js";
 import {ViewMode as ViewMode, VIEWMODES} from '../../consts.js';
 
 class Map extends PureComponent {
@@ -13,8 +13,6 @@ class Map extends PureComponent {
     this._isMapInit = false;
 
     this._mapSettings = {
-      center: [52.38333, 4.9],
-      zoom: 12,
       zoomControl: false,
       marker: true
     };
@@ -44,8 +42,9 @@ class Map extends PureComponent {
     if (!this._isMapInit) {
       this.initMap();
     }
-    const {offers: prevOffers, activeOffer: prevActiveOffer, hoveredOffer: prevHoveredOffer} = prevProps;
-    const {offers, activeOffer, hoveredOffer} = this.props;
+
+    const {offers: prevOffers, activeOffer: prevActiveOffer, hoveredOffer: prevHoveredOffer, currentCity: prevCurrentCity} = prevProps;
+    const {offers, activeOffer, hoveredOffer, currentCity} = this.props;
 
     const isActiveOfferChanged = (prevActiveOffer !== null && activeOffer !== null && prevActiveOffer.id !== activeOffer.id);
 
@@ -65,24 +64,38 @@ class Map extends PureComponent {
       });
     });
 
+    const isCurrentCityChanged = prevCurrentCity.name.toLowerCase() !== currentCity.name.toLowerCase();
+
     if (isActiveOfferChanged || isOfferschanged || isPrevOfferschanged || isHoveredOfferChanged) {
       this.clearMarkers();
       this.initMarkers();
     }
+
+    if (isCurrentCityChanged) {
+      this.setMapView(currentCity);
+    }
+
+    if (isActiveOfferChanged) {
+      this.setMapView(activeOffer);
+    }
   }
 
   initMap() {
+    const {currentCity} = this.props;
 
     this._map = leaflet.map(this._mapRef.current, this._mapSettings);
 
-    const {center, zoom} = this._mapSettings;
-    this._map.setView(center, zoom);
+    this.setMapView(currentCity);
 
     leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     }).addTo(this._map);
 
     this._isMapInit = true;
+  }
+
+  setMapView({center, zoom}) {
+    this._map.setView(center, zoom);
   }
 
   clearMarkers() {
@@ -102,24 +115,24 @@ class Map extends PureComponent {
     this.addMapMarkers(displayOfferd);
 
     if (hoveredOffer !== null) {
-      this.addMarker(hoveredOffer.lonlat, this.getMarkerTemplate(true));
+      this.addMarker(hoveredOffer.center, this.getMarkerTemplate(true));
     }
 
     if (activeOffer !== null) {
-      this.addMarker(activeOffer.lonlat, this.getMarkerTemplate(true));
+      this.addMarker(activeOffer.center, this.getMarkerTemplate(true));
     }
   }
 
   addMapMarkers(offers) {
     if (this._map !== null) {
       offers.forEach((offer) => {
-        this.addMarker(offer.lonlat, this.getMarkerTemplate());
+        this.addMarker(offer.center, this.getMarkerTemplate());
       });
     }
   }
 
-  addMarker(lonlat, icon) {
-    const marker = leaflet.marker(lonlat, {icon}).addTo(this._map);
+  addMarker(latlon, icon) {
+    const marker = leaflet.marker(latlon, {icon}).addTo(this._map);
     this._markers.push(marker);
   }
 
@@ -159,7 +172,8 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   activeOffer: PropTypes.shape(OfferShape),
   hoveredOffer: PropTypes.shape(OfferShape),
-  viewMode: PropTypes.oneOf(VIEWMODES).isRequired
+  viewMode: PropTypes.oneOf(VIEWMODES).isRequired,
+  currentCity: PropTypes.shape(CityShape),
 };
 
 export default Map;
