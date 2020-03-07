@@ -56,7 +56,7 @@ class Login extends PureComponent {
 
 Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired
+  error: PropTypes.string
 };
 
 

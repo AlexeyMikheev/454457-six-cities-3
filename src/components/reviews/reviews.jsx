@@ -18,12 +18,12 @@ const Reviews = ({reviews}) => {
   });
 
   return (
-    <section className="property__reviews reviews">
+    <React.Fragment>
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{totalCount}</span></h2>
       <ul className="reviews__list">
         {displayReviews.map((review) => <Review key={review.id} review={review} />)}
       </ul>
-    </section>
+    </React.Fragment>
   );
 };
 

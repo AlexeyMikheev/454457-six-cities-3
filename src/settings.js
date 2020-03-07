@@ -1,15 +1,6 @@
 import PropTypes from "prop-types";
 import {OFFERTYPES} from "./consts.js";
 
-export const ReviewShape = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  description: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
-};
-
 export const LocationShape = {
   latitude: PropTypes.number.isRequired,
   longitude: PropTypes.number.isRequired,
@@ -52,4 +43,12 @@ export const AuthInfo = {
   id: PropTypes.number.isRequired,
   [`is_pro`]: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
+};
+
+export const ReviewShape = {
+  id: PropTypes.number.isRequired,
+  comment: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  date: PropTypes.number.isRequired,
+  user: PropTypes.shape(OwnerShape).isRequired,
 };

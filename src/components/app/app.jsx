@@ -5,9 +5,8 @@ import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Login from "../login/login.jsx";
 import Property from "../property/property.jsx";
-import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
-import {ActionCreator} from "../../reducer/data/data.js";
-import {getCurrentOffer, getCurrentCity, getReviews} from "../../reducer/data/selectors.js";
+import {OfferShape, CityShape} from "../../settings.js";
+import {getCurrentOffer, getCurrentCity} from "../../reducer/data/selectors.js";
 import Header from "../header/header.jsx";
 import {AuthStatus, AuthStatuses} from "../../consts.js";
 import {getAuthStatus, getAuthError} from "../../reducer/user/selectors.js";
@@ -16,20 +15,6 @@ import {Operation as UserOperation} from "../../reducer/user/user.js";
 class App extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.placeHeaderClickHandler = this.placeHeaderClickHandler.bind(this);
-    this.cityClickHandler = this.cityClickHandler.bind(this);
-  }
-
-  placeHeaderClickHandler(offerId) {
-    this.props.setCurrentOffer(offerId);
-  }
-
-  cityClickHandler(cityId) {
-    const {selectedCity} = this.props;
-    if (selectedCity && selectedCity.id !== cityId) {
-      this.props.setCurrentCity(cityId);
-    }
   }
 
   renderApp() {
@@ -109,25 +94,19 @@ class App extends PureComponent {
 App.propTypes = {
   selectedOffer: PropTypes.shape(OfferShape),
   selectedCity: PropTypes.shape(CityShape),
-  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)),
-  setCurrentOffer: PropTypes.func.isRequired,
-  setCurrentCity: PropTypes.func.isRequired,
   authStatus: PropTypes.oneOf(AuthStatuses),
   login: PropTypes.func.isRequired,
-  authError: PropTypes.string.isRequired
+  authError: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
   selectedOffer: getCurrentOffer(state),
   selectedCity: getCurrentCity(state),
-  reviews: getReviews(state),
   authStatus: getAuthStatus(state),
   authError: getAuthError(state)
 });
 
 const mapDispatchToProps = {
-  setCurrentOffer: ActionCreator.setCurrentOffer,
-  setCurrentCity: ActionCreator.setCurrentCity,
   login: UserOperation.login
 };
 

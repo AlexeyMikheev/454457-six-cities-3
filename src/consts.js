@@ -86,3 +86,5 @@ export const AuthStatuses = [
   AuthStatus.NO_AUTH,
   AuthStatus.AUTH
 ];
+
+export const RatingValues = [5, 4, 3, 2, 1];

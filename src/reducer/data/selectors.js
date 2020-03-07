@@ -40,10 +40,6 @@ export const getCurrentCity = createSelector(
     }
 );
 
-export const getReviews = (state) => {
-  return state[NAME_SPACE].reviews;
-};
-
 export const getHoveredOfferId = (state) => {
   return state[NAME_SPACE].hoveredOfferId;
 };

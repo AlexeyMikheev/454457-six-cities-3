@@ -1,16 +1,20 @@
 import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT} from "../../consts.js";
+import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT, AuthStatus, AuthStatuses} from "../../consts.js";
 import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
 import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
-import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getReviews, getHoveredOffer} from "../../reducer/data/selectors.js";
+import CommentForm from "../comment-form/comment-form.jsx";
+import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
+import {getAuthStatus} from "../../reducer/user/selectors.js";
+import {getCommnets, getLoadingStatus} from "../../reducer/comment/selectors.js";
+import {Operation as commentOperation} from "../../reducer/comment/comment.js";
 
-const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity}) => {
+const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, authStatus, sendComment, isLoading}) => {
   const {images, description} = offer;
   const {name: ownerName, avatar, isTrust} = offer.owner;
 
@@ -46,7 +50,12 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity}) => {
                 </p>
               </div>
             </div>
-            <Reviews reviews={reviews} />
+            <section className="property__reviews reviews">
+              <Reviews reviews={reviews} />
+              {authStatus === AuthStatus.AUTH && <CommentForm disabled={isLoading} onSubmit={(comment) => {
+                sendComment(offer.id, comment);
+              }}/>}
+            </section>
           </div>
           <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} currentCity={currentCity}/>
         </div>
@@ -66,7 +75,10 @@ Property.propTypes = {
   hoveredOffer: PropTypes.shape(OfferShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  currentCity: PropTypes.shape(CityShape)
+  currentCity: PropTypes.shape(CityShape),
+  authStatus: PropTypes.oneOf(AuthStatuses).isRequired,
+  sendComment: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -74,10 +86,16 @@ const mapStateToProps = (state) => ({
   nearOffers: getNearOffers(state),
   offer: getCurrentOffer(state),
   hoveredOffer: getHoveredOffer(state),
-  reviews: getReviews(state),
-  currentCity: getCurrentCity(state)
+  reviews: getCommnets(state),
+  isLoading: getLoadingStatus(state),
+  currentCity: getCurrentCity(state),
+  authStatus: getAuthStatus(state)
 });
 
+const mapDispatchToProps = {
+  sendComment: commentOperation.sendComment
+};
+
 export {Property};
-export default connect(mapStateToProps)(Property);
+export default connect(mapStateToProps, mapDispatchToProps)(Property);
 
