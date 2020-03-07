@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Property from "./property.jsx";
-import {OfferType, FEATURES} from '../../consts.js';
+import {OfferType, FEATURES, AuthStatus} from '../../consts.js';
 import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
@@ -195,14 +195,26 @@ const nearOffersMock = [
 
 it(`Render Property`, () => {
 
-  const store = mockStore({[NameSpace.DATA]: {
-    offers: mock,
-    currentOfferId: mock[0].id,
-    cities: [],
-    reviews: reviewsMock,
-    currentCityName: null,
-    nearOffers: nearOffersMock
-  }});
+  const store = mockStore({
+    [NameSpace.DATA]: {
+      offers: mock,
+      currentOfferId: mock[0].id,
+      cities: [],
+      reviews: reviewsMock,
+      currentCityName: null,
+      nearOffers: nearOffersMock
+    },
+    [NameSpace.COMMNET]: {
+      comments: [],
+      commentError: null,
+      isLoading: false
+    },
+    [NameSpace.USER]: {
+      authStatus: AuthStatus.NO_AUTH,
+      authInfo: null,
+      authError: null
+    }
+  });
 
   const tree = renderer.create(<Provider store={store}><Property /></Provider>).toJSON();
 
