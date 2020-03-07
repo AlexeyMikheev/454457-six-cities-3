@@ -45,3 +45,11 @@ export const OfferShape = {
   image: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(PropTypes.string).isRequired
 };
+
+export const AuthInfo = {
+  [`avatar_url`]: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  [`is_pro`]: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+};

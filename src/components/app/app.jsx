@@ -3,10 +3,15 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main.jsx";
+import Login from "../login/login.jsx";
 import Property from "../property/property.jsx";
 import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
 import {ActionCreator} from "../../reducer/data/data.js";
 import {getCurrentOffer, getCurrentCity, getReviews} from "../../reducer/data/selectors.js";
+import Header from "../header/header.jsx";
+import {AuthStatus, AuthStatuses} from "../../consts.js";
+import {getAuthStatus, getAuthError} from "../../reducer/user/selectors.js";
+import {Operation as UserOperation} from "../../reducer/user/user.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -29,9 +34,23 @@ class App extends PureComponent {
 
   renderApp() {
     return (
-      <div className="page page--gray page--main">
-        <Main/>
-      </div>
+      <React.Fragment>
+        <Header />
+        <div className="page page--gray page--main">
+          <Main/>
+        </div>
+      </React.Fragment>
+    );
+  }
+
+  renderLogin(login, authError) {
+    return (
+      <React.Fragment>
+        <Header />
+        <div className="page page--gray page--login">
+          <Login onSubmit={login} error={authError}/>
+        </div>
+      </React.Fragment>
     );
   }
 
@@ -42,16 +61,26 @@ class App extends PureComponent {
 
     if (selectedOffer !== null) {
       return (
-        <Property />
+        <React.Fragment>
+          <Header />
+          <div className="page page--gray page--property">
+            <Property />
+          </div>
+        </React.Fragment>
       );
     }
     return this.renderApp();
   }
 
   renderMain() {
-    const {selectedOffer} = this.props;
+    const {selectedOffer, authStatus, login, authError} = this.props;
 
-    if (selectedOffer) {
+
+    if (authStatus === AuthStatus.NO_AUTH) {
+      return (
+        this.renderLogin(login, authError)
+      );
+    } else if (selectedOffer) {
       return (
         this.renderProperty(selectedOffer)
       );
@@ -83,17 +112,23 @@ App.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)),
   setCurrentOffer: PropTypes.func.isRequired,
   setCurrentCity: PropTypes.func.isRequired,
+  authStatus: PropTypes.oneOf(AuthStatuses),
+  login: PropTypes.func.isRequired,
+  authError: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
   selectedOffer: getCurrentOffer(state),
   selectedCity: getCurrentCity(state),
-  reviews: getReviews(state)
+  reviews: getReviews(state),
+  authStatus: getAuthStatus(state),
+  authError: getAuthError(state)
 });
 
 const mapDispatchToProps = {
   setCurrentOffer: ActionCreator.setCurrentOffer,
-  setCurrentCity: ActionCreator.setCurrentCity
+  setCurrentCity: ActionCreator.setCurrentCity,
+  login: UserOperation.login
 };
 
 export {App};

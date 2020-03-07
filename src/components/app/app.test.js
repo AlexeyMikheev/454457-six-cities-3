@@ -5,6 +5,7 @@ import App from "./app.jsx";
 import {Provider} from "react-redux";
 import {OfferType, FEATURES, SortType} from "../../consts";
 import NameSpace from "../../reducer/name-space.js";
+import {AuthStatus} from "../../consts.js";
 
 const mockStore = configureStore([]);
 
@@ -78,6 +79,10 @@ it(`Render App`, () => {
       reviews: reviewsMock,
       currentCity: null,
       sortType: SortType.POPULAR
+    },
+    [NameSpace.USER]: {
+      authStatus: AuthStatus.NO_AUTH,
+      authInfo: null
     }
   });
 

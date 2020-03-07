@@ -247,17 +247,17 @@ it(`Reducer should set current hovered offer by a given value`, () => {
   });
 });
 
-describe(`Operation work correctly`, () => {
+describe(`Operation data work correctly`, () => {
   it(`Should make a correct API call to /hotels`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
-    const questionLoader = Operation.loadData();
+    const loader = Operation.loadData();
 
     apiMock
       .onGet(`/hotels`)
       .reply(200, [{fake: true}]);
 
-    return questionLoader(dispatch, () => {}, api)
+    return loader(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {

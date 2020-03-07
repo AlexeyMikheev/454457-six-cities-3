@@ -6,9 +6,10 @@ import {Provider} from "react-redux";
 import App from "./components/app/app.jsx";
 import reducer from "./reducer/reducer.js";
 import {Operation} from "./reducer/data/data.js";
+import {Operation as UserOperation} from "./reducer/user/user.js";
 import {createAPI} from "./api.js";
 
-const api = createAPI(() => {});
+const api = createAPI();
 
 const store = createStore(
     reducer,
@@ -16,6 +17,8 @@ const store = createStore(
 );
 
 store.dispatch(Operation.loadData());
+
+store.dispatch(UserOperation.checkAuth());
 
 ReactDom.render(
     <Provider store={store}>
