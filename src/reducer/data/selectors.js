@@ -20,6 +20,14 @@ export const getCurrentOfferId = (state) => {
   return state[NAME_SPACE].currentOfferId;
 };
 
+export const getReviews = (state) => {
+  return state[NAME_SPACE].reviews;
+};
+
+export const getNearOffers = (state) => {
+  return state[NAME_SPACE].nearbyOffers;
+};
+
 export const getCurrentOffer = createSelector(
     getOffers,
     getCurrentOfferId,
@@ -58,15 +66,5 @@ export const getCurrentOffers = createSelector(
     getCurrentCity,
     (offers, sortType, currentCity) => {
       return currentCity !== null ? getPreparedOffers(offers, sortType, currentCity.name) : [];
-    }
-);
-
-export const getNearOffers = createSelector(
-    getOffers,
-    getCurrentOffer,
-    (offers, currentOffer) => {
-      return offers.filter((offer) => {
-        return currentOffer !== null ? currentOffer.id !== offer.id : [];
-      });
     }
 );

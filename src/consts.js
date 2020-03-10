@@ -84,16 +84,23 @@ export const AuthStatus = {
   AUTH: `AUTH`
 };
 
+export const AuthStatuses = [
+  AuthStatus.NO_AUTH,
+  AuthStatus.AUTH
+];
+
 export const LoadingStatus = {
   DEFAULT: `DEFAULT`,
   SUCCESS: `SUCCESS`,
   LOADING: `LOADING`,
-  ERROR: `ERROR`,
+  ERROR: `ERROR`
 };
 
-export const AuthStatuses = [
-  AuthStatus.NO_AUTH,
-  AuthStatus.AUTH
+export const LoadingStatuses = [
+  LoadingStatus.DEFAULT,
+  LoadingStatus.SUCCESS,
+  LoadingStatus.LOADING,
+  LoadingStatus.ERROR
 ];
 
 
@@ -101,4 +108,5 @@ export const Url = {
   COMMENTS: `comments`,
   HOTELS: `hotels`,
   LOGIN: `login`,
+  NEARBY: `nearby`
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT, AuthStatus, AuthStatuses} from "../../consts.js";
+import {ViewMode, MAX_IMAGES_DISPLAY_COUNT, MAX_NEAR_DISPLAY_COUNT, AuthStatus, AuthStatuses, LoadingStatus, LoadingStatuses} from "../../consts.js";
 import {OfferShape, ReviewShape, CityShape} from "../../settings.js";
 import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
@@ -14,7 +14,7 @@ import {getAuthStatus} from "../../reducer/user/selectors.js";
 import {getCommnets, getLoadingStatus} from "../../reducer/comment/selectors.js";
 import {Operation as commentOperation} from "../../reducer/comment/comment.js";
 
-const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, authStatus, sendComment, isLoading}) => {
+const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, authStatus, sendComment, loadingStatus}) => {
   const {images, description} = offer;
   const {name: ownerName, avatar, isTrust} = offer.owner;
 
@@ -26,6 +26,8 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, authSt
   if (nearOffers.length > 0) {
     nearOffersContainer = <Offers viewMode={ViewMode.Property} />;
   }
+
+  const isLoading = loadingStatus === LoadingStatus.LOADING;
 
   return (
     <React.Fragment>
@@ -78,7 +80,7 @@ Property.propTypes = {
   currentCity: PropTypes.shape(CityShape),
   authStatus: PropTypes.oneOf(AuthStatuses).isRequired,
   sendComment: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  loadingStatus: PropTypes.oneOf(LoadingStatuses)
 };
 
 const mapStateToProps = (state) => ({
@@ -87,7 +89,7 @@ const mapStateToProps = (state) => ({
   offer: getCurrentOffer(state),
   hoveredOffer: getHoveredOffer(state),
   reviews: getCommnets(state),
-  isLoading: getLoadingStatus(state),
+  loadingStatus: getLoadingStatus(state),
   currentCity: getCurrentCity(state),
   authStatus: getAuthStatus(state)
 });

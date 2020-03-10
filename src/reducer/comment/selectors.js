@@ -12,6 +12,6 @@ export const getCommentError = (state) => {
 };
 
 export const getLoadingStatus = (state) => {
-  return state[NAME_SPACE].isLoading;
+  return state[NAME_SPACE].loadingStatus;
 };
 

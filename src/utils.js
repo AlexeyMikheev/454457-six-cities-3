@@ -57,3 +57,14 @@ export const getPreparedOffers = (offers, sortType, value) => {
     default: return offers;
   }
 };
+
+export const getCities = (offers) => {
+  const citiesMap = new Map();
+  offers.forEach((offer) => {
+    if (!citiesMap.has(offer.city.name)) {
+      citiesMap.set(offer.city.name, offer.city);
+    }
+  });
+
+  return Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
+};

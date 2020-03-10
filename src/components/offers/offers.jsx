@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import Offer from '../offer/offer.jsx';
 import {OfferShape} from '../../settings.js';
 import {ViewMode, VIEWMODES, MAX_NEAR_DISPLAY_COUNT} from '../../consts.js';
-import {ActionCreator} from "../../reducer/data/data.js";
+import {ActionCreator, Operation as DataOperation} from "../../reducer/data/data.js";
 import {getCurrentOffers, getCurrentCity, getNearOffers} from "../../reducer/data/selectors.js";
 
 class Offers extends PureComponent {
@@ -53,7 +53,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  setCurrentOffer: ActionCreator.setCurrentOffer,
+  setCurrentOffer: DataOperation.setCurrentOffer,
   setHoveredOffer: ActionCreator.setHoveredOffer
 };
 

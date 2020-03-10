@@ -1,14 +1,15 @@
-import {extendObject} from "../../utils.js";
+import {extendObject, getCities} from "../../utils.js";
 import {SortType, Url} from "../../consts.js";
-import Offer from "../../model/offer.js";
+import {Operation as CommentsOperation} from "../comment/comment.js";
+import {adaptHotelsResponse} from "../../adapters.js";
 
 const initialState = {
   cities: [],
   currentCityName: null,
   offers: [],
+  nearbyOffers: [],
   hoveredOfferId: null,
   currentOfferId: null,
-  reviews: [],
   sortType: SortType.POPULAR
 };
 
@@ -17,7 +18,8 @@ const ActionType = {
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SET_SORT_TYPE: `SET_SORT_TYPE`,
-  LOAD_DATA: `LOAD_DATA`
+  SET_DATA: `SET_DATA`,
+  SET_NEARBY_OFFERS: `SET_NEARBY_OFFERS`,
 };
 
 const ActionCreator = {
@@ -42,10 +44,16 @@ const ActionCreator = {
     payload: sortType,
   }),
 
-  loadData: (offers) => {
+  setData: (data) => {
     return {
-      type: ActionType.LOAD_DATA,
-      payload: offers,
+      type: ActionType.SET_DATA,
+      payload: data,
+    };
+  },
+  setNearbyOffers: (nearbyOffers) => {
+    return {
+      type: ActionType.SET_NEARBY_OFFERS,
+      payload: nearbyOffers,
     };
   }
 };
@@ -54,9 +62,26 @@ const Operation = {
   loadData: () => (dispatch, _getState, api) => {
     return api.get(`/${Url.HOTELS}`)
       .then((response) => {
-        dispatch(ActionCreator.loadData(response.data));
+        dispatch(ActionCreator.setData(response.data));
       });
   },
+  loadNearbyOffers: (currentOfferId) => (dispatch, _getState, api) => {
+    return api.get(`/${Url.HOTELS}/${currentOfferId}/${Url.NEARBY}`)
+      .then((response) => {
+        dispatch(ActionCreator.setNearbyOffers(response.data));
+      });
+  },
+  setCurrentOffer: (currentOfferId) => (dispatch, _getState, _api) => {
+    dispatch(ActionCreator.setCurrentOffer(currentOfferId));
+
+    if (currentOfferId !== null) {
+      dispatch(CommentsOperation.getComments(currentOfferId));
+
+      dispatch(Operation.loadNearbyOffers(currentOfferId));
+    } else {
+      dispatch(ActionCreator.setNearbyOffers([]));
+    }
+  }
 };
 
 const reducer = (state = initialState, action) => {
@@ -74,8 +99,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_HOVERED_OFFER:
       return setHoveredOffer(state, action);
 
-    case ActionType.LOAD_DATA:
-      return loadData(state, action);
+    case ActionType.SET_DATA:
+      return setData(state, action);
+
+    case ActionType.SET_NEARBY_OFFERS:
+      return setNearbyOffers(state, action);
 
     default: return state;
   }
@@ -89,23 +117,13 @@ const setSortType = (state, action) => extendObject(state, {sortType: action.pay
 
 const setHoveredOffer = (state, action) => extendObject(state, {hoveredOfferId: action.payload});
 
-const loadData = (state, action) => {
-  const values = action.payload;
-
-  const offers = Offer.parseOffers(values);
-
-  const citiesMap = new Map();
-  offers.forEach((offer) => {
-    if (!citiesMap.has(offer.city.name)) {
-      citiesMap.set(offer.city.name, offer.city);
-    }
-  });
+const setData = (state, action) => {
+  const offers = adaptHotelsResponse(action.payload);
 
   let updatedState = extendObject({}, state);
-
   updatedState = extendObject(updatedState, {offers});
 
-  const cities = Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
+  const cities = getCities(offers);
 
   if (cities.length > 0) {
     const currentCity = cities[0];
@@ -113,6 +131,12 @@ const loadData = (state, action) => {
   }
 
   return updatedState;
+};
+
+const setNearbyOffers = (state, action) => {
+  const nearbyOffers = adaptHotelsResponse(action.payload);
+
+  return extendObject(state, {nearbyOffers});
 };
 
 export {reducer, Operation, ActionType, ActionCreator};

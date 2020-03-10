@@ -1,6 +1,6 @@
 import {extendObject} from "../../utils.js";
 import {ErrorType, Url, LoadingStatus} from "../../consts";
-import Comment from "../../model/comment.js";
+import {adaptCommentsResponse} from "../../adapters";
 
 const initialState = {
   comments: [],
@@ -69,10 +69,13 @@ const reducer = (state = initialState, action) => {
 };
 
 const Operation = {
+  resetComments: () => (dispatch, _getState, _api) => {
+    dispatch(ActionCreator.setComments([]));
+  },
   getComments: (offerId) => (dispatch, _getState, api) => {
     return api.get(`/${Url.COMMENTS}/${offerId}`)
       .then((response) => {
-        dispatch(ActionCreator.setComments(Comment.parseComemnts(response.data)));
+        dispatch(ActionCreator.setComments(adaptCommentsResponse(response.data)));
       })
       .catch((err) => {
         const {response} = err;
@@ -88,7 +91,7 @@ const Operation = {
     dispatch(ActionCreator.setLoadingStatus(LoadingStatus.LOADING));
     return api.post(`/${Url.COMMENTS}/${offerId}`, commentData)
     .then((response) => {
-      dispatch(ActionCreator.setComments(Comment.parseComemnts(response.data)));
+      dispatch(ActionCreator.setComments(adaptCommentsResponse(response.data)));
 
       dispatch(ActionCreator.setLoadingStatus(LoadingStatus.SUCCESS));
     })
