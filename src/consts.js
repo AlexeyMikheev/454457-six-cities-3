@@ -69,6 +69,8 @@ export const SORTTYPES = [
   SortType.TOPRATED
 ];
 
+export const RatingValues = [5, 4, 3, 2, 1];
+
 export const ErrorType = {
   UNAUTHORIZED: 401,
   BABREQUEST: 400
@@ -82,9 +84,21 @@ export const AuthStatus = {
   AUTH: `AUTH`
 };
 
+export const LoadingStatus = {
+  DEFAULT: `DEFAULT`,
+  SUCCESS: `SUCCESS`,
+  LOADING: `LOADING`,
+  ERROR: `ERROR`,
+};
+
 export const AuthStatuses = [
   AuthStatus.NO_AUTH,
   AuthStatus.AUTH
 ];
 
-export const RatingValues = [5, 4, 3, 2, 1];
+
+export const Url = {
+  COMMENTS: `comments`,
+  HOTELS: `hotels`,
+  LOGIN: `login`,
+};

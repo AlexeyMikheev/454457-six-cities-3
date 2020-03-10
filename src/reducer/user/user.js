@@ -1,5 +1,5 @@
 import {extendObject} from "../../utils.js";
-import {AuthStatus, ErrorType} from "../../consts";
+import {AuthStatus, ErrorType, Url} from "../../consts";
 
 const initialState = {
   authStatus: AuthStatus.NO_AUTH,
@@ -60,8 +60,8 @@ const reducer = (state = initialState, action) => {
 };
 
 const Operation = {
-  checkAuth: () => (dispatch, getState, api) => {
-    return api.get(`/login`)
+  checkAuth: () => (dispatch, _getState, api) => {
+    return api.get(`/${Url.LOGIN}`)
       .then((response) => {
         dispatch(ActionCreator.setAuthInfo(response.data));
       })
@@ -76,7 +76,7 @@ const Operation = {
   },
 
   login: (authData) => (dispatch, getState, api) => {
-    return api.post(`/login`, {
+    return api.post(`/${Url.LOGIN}`, {
       email: authData.login,
       password: authData.password,
     })

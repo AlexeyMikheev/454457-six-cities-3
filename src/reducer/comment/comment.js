@@ -1,11 +1,11 @@
 import {extendObject} from "../../utils.js";
-import {ErrorType} from "../../consts";
+import {ErrorType, Url, LoadingStatus} from "../../consts";
 import Comment from "../../model/comment.js";
 
 const initialState = {
   comments: [],
   commentError: null,
-  isLoading: false
+  loadingStatus: LoadingStatus.DEFAULT
 };
 
 const ActionType = {
@@ -27,10 +27,10 @@ const ActionCreator = {
       payload: message
     };
   },
-  setLoadingStatu: (isLoading) => {
+  setLoadingStatu: (status) => {
     return {
       type: ActionType.SET_LOADING_STATUS,
-      payload: isLoading
+      payload: status
     };
   }
 };
@@ -50,7 +50,7 @@ const addComment = (state, action) => {
 };
 
 const setLoadingStatus = (state, action) => {
-  return extendObject(state, {commeisLoadingntError: action.payload});
+  return extendObject(state, {loadingStatus: action.payload});
 };
 
 const reducer = (state = initialState, action) => {
@@ -69,8 +69,8 @@ const reducer = (state = initialState, action) => {
 };
 
 const Operation = {
-  getComments: (offerId) => (dispatch, getState, api) => {
-    return api.get(`/comments/${offerId}`)
+  getComments: (offerId) => (dispatch, _getState, api) => {
+    return api.get(`/${Url.COMMENTS}/${offerId}`)
       .then((response) => {
         dispatch(ActionCreator.setComments(Comment.parseComemnts(response.data)));
       })
@@ -85,20 +85,20 @@ const Operation = {
   },
 
   sendComment: (offerId, commentData) => (dispatch, getState, api) => {
-    dispatch(ActionCreator.setLoadingStatu(true));
-    return api.post(`/comments/${offerId}`, commentData)
+    dispatch(ActionCreator.setLoadingStatus(LoadingStatus.LOADING));
+    return api.post(`/${Url.COMMENTS}/${offerId}`, commentData)
     .then((response) => {
       dispatch(ActionCreator.setComments(Comment.parseComemnts(response.data)));
 
-      dispatch(ActionCreator.setLoadingStatu(false));
+      dispatch(ActionCreator.setLoadingStatus(LoadingStatus.SUCCESS));
     })
     .catch((err) => {
       const {response} = err;
 
       if (response.status === ErrorType.BABREQUEST) {
-        dispatch(ActionCreator.setAuthError(response.data.error));
+        dispatch(ActionCreator.setLoadingStatus(LoadingStatus.ERROR));
       }
-      dispatch(ActionCreator.setLoadingStatu(false));
+      dispatch(ActionCreator.setLoadingStatus(false));
       throw err;
     });
   },

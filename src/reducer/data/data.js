@@ -1,5 +1,5 @@
 import {extendObject} from "../../utils.js";
-import {SortType} from "../../consts.js";
+import {SortType, Url} from "../../consts.js";
 import Offer from "../../model/offer.js";
 
 const initialState = {
@@ -13,7 +13,6 @@ const initialState = {
 };
 
 const ActionType = {
-  SET_REVIEWS: `SET_REVIEWS`,
   SET_CURRENT_CITY: `SET_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
@@ -22,11 +21,6 @@ const ActionType = {
 };
 
 const ActionCreator = {
-
-  setReviews: (reviews) => ({
-    type: ActionType.SET_REVIEWS,
-    payload: reviews
-  }),
 
   setCurrentCity: (cityName) => ({
     type: ActionType.SET_CURRENT_CITY,
@@ -57,8 +51,8 @@ const ActionCreator = {
 };
 
 const Operation = {
-  loadData: () => (dispatch, getState, api) => {
-    return api.get(`/hotels`)
+  loadData: () => (dispatch, _getState, api) => {
+    return api.get(`/${Url.HOTELS}`)
       .then((response) => {
         dispatch(ActionCreator.loadData(response.data));
       });
@@ -67,9 +61,6 @@ const Operation = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-
-    case ActionType.SET_REVIEWS:
-      return setReviews(state, action);
 
     case ActionType.SET_CURRENT_CITY:
       return setCurrentCity(state, action);
@@ -90,57 +81,13 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const setReviews = (state, action) => {
-  const reviews = action.payload;
+const setCurrentCity = (state, action) => extendObject(state, {currentCityName: action.payload});
 
-  if (reviews !== null && reviews.length > 0) {
-    return extendObject(state, {reviews});
-  }
-  return state;
-};
+const setCurrentOffer = (state, action) => extendObject(state, {currentOfferId: action.payload});
 
-const setCurrentCity = (state, action) => {
-  const cityName = action.payload;
+const setSortType = (state, action) => extendObject(state, {sortType: action.payload});
 
-  const currentCity = state.cities.find((city) => city.name === cityName);
-
-  if (currentCity) {
-    return extendObject(state, {currentCityName: currentCity.name});
-  }
-  return state;
-};
-
-const setCurrentOffer = (state, action) => {
-  const offerId = action.payload;
-
-  const currentOffer = state.offers.find((offer) => offer.id === offerId);
-  if (currentOffer) {
-    return extendObject(state, {currentOfferId: currentOffer.id});
-  }
-
-  return state;
-};
-
-const setSortType = (state, action) => {
-  const sortType = action.payload;
-
-  if (sortType === state.sortType) {
-    return state;
-  }
-
-  return extendObject(state, {sortType});
-};
-
-
-const setHoveredOffer = (state, action) => {
-  const offerId = action.payload;
-
-  const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
-  if (hoveredOffer) {
-    return extendObject(state, {hoveredOfferId: hoveredOffer.id});
-  }
-  return extendObject(state, {hoveredOfferId: null});
-};
+const setHoveredOffer = (state, action) => extendObject(state, {hoveredOfferId: action.payload});
 
 const loadData = (state, action) => {
   const values = action.payload;

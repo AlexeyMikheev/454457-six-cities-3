@@ -116,25 +116,6 @@ const offersMock = [
 
 const currentofferMock = offersMock[0];
 
-const reviewsMock = [
-  {
-    id: 1,
-    name: `Max`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 4.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
-    date: 1569006474313
-  },
-  {
-    id: 2,
-    name: `Nina`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 0,
-    description: `The building is green and from 18th century.`,
-    date: 1571598485610
-  }
-];
-
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(undefined, {})).toEqual({
     cities: [],
@@ -143,26 +124,6 @@ it(`Reducer without additional parameters should return initial state`, () => {
     hoveredOfferId: null,
     currentOfferId: null,
     reviews: [],
-    sortType: SortType.POPULAR
-  });
-});
-
-it(`Reducer should set reviews by a given value`, () => {
-  expect(reducer({
-    offers: [],
-    currentOfferId: null,
-    hoveredOfferId: null,
-    cities: [],
-    reviews: [],
-    currentCityName: null,
-    sortType: SortType.POPULAR
-  }, ActionCreator.setReviews(reviewsMock))).toEqual({
-    offers: [],
-    currentOfferId: null,
-    hoveredOfferId: null,
-    cities: [],
-    reviews: reviewsMock,
-    currentCityName: null,
     sortType: SortType.POPULAR
   });
 });

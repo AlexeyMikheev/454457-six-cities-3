@@ -24,7 +24,7 @@ export const getCurrentOffer = createSelector(
     getOffers,
     getCurrentOfferId,
     (offers, currentOfferId) => {
-      return offers && currentOfferId ? offers.find((offer) => offer.id === currentOfferId) : null;
+      return currentOfferId ? offers.find((offer) => offer.id === currentOfferId) : null;
     }
 );
 
