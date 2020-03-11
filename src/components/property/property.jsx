@@ -13,6 +13,7 @@ import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHov
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
 import {getCommnets, getLoadingStatus} from "../../reducer/comment/selectors.js";
 import {Operation as commentOperation} from "../../reducer/comment/comment.js";
+import Header from "../header/header.jsx";
 
 const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, sendComment, loadingStatus}) => {
   const {images, description} = offer;
@@ -31,42 +32,45 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuth
 
   return (
     <React.Fragment>
-      <section className="property">
-        <div className="property__gallery-container container">
-          <PropertyGallery images={displayImages} />
-        </div>
-        <div className="property__container container">
-          <div className="property__wrapper">
-            <OfferDetail offer={offer} />
-            <div className="property__host">
-              <h2 className="property__host-title">Meet the host</h2>
-              <div className="property__host-user user">
-                <div className={`property__avatar-wrapper user__avatar-wrapper ${isTrust ? `property__avatar-wrapper--pro` : ``}`}>
-                  <img className="property__avatar user__avatar" src={avatar} width="74" height="74" alt="Host avatar" />
-                </div>
-                <span className="property__user-name">{ownerName}</span>
-              </div>
-              <div className="property__description">
-                <p className="property__text">
-                  {description}
-                </p>
-              </div>
-            </div>
-            <section className="property__reviews reviews">
-              <Reviews reviews={reviews} />
-              {isAuthorized && <CommentForm disabled={isLoading} onSubmit={(comment) => {
-                sendComment(offer.id, comment);
-              }}/>}
-            </section>
+      <Header />
+      <div className="page page--gray page--property">
+        <section className="property">
+          <div className="property__gallery-container container">
+            <PropertyGallery images={displayImages} />
           </div>
-          <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} currentCity={currentCity}/>
-        </div>
-      </section>
-      <div className="container">
-        <section className="near-places places">
-          <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          {nearOffersContainer}
+          <div className="property__container container">
+            <div className="property__wrapper">
+              <OfferDetail offer={offer} />
+              <div className="property__host">
+                <h2 className="property__host-title">Meet the host</h2>
+                <div className="property__host-user user">
+                  <div className={`property__avatar-wrapper user__avatar-wrapper ${isTrust ? `property__avatar-wrapper--pro` : ``}`}>
+                    <img className="property__avatar user__avatar" src={avatar} width="74" height="74" alt="Host avatar" />
+                  </div>
+                  <span className="property__user-name">{ownerName}</span>
+                </div>
+                <div className="property__description">
+                  <p className="property__text">
+                    {description}
+                  </p>
+                </div>
+              </div>
+              <section className="property__reviews reviews">
+                <Reviews reviews={reviews} />
+                {isAuthorized && <CommentForm disabled={isLoading} onSubmit={(comment) => {
+                  sendComment(offer.id, comment);
+                }}/>}
+              </section>
+            </div>
+            <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} currentCity={currentCity}/>
+          </div>
         </section>
+        <div className="container">
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            {nearOffersContainer}
+          </section>
+        </div>
       </div>
     </React.Fragment>
   );

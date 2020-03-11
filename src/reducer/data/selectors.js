@@ -36,6 +36,14 @@ export const getCurrentOffer = createSelector(
     }
 );
 
+export const getHasSelectedOffer = createSelector(
+    getCurrentOffer,
+    (offer) => {
+      return offer !== null;
+    }
+);
+
+
 export const getCurrentCityName = (state) => {
   return state[NAME_SPACE].currentCityName;
 };

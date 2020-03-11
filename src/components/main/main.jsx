@@ -10,6 +10,7 @@ import {OfferShape, CityShape} from "../../settings.js";
 import Map from "../map/map.jsx";
 import withBooleanState from "../../hoks/with-boolean-state.js";
 import {getCurrentOffers, getCurrentCity, getHoveredOffer} from "../../reducer/data/selectors.js";
+import Header from "../header/header.jsx";
 
 const SortingWithState = withBooleanState(Sorting);
 
@@ -50,13 +51,18 @@ class Main extends PureComponent {
     const isHasDisplayOffers = offers.length > 0;
 
     return (
-      <main className={`page__main page__main--index ${!isHasDisplayOffers ? `page__main--index-empty` : ``}`}>
-        <h1 className="visually-hidden">Cities</h1>
-        <Locations />
-        <div className="cities">
-          { isHasDisplayOffers ? this.renderContent() : this.renderEmpty()}
+      <React.Fragment>
+        <Header />
+        <div className="page page--gray page--main">
+          <main className={`page__main page__main--index ${!isHasDisplayOffers ? `page__main--index-empty` : ``}`}>
+            <h1 className="visually-hidden">Cities</h1>
+            <Locations />
+            <div className="cities">
+              { isHasDisplayOffers ? this.renderContent() : this.renderEmpty()}
+            </div>
+          </main>
         </div>
-      </main>
+      </React.Fragment>
     );
   }
 }
