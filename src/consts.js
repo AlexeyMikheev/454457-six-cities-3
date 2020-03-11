@@ -84,11 +84,6 @@ export const AuthStatus = {
   AUTH: `AUTH`
 };
 
-export const AuthStatuses = [
-  AuthStatus.NO_AUTH,
-  AuthStatus.AUTH
-];
-
 export const LoadingStatus = {
   DEFAULT: `DEFAULT`,
   SUCCESS: `SUCCESS`,

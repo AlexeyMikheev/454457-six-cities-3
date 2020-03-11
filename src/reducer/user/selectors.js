@@ -1,4 +1,6 @@
+import {createSelector} from "reselect";
 import NameSpace from "../name-space.js";
+import {AuthStatus} from "../../consts.js";
 
 const NAME_SPACE = NameSpace.USER;
 
@@ -14,4 +16,12 @@ export const getAuthInfo = (state) => {
 export const getAuthError = (state) => {
   return state[NAME_SPACE].authError;
 };
+
+export const isUserAuthorized = createSelector(
+    getAuthStatus,
+    (authStatus) => {
+      return authStatus === AuthStatus.AUTH;
+    }
+);
+
 

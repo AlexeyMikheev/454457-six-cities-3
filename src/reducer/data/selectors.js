@@ -44,7 +44,7 @@ export const getCurrentCity = createSelector(
     getCities,
     getCurrentCityName,
     (cities, currentCityName) => {
-      return cities && currentCityName ? cities.find((city) => city.name === currentCityName) : null;
+      return currentCityName ? cities.find((city) => city.name === currentCityName) : null;
     }
 );
 
@@ -56,7 +56,7 @@ export const getHoveredOffer = createSelector(
     getOffers,
     getHoveredOfferId,
     (offers, hoveredOfferId) => {
-      return offers && hoveredOfferId ? offers.find((offer) => offer.id === hoveredOfferId) : null;
+      return hoveredOfferId ? offers.find((offer) => offer.id === hoveredOfferId) : null;
     }
 );
 

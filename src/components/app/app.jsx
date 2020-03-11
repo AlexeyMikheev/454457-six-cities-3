@@ -8,8 +8,7 @@ import Property from "../property/property.jsx";
 import {OfferShape, CityShape} from "../../settings.js";
 import {getCurrentOffer, getCurrentCity} from "../../reducer/data/selectors.js";
 import Header from "../header/header.jsx";
-import {AuthStatus, AuthStatuses} from "../../consts.js";
-import {getAuthStatus, getAuthError} from "../../reducer/user/selectors.js";
+import {isUserAuthorized, getAuthError} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 
 class App extends PureComponent {
@@ -58,10 +57,10 @@ class App extends PureComponent {
   }
 
   renderMain() {
-    const {selectedOffer, authStatus, login, authError} = this.props;
+    const {selectedOffer, isAuthorized, login, authError} = this.props;
 
 
-    if (authStatus === AuthStatus.NO_AUTH) {
+    if (!isAuthorized) {
       return (
         this.renderLogin(login, authError)
       );
@@ -94,7 +93,7 @@ class App extends PureComponent {
 App.propTypes = {
   selectedOffer: PropTypes.shape(OfferShape),
   selectedCity: PropTypes.shape(CityShape),
-  authStatus: PropTypes.oneOf(AuthStatuses),
+  isAuthorized: PropTypes.bool.isRequired,
   login: PropTypes.func.isRequired,
   authError: PropTypes.string
 };
@@ -102,7 +101,7 @@ App.propTypes = {
 const mapStateToProps = (state) => ({
   selectedOffer: getCurrentOffer(state),
   selectedCity: getCurrentCity(state),
-  authStatus: getAuthStatus(state),
+  isAuthorized: isUserAuthorized(state),
   authError: getAuthError(state)
 });
 
