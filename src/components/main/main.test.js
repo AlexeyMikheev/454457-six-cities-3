@@ -69,13 +69,12 @@ const mockCities = [
 it(`Render Main`, () => {
 
   const store = mockStore({[NameSpace.DATA]: {
-    offers: mockOffers,
-    currentOffers: [],
-    currentOffer: null,
     cities: mockCities,
-    reviews: [],
-    currentCity: mockCities[0],
-    nearOffers: [],
+    currentCityName: mockCities[0].name,
+    offers: mockOffers,
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
     sortType: SortType.POPULAR
   }});
 

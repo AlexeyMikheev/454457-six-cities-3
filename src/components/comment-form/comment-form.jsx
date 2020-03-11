@@ -1,6 +1,10 @@
 import React, {PureComponent} from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {RatingValues} from "../../consts.js";
+import {RatingValues, LoadingStatus, LoadingStatuses} from "../../consts.js";
+import {getLoadingStatus} from "../../reducer/comment/selectors.js";
+import {Operation as commentOperation} from "../../reducer/comment/comment.js";
+import {getHoveredOfferId} from "../../reducer/data/selectors.js";
 
 class CommentForm extends PureComponent {
   constructor(props) {
@@ -8,12 +12,25 @@ class CommentForm extends PureComponent {
 
     this.state = {
       rating: undefined,
-      comment: undefined
+      comment: ``
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onRatingChanged = this.onRatingChanged.bind(this);
     this.onMessageChanged = this.onMessageChanged.bind(this);
+  }
+
+  componentDidUpdate() {
+    const {loadingStatus, clearStatus} = this.props;
+
+    if (loadingStatus === LoadingStatus.SUCCESS) {
+      this.setState({
+        rating: undefined,
+        comment: ``
+      });
+
+      clearStatus();
+    }
   }
 
   get IsFormValid() {
@@ -35,19 +52,22 @@ class CommentForm extends PureComponent {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const {onSubmit, disabled} = this.props;
+    const {sendComment, loadingStatus, offerId} = this.props;
 
-    if (!this.IsFormValid || disabled) {
+    if (!this.IsFormValid || loadingStatus === LoadingStatus.LOADING) {
       return;
     }
 
     const {rating, comment} = this.state;
 
-    onSubmit({rating, comment});
+    sendComment(offerId, {rating, comment});
   }
 
   render() {
-    const {disabled} = this.props;
+    const {loadingStatus} = this.props;
+    const {comment} = this.state;
+
+    const disabled = loadingStatus === LoadingStatus.LOADING;
 
     return (
       <form className="reviews__form form" action="#" method="post" disabled={disabled} onSubmit={this.handleSubmit}>
@@ -66,7 +86,7 @@ class CommentForm extends PureComponent {
             </React.Fragment>
           )}
         </div>
-        <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={this.onMessageChanged}></textarea>
+        <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={this.onMessageChanged} value={comment}></textarea>
         <div className="reviews__button-wrapper">
           <p className="reviews__help">
             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
@@ -79,10 +99,22 @@ class CommentForm extends PureComponent {
 }
 
 CommentForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-  disabled: PropTypes.bool
+  offerId: PropTypes.number,
+  sendComment: PropTypes.func.isRequired,
+  clearStatus: PropTypes.func.isRequired,
+  loadingStatus: PropTypes.oneOf(LoadingStatuses)
 };
 
+const mapStateToProps = (state) => ({
+  loadingStatus: getLoadingStatus(state),
+  offerId: getHoveredOfferId(state)
+});
 
-export default CommentForm;
+const mapDispatchToProps = {
+  sendComment: commentOperation.sendComment,
+  clearStatus: commentOperation.clearStatus
+};
+
+export {CommentForm};
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

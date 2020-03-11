@@ -8,15 +8,15 @@ const initialState = {
 };
 
 const ActionType = {
-  CHECK_AUTH: `CHECK_AUTH`,
   SET_AUTH: `SET_AUTH`,
   SET_AUTH_ERROR: `SET_AUTH_ERROR`,
+  SET_AUTH_STATUS: `SET_AUTH_STATUS`
 };
 
 const ActionCreator = {
   setAuthStatus: (status) => {
     return {
-      type: ActionType.CHECK_AUTH,
+      type: ActionType.SET_AUTH_STATUS,
       payload: status
     };
   },
@@ -34,10 +34,6 @@ const ActionCreator = {
   },
 };
 
-const checkAuth = (state, action) => {
-  return extendObject(state, {authStatus: action.payload});
-};
-
 const setAuth = (state, action) => {
   return extendObject(state, {authInfo: action.payload, authStatus: AuthStatus.AUTH});
 };
@@ -46,14 +42,18 @@ const setAuthError = (state, action) => {
   return extendObject(state, {authError: action.payload});
 };
 
+const setAuthStatus = (state, action) => {
+  return extendObject(state, {authStatus: action.payload});
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.CHECK_AUTH:
-      return checkAuth(state, action);
     case ActionType.SET_AUTH:
       return setAuth(state, action);
     case ActionType.SET_AUTH_ERROR:
       return setAuthError(state, action);
+    case ActionType.SET_AUTH_STATUS:
+      return setAuthStatus(state, action);
   }
 
   return state;

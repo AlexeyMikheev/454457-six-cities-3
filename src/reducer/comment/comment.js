@@ -27,7 +27,7 @@ const ActionCreator = {
       payload: message
     };
   },
-  setLoadingStatu: (status) => {
+  setLoadingStatus: (status) => {
     return {
       type: ActionType.SET_LOADING_STATUS,
       payload: status
@@ -72,6 +72,7 @@ const Operation = {
   resetComments: () => (dispatch, _getState, _api) => {
     dispatch(ActionCreator.setComments([]));
   },
+
   getComments: (offerId) => (dispatch, _getState, api) => {
     return api.get(`/${Url.COMMENTS}/${offerId}`)
       .then((response) => {
@@ -87,7 +88,7 @@ const Operation = {
       });
   },
 
-  sendComment: (offerId, commentData) => (dispatch, getState, api) => {
+  sendComment: (offerId, commentData) => (dispatch, _getState, api) => {
     dispatch(ActionCreator.setLoadingStatus(LoadingStatus.LOADING));
     return api.post(`/${Url.COMMENTS}/${offerId}`, commentData)
     .then((response) => {
@@ -105,6 +106,10 @@ const Operation = {
       throw err;
     });
   },
+
+  clearStatus: () => (dispatch, _getState, _api) => {
+    dispatch(ActionCreator.setLoadingStatus(LoadingStatus.DEFAULT));
+  }
 };
 
 export {ActionCreator, ActionType, Operation, reducer};
