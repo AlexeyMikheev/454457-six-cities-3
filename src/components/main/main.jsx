@@ -9,7 +9,7 @@ import {ViewMode} from "../../consts.js";
 import {OfferShape, CityShape} from "../../settings.js";
 import Map from "../map/map.jsx";
 import withBooleanState from "../../hoks/with-boolean-state.js";
-import {getCurrentOffers, getCurrentCity, getHoveredOffer} from "../../reducer/data/selectors.js";
+import {getCurrentOffers, getCurrentCity, getHoveredOffer, getMainPageTitle} from "../../reducer/data/selectors.js";
 import Header from "../header/header.jsx";
 
 const SortingWithState = withBooleanState(Sorting);
@@ -20,15 +20,13 @@ class Main extends PureComponent {
   }
 
   renderContent() {
-    const {offers, currentCity, hoveredOffer} = this.props;
-
-    const title = offers.length > 0 ? `${offers.length} ${offers.length > 1 ? `places` : `place`} to stay in ${currentCity ? currentCity.name : ``}` : `No places to stay available`;
+    const {offers, currentCity, hoveredOffer, mainPageTitle} = this.props;
 
     return (
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{title}</b>
+          <b className="places__found">{mainPageTitle}</b>
           <SortingWithState />
           <Offers viewMode={ViewMode.Main} />
         </section>
@@ -71,12 +69,14 @@ Main.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   currentCity: PropTypes.shape(CityShape),
   hoveredOffer: PropTypes.shape(OfferShape),
+  mainPageTitle: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
   offers: getCurrentOffers(state),
   currentCity: getCurrentCity(state),
-  hoveredOffer: getHoveredOffer(state)
+  hoveredOffer: getHoveredOffer(state),
+  mainPageTitle: getMainPageTitle(state)
 });
 
 export {Main};

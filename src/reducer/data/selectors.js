@@ -76,3 +76,11 @@ export const getCurrentOffers = createSelector(
       return currentCity !== null ? getPreparedOffers(offers, sortType, currentCity.name) : [];
     }
 );
+
+export const getMainPageTitle = createSelector(
+    getCurrentOffers,
+    getCurrentCityName,
+    (offers, cityName) => {
+      return offers.length > 0 ? `${offers.length} ${offers.length > 1 ? `places` : `place`} to stay in ${cityName ? cityName : ``}` : `No places to stay available`;
+    }
+);
