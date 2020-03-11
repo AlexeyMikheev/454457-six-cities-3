@@ -4,14 +4,14 @@ export const getRatingPercents = (value) => Math.floor(value) * 100 / MAX_RATING
 
 export const extendObject = (a, b) => Object.assign({}, a, b);
 
-export const getFiltredOffersByProperty = (offers, propertyName, value) => {
+export const getFiltredOffers = (offers, propertyName, value) => {
   return offers.filter((offer) => offer[propertyName] === value);
 };
 
-export const getSortedOffersByProperty = (offers, propertyName, asc = false) => {
+export const getSortedOffers = (offers, property, asc = false) => {
   return offers.slice().sort((prev, next) => {
-    const prevValue = prev[propertyName];
-    const nextValue = next[propertyName];
+    const prevValue = prev[property];
+    const nextValue = next[property];
 
     if (prevValue > nextValue) {
       return asc ? 1 : -1;
@@ -41,19 +41,16 @@ export const getOfferType = (type) => {
 };
 
 export const getPreparedOffers = (offers, sortType, value) => {
+  const offersByCity = getFiltredOffers(offers, `cityName`, value);
   switch (sortType) {
     case SortType.POPULAR:
-      const popularOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(popularOffersByCity, `isPremium`);
+      return getSortedOffers(offersByCity, `isPremium`);
     case SortType.PRICE_HL:
-      const HLOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(HLOffersByCity, `cost`);
+      return getSortedOffers(offersByCity, `cost`);
     case SortType.PRICE_LH:
-      const LHOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(LHOffersByCity, `cost`, true);
+      return getSortedOffers(offersByCity, `cost`, true);
     case SortType.TOPRATED:
-      const topRatedOffersByCity = getFiltredOffersByProperty(offers, `cityName`, value);
-      return getSortedOffersByProperty(topRatedOffersByCity, `rating`);
+      return getSortedOffers(offersByCity, `rating`);
     default: return offers;
   }
 };
