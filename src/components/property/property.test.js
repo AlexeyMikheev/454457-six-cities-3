@@ -3,12 +3,12 @@ import renderer from "react-test-renderer";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Property from "./property.jsx";
-import {OfferType, FEATURES, AuthStatus} from '../../consts.js';
+import {OfferType, FEATURES, AuthStatus, SortType} from '../../consts.js';
 import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
-const mock = [{
+const mockOffers = [{
   id: 1,
   isPremium: true,
   cost: 120,
@@ -39,33 +39,6 @@ const mock = [{
   lonlat: [52.3909553943508, 4.85309666406198]
 }];
 
-const mockDate = new Date(0).valueOf();
-
-const reviewsMock = [
-  {
-    id: 1,
-    name: `Max`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 4.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
-    date: mockDate
-  },
-  {
-    id: 2,
-    name: `Nina`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 0,
-    description: `The building is green and from 18th century.`,
-    date: mockDate
-  },
-  {
-    id: 3,
-    name: `Andre`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 3.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    date: mockDate
-  }];
 
 const nearOffersMock = [
   {
@@ -197,12 +170,13 @@ it(`Render Property`, () => {
 
   const store = mockStore({
     [NameSpace.DATA]: {
-      offers: mock,
-      currentOfferId: mock[0].id,
       cities: [],
-      reviews: reviewsMock,
       currentCityName: null,
-      nearOffers: nearOffersMock
+      offers: mockOffers,
+      nearbyOffers: nearOffersMock,
+      hoveredOfferId: null,
+      currentOfferId: mockOffers[0].id,
+      sortType: SortType.POPULAR
     },
     [NameSpace.COMMNET]: {
       comments: [],

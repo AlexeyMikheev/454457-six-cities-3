@@ -62,7 +62,7 @@ const Operation = {
   loadData: () => (dispatch, _getState, api) => {
     return api.get(`/${Url.HOTELS}`)
       .then((response) => {
-        dispatch(ActionCreator.setData(response.data));
+        dispatch(ActionCreator.setData(adaptHotelsResponse(response.data)));
       });
   },
   loadNearbyOffers: (currentOfferId) => (dispatch, _getState, api) => {
@@ -118,12 +118,11 @@ const setSortType = (state, action) => extendObject(state, {sortType: action.pay
 const setHoveredOffer = (state, action) => extendObject(state, {hoveredOfferId: action.payload});
 
 const setData = (state, action) => {
-  const offers = adaptHotelsResponse(action.payload);
 
   let updatedState = extendObject({}, state);
-  updatedState = extendObject(updatedState, {offers});
+  updatedState = extendObject(updatedState, action.payload);
 
-  const cities = getCities(offers);
+  const cities = getCities(action.payload);
 
   if (cities.length > 0) {
     const currentCity = cities[0];

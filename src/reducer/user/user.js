@@ -75,7 +75,7 @@ const Operation = {
       });
   },
 
-  login: (authData) => (dispatch, getState, api) => {
+  login: (authData) => (dispatch, _getState, api) => {
     return api.post(`/${Url.LOGIN}`, {
       email: authData.login,
       password: authData.password,

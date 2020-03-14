@@ -43,12 +43,6 @@ const setComments = (state, action) => {
   return extendObject(state, {comments: action.payload});
 };
 
-const addComment = (state, action) => {
-  const updatedComments = [...state.comments, action.payload];
-
-  return extendObject(state, {comments: updatedComments});
-};
-
 const setLoadingStatus = (state, action) => {
   return extendObject(state, {loadingStatus: action.payload});
 };
@@ -57,8 +51,6 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.SET_COMMENTS:
       return setComments(state, action);
-    case ActionType.ADD_COMMENT:
-      return addComment(state, action);
     case ActionType.SET_COMMENT_ERROR:
       return setCommentError(state, action);
     case ActionType.SET_LOADING_STATUS:

@@ -1,7 +1,8 @@
 import MockAdapter from "axios-mock-adapter";
 import {createAPI} from "../../api.js";
 import {reducer, Operation, ActionCreator, ActionType} from "./data.js";
-import {OfferType, FEATURES, SortType} from '../../consts.js';
+import {SortType, Url} from "../../consts.js";
+import {adaptHotelsResponse} from "../../adapters.js";
 
 const api = createAPI(() => {});
 
@@ -20,210 +21,189 @@ const currentCityMock = citiesMock[0];
 
 const newCurrentCityMock = citiesMock[1];
 
-const offersMock = [
+const responseOffersMock = [
   {
+    bedrooms: 3,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10
+      },
+      name: `Amsterdam`
+    },
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    goods: [`Heating`, `Kitchen`, `Cable TV`, `Washing machine`, `Coffee machine`, `Dishwasher`],
+    host: {
+      [`avatar_url`]: `img/1.png`,
+      id: 3,
+      [`is_pro`]: true,
+      name: `Angelina`
+    },
     id: 1,
-    isPremium: true,
-    cost: 120,
-    isMarked: false,
-    rating: 2,
-    name: `Beautiful & luxurious apartment at great location`,
-    type: OfferType.APARTMENT,
-    image: `img/apartment-01.jpg`,
-    roomsCount: 3,
-    membersCount: 4,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    owner: {
-      name: `Angelina`,
-      avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      isTrust: true
+    images: [`img/1.png`, `img/2.png`],
+    [`is_favorite`]: false,
+    [`is_premium`]: false,
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
     },
-    cityName: `Paris`,
-    lonlat: [52.3909553943508, 4.85309666406198]
+    [`max_adults`]: 4,
+    [`preview_image`]: `img/1.png`,
+    price: 120,
+    rating: 4.8,
+    title: `Beautiful & luxurious studio at great location`,
+    type: `apartment`
   },
   {
+    bedrooms: 3,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10
+      },
+      name: `Paris`
+    },
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    goods: [`Heating`, `Kitchen`, `Cable TV`, `Washing machine`, `Coffee machine`, `Dishwasher`],
+    host: {
+      [`avatar_url`]: `img/1.png`,
+      id: 3,
+      [`is_pro`]: true,
+      name: `Angelina`
+    },
     id: 2,
-    isPremium: false,
-    cost: 80,
-    isMarked: true,
-    rating: 3,
-    name: `Wood and stone place`,
-    type: OfferType.ROOM,
-    image: `img/room.jpg`,
-    roomsCount: 2,
-    membersCount: 1,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    owner: {
-      name: `Angelina 1`,
-      avatar: `img/avatar-angelina.jpg`,
-      description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      isTrust: true
+    images: [`img/1.png`, `img/2.png`],
+    [`is_favorite`]: false,
+    [`is_premium`]: false,
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
     },
-    cityName: `Cologne`,
-    lonlat: [52.369553943508, 4.85309666406198]
-  },
-  {
-    id: 3,
-    isPremium: false,
-    cost: 132,
-    isMarked: false,
-    rating: 4.1,
-    name: `iCanal View Prinsengracht`,
-    type: OfferType.HOTEL,
-    image: `img/apartment-02.jpg`,
-    roomsCount: 4,
-    membersCount: 5,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    owner: {
-      id: 2,
-      name: `Angelina 2`,
-      avatar: `img/avatar-angelina.jpg`,
-      isTrust: true
-    },
-    cityName: `Paris`,
-    lonlat: [52.3909553943508, 4.929309666406198]
+    [`max_adults`]: 4,
+    [`preview_image`]: `img/1.png`,
+    price: 120,
+    rating: 4.8,
+    title: `Beautiful & luxurious studio at great location`,
+    type: `apartment`
   }
 ];
 
+const offersMock = adaptHotelsResponse(responseOffersMock);
+
 const currentofferMock = offersMock[0];
 
-it(`Reducer without additional parameters should return initial state`, () => {
+it(`Reducer data initial state`, () => {
   expect(reducer(undefined, {})).toEqual({
     cities: [],
     currentCityName: null,
     offers: [],
+    nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    reviews: [],
     sortType: SortType.POPULAR
   });
 });
 
-it(`Reducer should set current city by a given value`, () => {
+it(`Reducer data setCurrentCity`, () => {
   expect(reducer({
-    offers: null,
-    currentOfferId: null,
-    hoveredOfferId: null,
     cities: citiesMock,
-    reviews: [],
     currentCityName: currentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
     sortType: SortType.POPULAR
   }, ActionCreator.setCurrentCity(newCurrentCityMock.name))).toEqual({
-    offers: null,
-    currentOfferId: null,
-    hoveredOfferId: null,
     cities: citiesMock,
-    reviews: [],
     currentCityName: newCurrentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
     sortType: SortType.POPULAR
   });
 });
 
-it(`Reducer should set sort type type by a given value`, () => {
+it(`Reducer data setSortType`, () => {
   expect(reducer({
-    offers: offersMock,
-    currentOfferId: null,
-    hoveredOfferId: null,
     cities: citiesMock,
-    reviews: [],
-    currentCityName: newCurrentCityMock.Name,
+    currentCityName: currentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
     sortType: SortType.POPULAR
   }, ActionCreator.setSortType(SortType.PRICE_LH))).toEqual({
-    offers: offersMock,
-    currentOfferId: null,
-    hoveredOfferId: null,
     cities: citiesMock,
-    reviews: [],
-    currentCityName: newCurrentCityMock.Name,
+    currentCityName: currentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
     sortType: SortType.PRICE_LH
   });
 });
 
-it(`Reducer should set current current offer by a given value`, () => {
+it(`Reducer data setCurrentOffer`, () => {
   expect(reducer({
-    offers: offersMock,
-    currentOfferId: null,
+    cities: citiesMock,
+    currentCityName: currentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
     hoveredOfferId: null,
-    cities: [],
-    reviews: [],
-    currentCityName: null,
+    currentOfferId: null,
     sortType: SortType.POPULAR
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
-    offers: offersMock,
-    currentOfferId: currentofferMock.id,
+    cities: citiesMock,
+    currentCityName: currentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
     hoveredOfferId: null,
-    cities: [],
-    reviews: [],
-    currentCityName: null,
+    currentOfferId: currentofferMock.id,
     sortType: SortType.POPULAR
   });
 });
 
-it(`Reducer should set current hovered offer by a given value`, () => {
+it(`Reducer data setHoveredOffer`, () => {
   expect(reducer({
-    offers: offersMock,
-    currentOfferId: null,
+    cities: citiesMock,
+    currentCityName: currentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
     hoveredOfferId: null,
-    cities: [],
-    reviews: [],
-    currentCityName: null,
+    currentOfferId: null,
     sortType: SortType.POPULAR
   }, ActionCreator.setHoveredOffer(currentofferMock.id))).toEqual({
-    offers: offersMock,
-    currentOfferId: null,
+    cities: citiesMock,
+    currentCityName: currentCityMock.name,
+    offers: [],
+    nearbyOffers: [],
     hoveredOfferId: currentofferMock.id,
-    cities: [],
-    reviews: [],
-    currentCityName: null,
+    currentOfferId: null,
     sortType: SortType.POPULAR
   });
 });
 
-describe(`Operation data work correctly`, () => {
-  it(`Should make a correct API call to /hotels`, function () {
+describe(`Operation data loadData`, () => {
+  it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const loader = Operation.loadData();
 
     apiMock
-      .onGet(`/hotels`)
-      .reply(200, [{fake: true}]);
+      .onGet(`/${Url.HOTELS}`)
+      .reply(200, responseOffersMock);
 
     return loader(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
-          type: ActionType.LOAD_DATA,
-          payload: [{fake: true}],
+          type: ActionType.SET_DATA,
+          payload: offersMock,
         });
       });
   });
