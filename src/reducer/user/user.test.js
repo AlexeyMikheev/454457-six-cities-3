@@ -93,7 +93,7 @@ describe(`Operation user login`, () => {
     const loader = Operation.login(mockAuthData);
 
     apiMock
-      .onPost(`/${Url.LOGIN}`, mockAuthData)
+      .onPost(`/${Url.LOGIN}`)
       .reply(200, mockUserInfo);
 
     return loader(dispatch, () => {}, api)

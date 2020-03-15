@@ -30,13 +30,8 @@ it(`Should login submit`, () => {
     name: `Oliver.conner`,
   };
 
-  const mockAuthData = {
-    login: mockUserInfo.email,
-    password: `password`,
-  };
-
   apiMock
-  .onPost(`/${Url.LOGIN}`, mockAuthData)
+  .onPost(`/${Url.LOGIN}`)
   .reply(200, mockUserInfo);
 
   const store = mockStore({
