@@ -85,3 +85,24 @@ describe(`Operation user checkAuth`, () => {
       });
   });
 });
+
+describe(`Operation user login`, () => {
+  it(`Should make a correct API`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const loader = Operation.login(mockAuthData);
+
+    apiMock
+      .onPost(`/${Url.LOGIN}`, mockAuthData)
+      .reply(200, mockUserInfo);
+
+    return loader(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.SET_AUTH,
+          payload: mockUserInfo
+        });
+      });
+  });
+});
