@@ -1,9 +1,9 @@
 import MockAdapter from "axios-mock-adapter";
-import {createAPI} from "../../api.js";
-import {reducer, Operation, ActionCreator, ActionType} from "./user.js";
-import {AuthStatus, Url} from "../../consts";
+import { createAPI } from "../../api.js";
+import { reducer, Operation, ActionCreator, ActionType } from "./user.js";
+import { AuthStatus, Url } from "../../consts";
 
-const api = createAPI(() => {});
+const api = createAPI(() => { });
 
 const mockUserInfo = {
   [`avatar_url`]: `img/1.png`,
@@ -75,7 +75,7 @@ describe(`Operation user checkAuth`, () => {
       .onGet(`/${Url.LOGIN}`)
       .reply(200, mockAuthData);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, () => { }, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -93,10 +93,13 @@ describe(`Operation user login`, () => {
     const loader = Operation.login(mockAuthData);
 
     apiMock
-      .onPost(`/${Url.LOGIN}`)
+      .onPost(`/${Url.LOGIN}`, {
+        email: mockAuthData.login,
+        password: mockAuthData.password
+      })
       .reply(200, mockUserInfo);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, () => { }, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
