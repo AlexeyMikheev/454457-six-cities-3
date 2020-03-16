@@ -9,10 +9,13 @@ import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
 import CommentForm from "../comment-form/comment-form.jsx";
+import withFormState from "../../hoks/with-form-state.jsx";
 import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
 import {getCommnets} from "../../reducer/comment/selectors.js";
 import Header from "../header/header.jsx";
+
+const CommentFormWithState = withFormState(CommentForm);
 
 const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized}) => {
   const {images, description} = offer;
@@ -54,7 +57,7 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuth
               </div>
               <section className="property__reviews reviews">
                 <Reviews reviews={reviews} />
-                {isAuthorized && <CommentForm />}
+                {isAuthorized && <CommentFormWithState />}
               </section>
             </div>
             <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} currentCity={currentCity}/>

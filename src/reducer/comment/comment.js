@@ -93,6 +93,7 @@ const Operation = {
 
       if (response.status === ErrorType.BABREQUEST) {
         dispatch(ActionCreator.setLoadingStatus(LoadingStatus.ERROR));
+        dispatch(ActionCreator.setCommentError(response.data.error));
       }
       dispatch(ActionCreator.setLoadingStatus(false));
       throw err;

@@ -120,7 +120,7 @@ const setHoveredOffer = (state, action) => extendObject(state, {hoveredOfferId: 
 const setData = (state, action) => {
 
   let updatedState = extendObject({}, state);
-  updatedState = extendObject(updatedState, action.payload);
+  updatedState = extendObject(updatedState, {offers: action.payload});
 
   const cities = getCities(action.payload);
 
