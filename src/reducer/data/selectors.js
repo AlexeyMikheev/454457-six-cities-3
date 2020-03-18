@@ -4,29 +4,19 @@ import {getPreparedOffers} from "../../utils.js";
 
 const NAME_SPACE = NameSpace.DATA;
 
-export const getCities = (state) => {
-  return state[NAME_SPACE].cities;
-};
+export const getCities = (state) => state[NAME_SPACE].cities;
 
-export const getOffers = (state) => {
-  return state[NAME_SPACE].offers;
-};
+export const getOffers = (state) => state[NAME_SPACE].offers;
 
-export const getSortType = (state) => {
-  return state[NAME_SPACE].sortType;
-};
+export const getSortType = (state) => state[NAME_SPACE].sortType;
 
-export const getCurrentOfferId = (state) => {
-  return state[NAME_SPACE].currentOfferId;
-};
+export const getCurrentOfferId = (state) => state[NAME_SPACE].currentOfferId;
 
-export const getReviews = (state) => {
-  return state[NAME_SPACE].reviews;
-};
+export const getReviews = (state) => state[NAME_SPACE].reviews;
 
-export const getNearOffers = (state) => {
-  return state[NAME_SPACE].nearbyOffers;
-};
+export const getNearOffers = (state) => state[NAME_SPACE].nearbyOffers;
+
+export const getFavoriteOffers = (state) => state[NAME_SPACE].favoriteOffers;
 
 export const getCurrentOffer = createSelector(
     getOffers,

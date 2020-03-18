@@ -104,7 +104,8 @@ it(`Reducer data initial state`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   });
 });
 
@@ -116,7 +117,8 @@ it(`Reducer data setCurrentCity`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   }, ActionCreator.setCurrentCity(newCurrentCityMock.name))).toEqual({
     cities: citiesMock,
     currentCityName: newCurrentCityMock.name,
@@ -124,7 +126,8 @@ it(`Reducer data setCurrentCity`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   });
 });
 
@@ -136,7 +139,8 @@ it(`Reducer data setSortType`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   }, ActionCreator.setSortType(SortType.PRICE_LH))).toEqual({
     cities: citiesMock,
     currentCityName: currentCityMock.name,
@@ -144,7 +148,8 @@ it(`Reducer data setSortType`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    sortType: SortType.PRICE_LH
+    sortType: SortType.PRICE_LH,
+    favoriteOffers: []
   });
 });
 
@@ -156,7 +161,8 @@ it(`Reducer data setCurrentOffer`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
     cities: citiesMock,
     currentCityName: currentCityMock.name,
@@ -164,7 +170,8 @@ it(`Reducer data setCurrentOffer`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: currentofferMock.id,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   });
 });
 
@@ -176,7 +183,8 @@ it(`Reducer data setHoveredOffer`, () => {
     nearbyOffers: [],
     hoveredOfferId: null,
     currentOfferId: null,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   }, ActionCreator.setHoveredOffer(currentofferMock.id))).toEqual({
     cities: citiesMock,
     currentCityName: currentCityMock.name,
@@ -184,7 +192,8 @@ it(`Reducer data setHoveredOffer`, () => {
     nearbyOffers: [],
     hoveredOfferId: currentofferMock.id,
     currentOfferId: null,
-    sortType: SortType.POPULAR
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
   });
 });
 
@@ -203,6 +212,48 @@ describe(`Operation data loadData`, () => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.SET_DATA,
+          payload: offersMock,
+        });
+      });
+  });
+});
+
+describe(`Operation data loadNearbyOffers`, () => {
+  it(`Should make a correct API`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const loader = Operation.loadNearbyOffers();
+
+    apiMock
+      .onGet(`/${Url.HOTELS}`)
+      .reply(200, responseOffersMock);
+
+    return loader(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.SET_NEARBY_OFFERS,
+          payload: offersMock,
+        });
+      });
+  });
+});
+
+describe(`Operation data loadNearbyOffers`, () => {
+  it(`Should make a correct API`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const loader = Operation.loadFavorits();
+
+    apiMock
+      .onGet(`/${Url.HOTELS}`)
+      .reply(200, responseOffersMock);
+
+    return loader(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.SET_FAVORITE_OFFERS,
           payload: offersMock,
         });
       });

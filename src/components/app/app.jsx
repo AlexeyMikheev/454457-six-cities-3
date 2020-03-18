@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Login from "../login/login.jsx";
 import Property from "../property/property.jsx";
+import Favorites from "../favorites/favorites.jsx";
 import {CityShape} from "../../settings.js";
 import {getHasSelectedOffer, getCurrentCity} from "../../reducer/data/selectors.js";
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
@@ -21,12 +22,7 @@ class App extends PureComponent {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path={AppRoute.ROOT}>
-            <Main />
-          </Route>
-          {/* <Route exact path={`${AppRoute.OFFER}/:id`}>
-            <Property />
-          </Route> */}
+          <Route exact path={`${AppRoute.OFFER}/:offerId`} component={Property} />
           <Route exact path={AppRoute.LOGIN} render={
             () => {
               return isAuthorized ? <Redirect to={AppRoute.ROOT} /> : <Login />;
@@ -35,13 +31,16 @@ class App extends PureComponent {
           <PrivateRoute
             exact
             isAuthorized={isAuthorized}
-            path={`${AppRoute.OFFER}/:id`}
+            path={`${AppRoute.FAVORITES}`}
             render={() => {
               return (
-                <Property />
+                <Favorites />
               );
             }}
           />
+          <Route exact path={AppRoute.ROOT}>
+            <Main />
+          </Route>
         </Switch>
       </BrowserRouter>
     );

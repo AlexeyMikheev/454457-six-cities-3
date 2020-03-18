@@ -4,17 +4,11 @@ import {LoadingStatus} from "../../consts.js";
 
 const NAME_SPACE = NameSpace.COMMNET;
 
-export const getCommnets = (state) => {
-  return state[NAME_SPACE].comments;
-};
+export const getCommnets = (state) => state[NAME_SPACE].comments;
 
-export const getCommentError = (state) => {
-  return state[NAME_SPACE].commentError;
-};
+export const getCommentError = (state) => state[NAME_SPACE].commentError;
 
-export const getLoadingStatus = (state) => {
-  return state[NAME_SPACE].loadingStatus;
-};
+export const getLoadingStatus = (state) => state[NAME_SPACE].loadingStatus;
 
 export const isLoadingStatus = createSelector(
     getLoadingStatus,

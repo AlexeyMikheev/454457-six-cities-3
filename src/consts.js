@@ -101,6 +101,7 @@ export const LoadingStatuses = [
 export const Url = {
   COMMENTS: `comments`,
   HOTELS: `hotels`,
+  FAVORITE: `favorite`,
   LOGIN: `login`,
   NEARBY: `nearby`
 };

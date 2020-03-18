@@ -11,13 +11,22 @@ import PropertyGallery from "../property-gallery/property-gallery.jsx";
 import CommentForm from "../comment-form/comment-form.jsx";
 import withFormState from "../../hoks/with-form-state.jsx";
 import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
+import {ActionCreator} from "../../reducer/data/data.js";
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
 import {getCommnets} from "../../reducer/comment/selectors.js";
 import Header from "../header/header.jsx";
 
 const CommentFormWithState = withFormState(CommentForm);
 
-const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized}) => {
+const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer}) => {
+
+  const offerId = parseInt(match.params.offerId, 10);
+
+  if (!offer || offer && offer.id !== offerId) {
+    setCurrentOffer(offerId);
+    return (<React.Fragment></React.Fragment>);
+  }
+
   const {images, description} = offer;
   const {name: ownerName, avatar, isTrust} = offer.owner;
 
@@ -75,12 +84,15 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuth
 };
 
 Property.propTypes = {
-  offer: PropTypes.shape(OfferShape).isRequired,
+  match: PropTypes.object,
+  offerId: PropTypes.number,
+  offer: PropTypes.shape(OfferShape),
   hoveredOffer: PropTypes.shape(OfferShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   currentCity: PropTypes.shape(CityShape),
   isAuthorized: PropTypes.bool.isRequired,
+  setCurrentOffer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -93,6 +105,10 @@ const mapStateToProps = (state) => ({
   isAuthorized: isUserAuthorized(state)
 });
 
+const mapDispatchToProps = {
+  setCurrentOffer: ActionCreator.setCurrentOffer
+};
+
 export {Property};
-export default connect(mapStateToProps)(Property);
+export default connect(mapStateToProps, mapDispatchToProps)(Property);
 

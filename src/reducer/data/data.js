@@ -10,7 +10,8 @@ const initialState = {
   nearbyOffers: [],
   hoveredOfferId: null,
   currentOfferId: null,
-  sortType: SortType.POPULAR
+  sortType: SortType.POPULAR,
+  favoriteOffers: []
 };
 
 const ActionType = {
@@ -20,6 +21,7 @@ const ActionType = {
   SET_SORT_TYPE: `SET_SORT_TYPE`,
   SET_DATA: `SET_DATA`,
   SET_NEARBY_OFFERS: `SET_NEARBY_OFFERS`,
+  SET_FAVORITE_OFFERS: `SET_FAVORITE_OFFERS`
 };
 
 const ActionCreator = {
@@ -50,10 +52,16 @@ const ActionCreator = {
       payload: data,
     };
   },
-  setNearbyOffers: (nearbyOffers) => {
+  setNearbyOffers: (offers) => {
     return {
       type: ActionType.SET_NEARBY_OFFERS,
-      payload: nearbyOffers,
+      payload: offers,
+    };
+  },
+  setFavoritesOffers: (offers) => {
+    return {
+      type: ActionType.SET_FAVORITE_OFFERS,
+      payload: offers,
     };
   }
 };
@@ -71,6 +79,12 @@ const Operation = {
         dispatch(ActionCreator.setNearbyOffers(response.data));
       });
   },
+  loadFavorits: () => (dispatch, _getState, api) => {
+    return api.get(`/${Url.FAVORITE}`)
+      .then((response) => {
+        dispatch(ActionCreator.setFavoritesOffers(response.data));
+      });
+  },
   setCurrentOffer: (currentOfferId) => (dispatch, _getState, _api) => {
     dispatch(ActionCreator.setCurrentOffer(currentOfferId));
 
@@ -78,6 +92,7 @@ const Operation = {
       dispatch(CommentsOperation.getComments(currentOfferId));
 
       dispatch(Operation.loadNearbyOffers(currentOfferId));
+
     } else {
       dispatch(ActionCreator.setNearbyOffers([]));
     }
@@ -104,6 +119,9 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.SET_NEARBY_OFFERS:
       return setNearbyOffers(state, action);
+
+    case ActionType.SET_FAVORITE_OFFERS:
+      return setFavoriteOffers(state, action);
 
     default: return state;
   }
@@ -136,6 +154,12 @@ const setNearbyOffers = (state, action) => {
   const nearbyOffers = adaptHotelsResponse(action.payload);
 
   return extendObject(state, {nearbyOffers});
+};
+
+const setFavoriteOffers = (state, action) => {
+  const favoriteOffers = adaptHotelsResponse(action.payload);
+
+  return extendObject(state, {favoriteOffers});
 };
 
 export {reducer, Operation, ActionType, ActionCreator};
