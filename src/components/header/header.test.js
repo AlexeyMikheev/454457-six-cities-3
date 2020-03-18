@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import Header from "./header.jsx";
 import NameSpace from "../../reducer/name-space.js";
 import {AuthStatus} from "../../consts.js";
+import {BrowserRouter} from "react-router-dom";
 
 const mockStore = configureStore([]);
 
@@ -16,7 +17,10 @@ it(`Render Header`, () => {
   }});
 
   const tree = renderer
-      .create(<Provider store={store}><Header /></Provider>)
+      .create(
+          <BrowserRouter>
+            <Provider store={store}><Header /></Provider>
+          </BrowserRouter>)
       .toJSON();
   expect(tree).toMatchSnapshot();
 });

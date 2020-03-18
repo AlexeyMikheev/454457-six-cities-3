@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDom from "react-dom";
-import {createStore, applyMiddleware} from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 import App from "./components/app/app.jsx";
@@ -13,7 +13,10 @@ const api = createAPI();
 
 const store = createStore(
     reducer,
-    applyMiddleware(thunk.withExtraArgument(api))
+    compose(
+        applyMiddleware(thunk.withExtraArgument(api)),
+        window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+    )
 );
 
 store.dispatch(Operation.loadData());

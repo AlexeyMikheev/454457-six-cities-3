@@ -8,9 +8,16 @@ import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
-import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getReviews, getHoveredOffer} from "../../reducer/data/selectors.js";
+import CommentForm from "../comment-form/comment-form.jsx";
+import withFormState from "../../hoks/with-form-state.jsx";
+import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
+import {isUserAuthorized} from "../../reducer/user/selectors.js";
+import {getCommnets} from "../../reducer/comment/selectors.js";
+import Header from "../header/header.jsx";
 
-const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity}) => {
+const CommentFormWithState = withFormState(CommentForm);
+
+const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized}) => {
   const {images, description} = offer;
   const {name: ownerName, avatar, isTrust} = offer.owner;
 
@@ -25,37 +32,43 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity}) => {
 
   return (
     <React.Fragment>
-      <section className="property">
-        <div className="property__gallery-container container">
-          <PropertyGallery images={displayImages} />
-        </div>
-        <div className="property__container container">
-          <div className="property__wrapper">
-            <OfferDetail offer={offer} />
-            <div className="property__host">
-              <h2 className="property__host-title">Meet the host</h2>
-              <div className="property__host-user user">
-                <div className={`property__avatar-wrapper user__avatar-wrapper ${isTrust ? `property__avatar-wrapper--pro` : ``}`}>
-                  <img className="property__avatar user__avatar" src={avatar} width="74" height="74" alt="Host avatar" />
-                </div>
-                <span className="property__user-name">{ownerName}</span>
-              </div>
-              <div className="property__description">
-                <p className="property__text">
-                  {description}
-                </p>
-              </div>
-            </div>
-            <Reviews reviews={reviews} />
+      <Header />
+      <div className="page page--gray page--property">
+        <section className="property">
+          <div className="property__gallery-container container">
+            <PropertyGallery images={displayImages} />
           </div>
-          <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} currentCity={currentCity}/>
-        </div>
-      </section>
-      <div className="container">
-        <section className="near-places places">
-          <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          {nearOffersContainer}
+          <div className="property__container container">
+            <div className="property__wrapper">
+              <OfferDetail offer={offer} />
+              <div className="property__host">
+                <h2 className="property__host-title">Meet the host</h2>
+                <div className="property__host-user user">
+                  <div className={`property__avatar-wrapper user__avatar-wrapper ${isTrust ? `property__avatar-wrapper--pro` : ``}`}>
+                    <img className="property__avatar user__avatar" src={`/${avatar}`} width="74" height="74" alt="Host avatar" />
+                  </div>
+                  <span className="property__user-name">{ownerName}</span>
+                </div>
+                <div className="property__description">
+                  <p className="property__text">
+                    {description}
+                  </p>
+                </div>
+              </div>
+              <section className="property__reviews reviews">
+                <Reviews reviews={reviews} />
+                {isAuthorized && <CommentFormWithState />}
+              </section>
+            </div>
+            <Map offers={displayNearOffers} activeOffer={offer} hoveredOffer={hoveredOffer} viewMode={ViewMode.Property} currentCity={currentCity}/>
+          </div>
         </section>
+        <div className="container">
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            {nearOffersContainer}
+          </section>
+        </div>
       </div>
     </React.Fragment>
   );
@@ -66,7 +79,8 @@ Property.propTypes = {
   hoveredOffer: PropTypes.shape(OfferShape),
   reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  currentCity: PropTypes.shape(CityShape)
+  currentCity: PropTypes.shape(CityShape),
+  isAuthorized: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -74,8 +88,9 @@ const mapStateToProps = (state) => ({
   nearOffers: getNearOffers(state),
   offer: getCurrentOffer(state),
   hoveredOffer: getHoveredOffer(state),
-  reviews: getReviews(state),
-  currentCity: getCurrentCity(state)
+  reviews: getCommnets(state),
+  currentCity: getCurrentCity(state),
+  isAuthorized: isUserAuthorized(state)
 });
 
 export {Property};

@@ -6,7 +6,7 @@ import moment from "moment";
 
 const Review = ({review}) => {
 
-  const {name, avatar, rating, description, date} = review;
+  const {user: {name, avatar}, rating, comment, date} = review;
 
   const displayDate = moment(date).format(`MMMM dd, YYYY`);
   const ratingPercent = getRatingPercents(rating);
@@ -29,7 +29,7 @@ const Review = ({review}) => {
           </div>
         </div>
         <p className="reviews__text">
-          {description}
+          {comment}
         </p>
         <time className="reviews__time" dateTime="2019-04-24">{displayDate}</time>
       </div>

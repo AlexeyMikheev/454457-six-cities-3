@@ -1,32 +1,28 @@
-import {extendObject} from "../../utils.js";
-import {SortType} from "../../consts.js";
-import Offer from "../../model/offer.js";
+import {extendObject, getCities} from "../../utils.js";
+import {SortType, Url} from "../../consts.js";
+import {Operation as CommentsOperation} from "../comment/comment.js";
+import {adaptHotelsResponse} from "../../adapters.js";
 
 const initialState = {
   cities: [],
   currentCityName: null,
   offers: [],
+  nearbyOffers: [],
   hoveredOfferId: null,
   currentOfferId: null,
-  reviews: [],
   sortType: SortType.POPULAR
 };
 
 const ActionType = {
-  SET_REVIEWS: `SET_REVIEWS`,
   SET_CURRENT_CITY: `SET_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SET_SORT_TYPE: `SET_SORT_TYPE`,
-  LOAD_DATA: `LOAD_DATA`
+  SET_DATA: `SET_DATA`,
+  SET_NEARBY_OFFERS: `SET_NEARBY_OFFERS`,
 };
 
 const ActionCreator = {
-
-  setReviews: (reviews) => ({
-    type: ActionType.SET_REVIEWS,
-    payload: reviews
-  }),
 
   setCurrentCity: (cityName) => ({
     type: ActionType.SET_CURRENT_CITY,
@@ -48,28 +44,48 @@ const ActionCreator = {
     payload: sortType,
   }),
 
-  loadData: (offers) => {
+  setData: (data) => {
     return {
-      type: ActionType.LOAD_DATA,
-      payload: offers,
+      type: ActionType.SET_DATA,
+      payload: data,
+    };
+  },
+  setNearbyOffers: (nearbyOffers) => {
+    return {
+      type: ActionType.SET_NEARBY_OFFERS,
+      payload: nearbyOffers,
     };
   }
 };
 
 const Operation = {
-  loadData: () => (dispatch, getState, api) => {
-    return api.get(`/hotels`)
+  loadData: () => (dispatch, _getState, api) => {
+    return api.get(`/${Url.HOTELS}`)
       .then((response) => {
-        dispatch(ActionCreator.loadData(response.data));
+        dispatch(ActionCreator.setData(adaptHotelsResponse(response.data)));
       });
   },
+  loadNearbyOffers: (currentOfferId) => (dispatch, _getState, api) => {
+    return api.get(`/${Url.HOTELS}/${currentOfferId}/${Url.NEARBY}`)
+      .then((response) => {
+        dispatch(ActionCreator.setNearbyOffers(response.data));
+      });
+  },
+  setCurrentOffer: (currentOfferId) => (dispatch, _getState, _api) => {
+    dispatch(ActionCreator.setCurrentOffer(currentOfferId));
+
+    if (currentOfferId !== null) {
+      dispatch(CommentsOperation.getComments(currentOfferId));
+
+      dispatch(Operation.loadNearbyOffers(currentOfferId));
+    } else {
+      dispatch(ActionCreator.setNearbyOffers([]));
+    }
+  }
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-
-    case ActionType.SET_REVIEWS:
-      return setReviews(state, action);
 
     case ActionType.SET_CURRENT_CITY:
       return setCurrentCity(state, action);
@@ -83,82 +99,30 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_HOVERED_OFFER:
       return setHoveredOffer(state, action);
 
-    case ActionType.LOAD_DATA:
-      return loadData(state, action);
+    case ActionType.SET_DATA:
+      return setData(state, action);
+
+    case ActionType.SET_NEARBY_OFFERS:
+      return setNearbyOffers(state, action);
 
     default: return state;
   }
 };
 
-const setReviews = (state, action) => {
-  const reviews = action.payload;
+const setCurrentCity = (state, action) => extendObject(state, {currentCityName: action.payload});
 
-  if (reviews !== null && reviews.length > 0) {
-    return extendObject(state, {reviews});
-  }
-  return state;
-};
+const setCurrentOffer = (state, action) => extendObject(state, {currentOfferId: action.payload});
 
-const setCurrentCity = (state, action) => {
-  const cityName = action.payload;
+const setSortType = (state, action) => extendObject(state, {sortType: action.payload});
 
-  const currentCity = state.cities.find((city) => city.name === cityName);
+const setHoveredOffer = (state, action) => extendObject(state, {hoveredOfferId: action.payload});
 
-  if (currentCity) {
-    return extendObject(state, {currentCityName: currentCity.name});
-  }
-  return state;
-};
-
-const setCurrentOffer = (state, action) => {
-  const offerId = action.payload;
-
-  const currentOffer = state.offers.find((offer) => offer.id === offerId);
-  if (currentOffer) {
-    return extendObject(state, {currentOfferId: currentOffer.id});
-  }
-
-  return state;
-};
-
-const setSortType = (state, action) => {
-  const sortType = action.payload;
-
-  if (sortType === state.sortType) {
-    return state;
-  }
-
-  return extendObject(state, {sortType});
-};
-
-
-const setHoveredOffer = (state, action) => {
-  const offerId = action.payload;
-
-  const hoveredOffer = state.offers.find((offer) => offer.id === offerId);
-  if (hoveredOffer) {
-    return extendObject(state, {hoveredOfferId: hoveredOffer.id});
-  }
-  return extendObject(state, {hoveredOfferId: null});
-};
-
-const loadData = (state, action) => {
-  const values = action.payload;
-
-  const offers = Offer.parseOffers(values);
-
-  const citiesMap = new Map();
-  offers.forEach((offer) => {
-    if (!citiesMap.has(offer.city.name)) {
-      citiesMap.set(offer.city.name, offer.city);
-    }
-  });
+const setData = (state, action) => {
 
   let updatedState = extendObject({}, state);
+  updatedState = extendObject(updatedState, {offers: action.payload});
 
-  updatedState = extendObject(updatedState, {offers});
-
-  const cities = Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
+  const cities = getCities(action.payload);
 
   if (cities.length > 0) {
     const currentCity = cities[0];
@@ -166,6 +130,12 @@ const loadData = (state, action) => {
   }
 
   return updatedState;
+};
+
+const setNearbyOffers = (state, action) => {
+  const nearbyOffers = adaptHotelsResponse(action.payload);
+
+  return extendObject(state, {nearbyOffers});
 };
 
 export {reducer, Operation, ActionType, ActionCreator};
