@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Offer from '../offer/offer.jsx';
 import {OfferShape} from '../../settings.js';
-import {ViewMode, VIEWMODES, MAX_NEAR_DISPLAY_COUNT} from '../../consts.js';
+import {ViewMode, VIEWMODES, MAX_NEAR_DISPLAY_COUNT, FavoriteState} from '../../consts.js';
 import {ActionCreator, Operation as DataOperation} from "../../reducer/data/data.js";
 import {getCurrentOffers, getCurrentCity, getNearOffers} from "../../reducer/data/selectors.js";
 
@@ -13,7 +13,7 @@ class Offers extends PureComponent {
   }
 
   render() {
-    const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer} = this.props;
+    const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer, setFavorite} = this.props;
 
     const isNearViewMode = viewMode === ViewMode.Property;
 
@@ -28,7 +28,11 @@ class Offers extends PureComponent {
           setHoveredOffer(offer.id);
         }} onPlaceCardMouseLeave={() => {
           setHoveredOffer(null);
-        }} isNearViewMode={isNearViewMode} />)}
+        }}
+        setFavorite={() => {
+          setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
+        }}
+        isNearViewMode={isNearViewMode} />)}
       </div>
     );
   }
@@ -43,7 +47,8 @@ Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   setCurrentOffer: PropTypes.func.isRequired,
-  setHoveredOffer: PropTypes.func.isRequired
+  setHoveredOffer: PropTypes.func.isRequired,
+  setFavorite: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -54,7 +59,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setCurrentOffer: DataOperation.setCurrentOffer,
-  setHoveredOffer: ActionCreator.setHoveredOffer
+  setHoveredOffer: ActionCreator.setHoveredOffer,
+  setFavorite: DataOperation.setFavorite,
 };
 
 export {Offers};

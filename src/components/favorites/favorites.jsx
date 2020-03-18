@@ -21,8 +21,6 @@ class Favorites extends PureComponent {
   renderContent() {
     const {offers} = this.props;
 
-    console.log(offers);
-
     return (
       <React.Fragment>
         <Header />
@@ -42,7 +40,7 @@ class Favorites extends PureComponent {
                   <div className="favorites__places">
                     <article className="favorites__card place-card">
                       <div className="favorites__image-wrapper place-card__image-wrapper">
-                        <a xLinkhref="#">
+                        <a xlinkHref="#">
                           <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image" />
                         </a>
                       </div>
@@ -54,7 +52,7 @@ class Favorites extends PureComponent {
                           </div>
                           <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
                             <svg className="place-card__bookmark-icon" width="18" height="19">
-                              <use xlinkhref="#icon-bookmark"></use>
+                              <use xlinkHref="#icon-bookmark"></use>
                             </svg>
                             <span className="visually-hidden">In bookmarks</span>
                           </button>
@@ -85,7 +83,7 @@ class Favorites extends PureComponent {
                           </div>
                           <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
                             <svg className="place-card__bookmark-icon" width="18" height="19">
-                              <use xlinkhref="#icon-bookmark"></use>
+                              <use xlinkHref="#icon-bookmark"></use>
                             </svg>
                             <span className="visually-hidden">In bookmarks</span>
                           </button>
@@ -127,7 +125,7 @@ class Favorites extends PureComponent {
                           </div>
                           <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
                             <svg className="place-card__bookmark-icon" width="18" height="19">
-                              <use xlinkhref="#icon-bookmark"></use>
+                              <use xlinkHref="#icon-bookmark"></use>
                             </svg>
                             <span className="visually-hidden">In bookmarks</span>
                           </button>

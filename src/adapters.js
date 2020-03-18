@@ -4,6 +4,10 @@ export const adaptHotelsResponse = (response) => {
   return response.map(getOffer);
 };
 
+export const adaptHotelResponse = (response) => {
+  return getOffer(response);
+};
+
 export const adaptCommentsResponse = (response) => {
   return response.map(getComment);
 };

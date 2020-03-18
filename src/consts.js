@@ -113,3 +113,9 @@ export const AppRoute = {
   OFFER: `/offer`,
   ROOT: `/`,
 };
+
+
+export const FavoriteState = {
+  MARKED: 1,
+  UNMARKED: 0
+};

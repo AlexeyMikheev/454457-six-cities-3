@@ -21,7 +21,7 @@ class App extends PureComponent {
     const {isAuthorized, isUserAuthLoading} = this.props;
 
     if (isUserAuthLoading) {
-      return (``);
+      return null;
     }
 
     return (
