@@ -6,29 +6,42 @@ const mockDate = new Date(0).valueOf();
 
 const mocks = [
   {
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    date: mockDate,
     id: 1,
-    name: `Max`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 4.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
-    date: mockDate
+    rating: 4,
+    user: {
+      avatar: `img/1.png`,
+      id: 4,
+      isTrust: false,
+      name: `Max`
+    }
   },
   {
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    date: mockDate,
     id: 2,
-    name: `Nina`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 0,
-    description: `The building is green and from 18th century.`,
-    date: mockDate
+    rating: 4,
+    user: {
+      avatar: `img/1.png`,
+      id: 4,
+      isTrust: false,
+      name: `Max`
+    }
   },
   {
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    date: mockDate,
     id: 3,
-    name: `Andre`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 3.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    date: mockDate
-  }];
+    rating: 4,
+    user: {
+      avatar: `img/1.png`,
+      id: 4,
+      isTrust: false,
+      name: `Max`
+    }
+  }
+];
 
 it(`Render Offer`, () => {
 

@@ -1,6 +1,4 @@
 import React, {PureComponent} from 'react';
-import {extendObject} from "../utils.js";
-
 
 const withBooleanState = (Component) => {
   class WithBooleanState extends PureComponent {
@@ -17,7 +15,7 @@ const withBooleanState = (Component) => {
     onToggleHandler() {
       const {isToggled} = this.state;
 
-      this.setState(extendObject(this.state, {isToggled: !isToggled}));
+      this.setState({isToggled: !isToggled});
     }
 
     render() {
