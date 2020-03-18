@@ -20,7 +20,6 @@ const store = createStore(
 );
 
 store.dispatch(Operation.loadData());
-store.dispatch(Operation.loadFavorits());
 
 store.dispatch(UserOperation.checkAuth());
 

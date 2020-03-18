@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import FavoritesEmpty from "../favorites-empty/favorites-empty.jsx";
 import {OfferShape} from "../../settings.js";
 import {getFavoriteOffers} from "../../reducer/data/selectors.js";
+import {Operation as FavoriteOperation} from "../../reducer/data/data.js";
 import Header from "../header/header.jsx";
 
 class Favorites extends PureComponent {
@@ -11,8 +12,16 @@ class Favorites extends PureComponent {
     super(props);
   }
 
+  componentDidMount() {
+    const {loadFavorits} = this.props;
+
+    loadFavorits();
+  }
+
   renderContent() {
     const {offers} = this.props;
+
+    console.log(offers);
 
     return (
       <React.Fragment>
@@ -166,11 +175,16 @@ class Favorites extends PureComponent {
 
 Favorites.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
+  loadFavorits: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   offers: getFavoriteOffers(state),
 });
 
+const mapDispatchToProps = {
+  loadFavorits: FavoriteOperation.loadFavorits,
+};
+
 export {Favorites};
-export default connect(mapStateToProps)(Favorites);
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
