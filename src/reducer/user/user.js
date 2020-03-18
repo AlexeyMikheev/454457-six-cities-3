@@ -61,6 +61,7 @@ const reducer = (state = initialState, action) => {
 
 const Operation = {
   checkAuth: () => (dispatch, _getState, api) => {
+    dispatch(ActionCreator.setAuthStatus(AuthStatus.LOADING));
     return api.get(`/${Url.LOGIN}`)
       .then((response) => {
         dispatch(ActionCreator.setAuthInfo(response.data));
@@ -69,7 +70,7 @@ const Operation = {
         const {response} = err;
 
         if (response.status === ErrorType.UNAUTHORIZED) {
-          ActionCreator.setAuthStatus(AuthStatus.NO_AUTH);
+          dispatch((ActionCreator.setAuthStatus(AuthStatus.NO_AUTH)));
         }
         throw err;
       });

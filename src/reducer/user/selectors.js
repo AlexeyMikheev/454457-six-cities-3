@@ -20,4 +20,11 @@ export const isUserAuthorized = createSelector(
     }
 );
 
+export const isUserAuthorizedLoading = createSelector(
+    getAuthStatus,
+    (authStatus) => {
+      return authStatus === AuthStatus.LOADING;
+    }
+);
+
 

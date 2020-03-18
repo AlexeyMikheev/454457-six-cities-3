@@ -8,7 +8,7 @@ import Property from "../property/property.jsx";
 import Favorites from "../favorites/favorites.jsx";
 import {CityShape} from "../../settings.js";
 import {getHasSelectedOffer, getCurrentCity} from "../../reducer/data/selectors.js";
-import {isUserAuthorized} from "../../reducer/user/selectors.js";
+import {isUserAuthorized, isUserAuthorizedLoading} from "../../reducer/user/selectors.js";
 import {AppRoute} from "../../consts.js";
 import PrivateRoute from "../private-route/private-route.jsx";
 
@@ -18,7 +18,12 @@ class App extends PureComponent {
   }
 
   render() {
-    const {isAuthorized} = this.props;
+    const {isAuthorized, isUserAuthLoading} = this.props;
+
+    if (isUserAuthLoading) {
+      return (``);
+    }
+
     return (
       <BrowserRouter>
         <Switch>
@@ -50,13 +55,15 @@ class App extends PureComponent {
 App.propTypes = {
   hasSelectedOffer: PropTypes.bool.isRequired,
   selectedCity: PropTypes.shape(CityShape),
-  isAuthorized: PropTypes.bool.isRequired
+  isAuthorized: PropTypes.bool.isRequired,
+  isUserAuthLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   hasSelectedOffer: getHasSelectedOffer(state),
   selectedCity: getCurrentCity(state),
   isAuthorized: isUserAuthorized(state),
+  isUserAuthLoading: isUserAuthorizedLoading(state)
 });
 
 export {App};

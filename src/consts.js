@@ -81,6 +81,7 @@ export const URL = `https://htmlacademy-react-3.appspot.com/six-cities`;
 
 export const AuthStatus = {
   NO_AUTH: `NO_AUTH`,
+  LOADING: `LOADING`,
   AUTH: `AUTH`
 };
 
