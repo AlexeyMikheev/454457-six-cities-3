@@ -2,6 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Offer from "./offer.jsx";
 import {OfferType, FEATURES} from '../../consts.js';
+import {BrowserRouter} from "react-router-dom";
 
 const mock = {
   id: 1,
@@ -37,7 +38,10 @@ const mock = {
 it(`Render Offer`, () => {
 
   const tree = renderer
-    .create(<Offer offer={mock} onPlaceHeaderClick={() => {}} onPlaceCardMouseOver={() => {}} onPlaceCardMouseLeave={() => {}} isNearViewMode={false}/>)
+    .create(
+        <BrowserRouter>
+          <Offer offer={mock} onPlaceHeaderClick={() => {}} onPlaceCardMouseOver={() => {}} onPlaceCardMouseLeave={() => {}} isNearViewMode={false}/>
+        </BrowserRouter>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

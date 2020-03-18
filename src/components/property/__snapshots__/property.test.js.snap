@@ -16,13 +16,14 @@ Array [
         >
           <a
             className="header__logo-link"
-            xlinkHref="main.html"
+            href="/"
+            onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="img/logo.svg"
+              src="/img/logo.svg"
               width="81"
             />
           </a>
@@ -38,7 +39,8 @@ Array [
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                xlinkHref="#"
+                href="/login"
+                onClick={[Function]}
               >
                 <div
                   className="header__avatar-wrapper user__avatar-wrapper"
@@ -297,7 +299,7 @@ Array [
                   alt="Host avatar"
                   className="property__avatar user__avatar"
                   height="74"
-                  src="img/avatar-angelina.jpg"
+                  src="/img/avatar-angelina.jpg"
                   width="74"
                 />
               </div>
@@ -456,7 +458,8 @@ Array [
                 onClick={[Function]}
               >
                 <a
-                  href="#"
+                  href="/offer/1"
+                  onClick={[Function]}
                 >
                   Beautiful & luxurious apartment at great location
                 </a>
@@ -554,7 +557,8 @@ Array [
                 onClick={[Function]}
               >
                 <a
-                  href="#"
+                  href="/offer/2"
+                  onClick={[Function]}
                 >
                   Wood and stone place
                 </a>
@@ -652,7 +656,8 @@ Array [
                 onClick={[Function]}
               >
                 <a
-                  href="#"
+                  href="/offer/3"
+                  onClick={[Function]}
                 >
                   iCanal View Prinsengracht
                 </a>

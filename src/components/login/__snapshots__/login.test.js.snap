@@ -16,13 +16,14 @@ Array [
         >
           <a
             className="header__logo-link"
-            xlinkHref="main.html"
+            href="/"
+            onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="img/logo.svg"
+              src="/img/logo.svg"
               width="81"
             />
           </a>
@@ -38,7 +39,8 @@ Array [
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                xlinkHref="#"
+                href="/login"
+                onClick={[Function]}
               >
                 <div
                   className="header__avatar-wrapper user__avatar-wrapper"

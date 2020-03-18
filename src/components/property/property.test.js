@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import Property from "./property.jsx";
 import {OfferType, FEATURES, AuthStatus, SortType} from '../../consts.js';
 import NameSpace from "../../reducer/name-space.js";
+import {BrowserRouter} from "react-router-dom";
 
 const mockStore = configureStore([]);
 
@@ -190,7 +191,12 @@ it(`Render Property`, () => {
     }
   });
 
-  const tree = renderer.create(<Provider store={store}><Property /></Provider>).toJSON();
+  const tree = renderer.create(
+      <BrowserRouter>
+        <Provider store={store}>
+          <Property />
+        </Provider>
+      </BrowserRouter>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
