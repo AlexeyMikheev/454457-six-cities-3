@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 import {getRatingPercents} from '../../utils.js';
+import {AppRoute} from '../../consts.js';
 import {OfferShape} from '../../settings.js';
 
 const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMouseLeave, isNearViewMode}) => {
@@ -41,7 +43,7 @@ const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMous
           </div>
         </div>
         <h2 className="place-card__name" onClick={onPlaceHeaderClick}>
-          <a href="#">{name}</a>
+          <Link to={`${AppRoute.OFFER}/${offer.id}`}>{name}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

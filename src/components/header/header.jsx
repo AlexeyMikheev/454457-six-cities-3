@@ -1,28 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import {AuthInfo as AuthInfoShape} from "../../settings.js";
+import {AppRoute} from "../../consts.js";
 import {isUserAuthorized, getAuthInfo} from "../../reducer/user/selectors.js";
 
 const Header = ({isAuthorized, authInfo}) => {
   const userInfo = isAuthorized ? authInfo.email : `Sing in`;
+  const link = isAuthorized ? AppRoute.FAVORITES : AppRoute.LOGIN;
+
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link" xlinkHref="main.html">
-              <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-            </a>
+            <Link className="header__logo-link" to={AppRoute.ROOT}>
+              <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41" />
+            </Link>
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
-                <a className="header__nav-link header__nav-link--profile" xlinkHref="#">
+                <Link className="header__nav-link header__nav-link--profile" to={link}>
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
                   <span className="header__user-name user__name">{userInfo}</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>

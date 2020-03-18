@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Login from "../login/login.jsx";
@@ -8,33 +8,40 @@ import Property from "../property/property.jsx";
 import {CityShape} from "../../settings.js";
 import {getHasSelectedOffer, getCurrentCity} from "../../reducer/data/selectors.js";
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
+import {AppRoute} from "../../consts.js";
+import PrivateRoute from "../private-route/private-route.jsx";
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
   }
 
-  renderApp() {
-    const {hasSelectedOffer, isAuthorized} = this.props;
-
-    if (!isAuthorized) {
-      return <Login />;
-    }
-
-    if (hasSelectedOffer) {
-      return <Property />;
-    }
-
-    return <Main/>;
-  }
-
   render() {
+    const {isAuthorized} = this.props;
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/">
-            {this.renderApp()}
+          <Route exact path={AppRoute.ROOT}>
+            <Main />
           </Route>
+          {/* <Route exact path={`${AppRoute.OFFER}/:id`}>
+            <Property />
+          </Route> */}
+          <Route exact path={AppRoute.LOGIN} render={
+            () => {
+              return isAuthorized ? <Redirect to={AppRoute.ROOT} /> : <Login />;
+            }
+          }/>
+          <PrivateRoute
+            exact
+            isAuthorized={isAuthorized}
+            path={`${AppRoute.OFFER}/:id`}
+            render={() => {
+              return (
+                <Property />
+              );
+            }}
+          />
         </Switch>
       </BrowserRouter>
     );

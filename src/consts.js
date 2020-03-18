@@ -98,10 +98,16 @@ export const LoadingStatuses = [
   LoadingStatus.ERROR
 ];
 
-
 export const Url = {
   COMMENTS: `comments`,
   HOTELS: `hotels`,
   LOGIN: `login`,
   NEARBY: `nearby`
+};
+
+export const AppRoute = {
+  LOGIN: `/login`,
+  FAVORITES: `/favorites`,
+  OFFER: `/offer`,
+  ROOT: `/`,
 };
