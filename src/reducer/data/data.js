@@ -185,30 +185,30 @@ const setFavoritesOfferStatus = (state, action) => {
   let updatedState = extendObject({}, state);
 
   const updatedOffers = updatedState.offers.slice();
-  const updatedOffer = updatedOffers.find((o) => o.id === offerId);
+  let updatedOfferIndex = updatedOffers.findIndex((o) => o.id === offerId);
 
-  if (updatedOffer) {
-    updatedOffer.isMarked = isMarked;
+  if (updatedOfferIndex !== -1) {
+    updatedOffers[updatedOfferIndex] = extendObject(updatedOffers[updatedOfferIndex], {isMarked});
 
     updatedState = extendObject(updatedState, {offers: updatedOffers});
   }
 
   const updatedNearbyOffers = updatedState.nearbyOffers.slice();
-  const updatednearbyOffer = updatedNearbyOffers.find((o) => o.id === offerId);
+  const updatednearbyOfferIndex = updatedNearbyOffers.findIndex((o) => o.id === offerId);
 
-  if (updatednearbyOffer) {
-    updatednearbyOffer.isMarked = isMarked;
+  if (updatednearbyOfferIndex !== -1) {
+    updatedNearbyOffers[updatednearbyOfferIndex] = extendObject(updatedNearbyOffers[updatednearbyOfferIndex] , {isMarked});
 
-    updatedState = extendObject(updatedState, {offers: updatedNearbyOffers});
+    updatedState = extendObject(updatedState, {nearbyOffers: updatedNearbyOffers});
   }
 
   const updatedFavoriteOffers = updatedState.favoriteOffers.slice();
-  const updatedFavoriteOffer = updatedFavoriteOffers.find((o) => o.id === offerId);
+  const updatedFavoriteOfferIndex = updatedFavoriteOffers.findIndex((o) => o.id === offerId);
 
-  if (updatedFavoriteOffer) {
-    updatedFavoriteOffer.isMarked = isMarked;
+  if (updatedFavoriteOfferIndex !== -1) {
+    updatedFavoriteOffers[updatedFavoriteOfferIndex] = extendObject(updatedFavoriteOffers[updatedFavoriteOfferIndex], {isMarked});
 
-    updatedState = extendObject(updatedState, {updatedFavoriteOffers});
+    updatedState = extendObject(updatedState, {favoriteOffers: updatedFavoriteOffers});
   }
 
   return updatedState;

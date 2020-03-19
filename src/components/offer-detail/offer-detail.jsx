@@ -2,6 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import {OfferShape} from "../../settings.js";
 import {getRatingPercents} from "../../utils.js";
+import FavoriteButton from "../favorite-button/favorite-button.jsx";
+import withButtonState from "../../hoks/with-button-state.jsx";
+import {FavoriteButtonType} from "../../consts.js";
+
+const ButtonWithButtonState = withButtonState(FavoriteButton);
 
 const OfferDetail = ({offer}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features} = offer;
@@ -18,12 +23,7 @@ const OfferDetail = ({offer}) => {
         <h1 className="property__name">
           {name}
         </h1>
-        <button className={`property__bookmark-button button ${isMarked ? `place-card__bookmark-button--active` : ``}`} type="button">
-          <svg className="property__bookmark-icon" width="31" height="33">
-            <use xlinkHref="#icon-bookmark"></use>
-          </svg>
-          <span className="visually-hidden">To bookmarks</span>
-        </button>
+        <ButtonWithButtonState viewType={FavoriteButtonType.PROPERTY} offerId={offer.id} isMarked={isMarked} />
       </div>
       <div className="property__rating rating">
         <div className="property__stars rating__stars">

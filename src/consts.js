@@ -119,3 +119,13 @@ export const FavoriteState = {
   MARKED: 1,
   UNMARKED: 0
 };
+
+export const FavoriteButtonType = {
+  PROPERTY: 1,
+  CARD: 0
+};
+
+export const FavoriteButtonTypes = [
+  FavoriteButtonType.PROPERTY,
+  FavoriteButtonType.CARD
+];

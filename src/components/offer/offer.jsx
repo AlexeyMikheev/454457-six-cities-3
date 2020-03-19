@@ -4,8 +4,13 @@ import {Link} from "react-router-dom";
 import {getRatingPercents} from '../../utils.js';
 import {AppRoute} from '../../consts.js';
 import {OfferShape} from '../../settings.js';
+import withButtonState from "../../hoks/with-button-state.jsx";
+import FavoriteButton from "../favorite-button/favorite-button.jsx";
+import {FavoriteButtonType} from "../../consts.js";
 
-const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMouseLeave, setFavorite, isNearViewMode}) => {
+const ButtonWithButtonState = withButtonState(FavoriteButton);
+
+const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMouseLeave, isNearViewMode}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 
   const ratingPercent = getRatingPercents(rating);
@@ -29,12 +34,7 @@ const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMous
             <b className="place-card__price-value">&euro;{cost}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isMarked ? `place-card__bookmark-button--active` : ``}`} type="button" onClick={setFavorite}>
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <ButtonWithButtonState viewType={FavoriteButtonType.CARD} offerId={offer.id} isMarked={isMarked} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

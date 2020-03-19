@@ -65,3 +65,14 @@ export const getCities = (offers) => {
 
   return Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
 };
+
+
+export const updateOfferMarked = (offerId, isMarked, offers) => {
+  const updatedOffers = offers.slice();
+  let updatedOffer = updatedOffers.find((o) => o.id === offerId);
+
+  if (updatedOffer) {
+    updatedOffer = extendObject(updatedOffer, {isMarked});
+  }
+  return updatedOffers;
+};
