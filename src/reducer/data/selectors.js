@@ -1,6 +1,6 @@
 import {createSelector} from "reselect";
 import NameSpace from "../name-space.js";
-import {getPreparedOffers} from "../../utils.js";
+import {getPreparedOffers, getGroupedOffersByCities} from "../../utils.js";
 
 const NAME_SPACE = NameSpace.DATA;
 
@@ -17,6 +17,13 @@ export const getReviews = (state) => state[NAME_SPACE].reviews;
 export const getNearOffers = (state) => state[NAME_SPACE].nearbyOffers;
 
 export const getFavoriteOffers = (state) => state[NAME_SPACE].favoriteOffers;
+
+export const getGroupedFavoriteOffers = createSelector(
+    getFavoriteOffers,
+    (offers) => {
+      return getGroupedOffersByCities(offers);
+    }
+);
 
 export const getCurrentOffer = createSelector(
     getOffers,

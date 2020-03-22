@@ -15,24 +15,41 @@ class Offers extends PureComponent {
   render() {
     const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer, setFavorite} = this.props;
 
-    const isNearViewMode = viewMode === ViewMode.Property;
-
-    const displayOffers = isNearViewMode ? nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT) : offers;
+    const isMainViewMode = viewMode === ViewMode.Main;
+    const displayOffers = isMainViewMode ? offers : nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT);
 
     return (
-      <div className={`${isNearViewMode ? `near-places__list places__list` : `cities__places-list places__list tabs__content` }`}>
-        {displayOffers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
-          evt.preventDefault();
-          setCurrentOffer(offer.id);
-        }} onPlaceCardMouseOver={() => {
-          setHoveredOffer(offer.id);
-        }} onPlaceCardMouseLeave={() => {
-          setHoveredOffer(null);
-        }}
-        setFavorite={() => {
-          setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
-        }}
-        isNearViewMode={isNearViewMode} />)}
+      <div className={`${isMainViewMode ? `cities__places-list places__list tabs__content` : `near-places__list places__list` }`}>
+        {displayOffers.map((offer) => <Offer key={offer.id} offer={offer}
+          onPlaceHeaderClick={
+            isMainViewMode ?
+              (evt) => {
+                evt.preventDefault();
+                setCurrentOffer(offer.id);
+                setHoveredOffer(null);
+              } :
+              (evt) => {
+                evt.preventDefault();
+                setCurrentOffer(offer.id);
+              }}
+          onPlaceCardMouseOver={
+            isMainViewMode ?
+              () => {
+                setHoveredOffer(offer.id);
+              } :
+              null
+          }
+          onPlaceCardMouseLeave={
+            isMainViewMode ?
+              () => {
+                setHoveredOffer(null);
+              } :
+              null
+          }
+          setFavorite={() => {
+            setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
+          }}
+          viewMode={viewMode} />)}
       </div>
     );
   }

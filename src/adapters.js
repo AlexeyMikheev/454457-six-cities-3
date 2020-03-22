@@ -25,7 +25,6 @@ const getLocation = (data) => {
 
 const getcity = (data) => {
   return {
-    id: undefined,
     name: data[`name`],
     location: getLocation(data[`location`]),
     get center() {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {getRatingPercents} from '../../utils.js';
-import {AppRoute} from '../../consts.js';
+import {AppRoute, ViewMode, VIEWMODES} from '../../consts.js';
 import {OfferShape} from '../../settings.js';
 import withButtonState from "../../hoks/with-button-state.jsx";
 import FavoriteButton from "../favorite-button/favorite-button.jsx";
@@ -10,10 +10,12 @@ import {FavoriteButtonType} from "../../consts.js";
 
 const ButtonWithButtonState = withButtonState(FavoriteButton);
 
-const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMouseLeave, isNearViewMode}) => {
+const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMouseLeave, viewMode}) => {
   const {isPremium, cost, isMarked, rating, name, type, image} = offer;
 
   const ratingPercent = getRatingPercents(rating);
+
+  const isNearViewMode = viewMode === ViewMode.Property;
 
   return (
 
@@ -53,11 +55,10 @@ const Offer = ({offer, onPlaceHeaderClick, onPlaceCardMouseOver, onPlaceCardMous
 
 Offer.propTypes = {
   offer: PropTypes.shape(OfferShape).isRequired,
-  onPlaceHeaderClick: PropTypes.func.isRequired,
-  setFavorite: PropTypes.func.isRequired,
-  onPlaceCardMouseOver: PropTypes.func.isRequired,
-  onPlaceCardMouseLeave: PropTypes.func.isRequired,
-  isNearViewMode: PropTypes.bool.isRequired
+  onPlaceHeaderClick: PropTypes.func,
+  onPlaceCardMouseOver: PropTypes.func,
+  onPlaceCardMouseLeave: PropTypes.func,
+  viewMode: PropTypes.oneOf(VIEWMODES).isRequired
 };
 
 export default React.memo(Offer);

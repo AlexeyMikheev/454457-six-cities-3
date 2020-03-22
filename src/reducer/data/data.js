@@ -197,7 +197,7 @@ const setFavoritesOfferStatus = (state, action) => {
   const updatednearbyOfferIndex = updatedNearbyOffers.findIndex((o) => o.id === offerId);
 
   if (updatednearbyOfferIndex !== -1) {
-    updatedNearbyOffers[updatednearbyOfferIndex] = extendObject(updatedNearbyOffers[updatednearbyOfferIndex] , {isMarked});
+    updatedNearbyOffers[updatednearbyOfferIndex] = extendObject(updatedNearbyOffers[updatednearbyOfferIndex], {isMarked});
 
     updatedState = extendObject(updatedState, {nearbyOffers: updatedNearbyOffers});
   }

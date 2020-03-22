@@ -39,7 +39,8 @@ export const OFFERTYPES = [
 
 export const ViewMode = {
   Main: 0,
-  Property: 1
+  Property: 1,
+  Favorite: 2
 };
 
 export const VIEWMODES = [

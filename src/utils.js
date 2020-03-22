@@ -56,14 +56,26 @@ export const getPreparedOffers = (offers, sortType, value) => {
 };
 
 export const getCities = (offers) => {
-  const citiesMap = new Map();
-  offers.forEach((offer) => {
-    if (!citiesMap.has(offer.city.name)) {
-      citiesMap.set(offer.city.name, offer.city);
+  const cities = offers.reduce((result, offer) => {
+    const isExist = result.some((c) => c.name === offer.city.name);
+    if (!isExist) {
+      result.push(offer.city);
     }
-  });
+    return result;
+  }, []);
+  return cities;
+};
 
-  return Array.from(citiesMap.entries()).map((cityMap) => cityMap[1]);
+export const getGroupedOffersByCities = (offers) => {
+  const cities = offers.reduce((result, offer) => {
+    const {name: cityName} = offer.city;
+    if (!result.has(cityName)) {
+      const groupedOffers = offers.filter((o) => o.city.name === cityName);
+      result.set(cityName, groupedOffers);
+    }
+    return result;
+  }, new Map());
+  return Array.from(cities.entries());
 };
 
 
