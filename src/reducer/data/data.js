@@ -65,10 +65,10 @@ const ActionCreator = {
       payload: offers,
     };
   },
-  setFavoritesOfferStatus: (offerId, isMarked) => {
+  setFavoritesOfferStatus: (offer) => {
     return {
       type: ActionType.SET_FAVORITE_STATUS,
-      payload: {offerId, isMarked},
+      payload: offer,
     };
   }
 };
@@ -96,7 +96,7 @@ const Operation = {
     return api.post(`/${Url.FAVORITE}/${offerId}/${state}`)
       .then((response) => {
         const offer = adaptHotelResponse(response.data);
-        dispatch(ActionCreator.setFavoritesOfferStatus(offer.id, offer.isMarked));
+        dispatch(ActionCreator.setFavoritesOfferStatus(offer));
       });
   },
   setCurrentOffer: (currentOfferId) => (dispatch, _getState, _api) => {
@@ -180,7 +180,8 @@ const setFavoriteOffers = (state, action) => {
 };
 
 const setFavoritesOfferStatus = (state, action) => {
-  const {offerId, isMarked} = action.payload;
+  const offer = action.payload;
+  const {id: offerId, isMarked} = offer;
 
   let updatedState = extendObject({}, state);
 
@@ -202,11 +203,15 @@ const setFavoritesOfferStatus = (state, action) => {
     updatedState = extendObject(updatedState, {nearbyOffers: updatedNearbyOffers});
   }
 
-  const updatedFavoriteOffers = updatedState.favoriteOffers.slice();
-  const updatedFavoriteOfferIndex = updatedFavoriteOffers.findIndex((o) => o.id === offerId);
+  const updatedFavoriteOfferIndex = updatedState.favoriteOffers.findIndex((o) => o.id === offerId);
 
-  if (updatedFavoriteOfferIndex !== -1) {
-    updatedFavoriteOffers[updatedFavoriteOfferIndex] = extendObject(updatedFavoriteOffers[updatedFavoriteOfferIndex], {isMarked});
+  if (updatedFavoriteOfferIndex !== -1 && !isMarked) {
+    const updatedFavoriteOffers = updatedState.favoriteOffers.slice().filter((o) => o.id !== offerId);
+
+    updatedState = extendObject(updatedState, {favoriteOffers: updatedFavoriteOffers});
+  } else {
+    const updatedFavoriteOffers = updatedState.favoriteOffers.slice();
+    updatedFavoriteOffers.push(offer);
 
     updatedState = extendObject(updatedState, {favoriteOffers: updatedFavoriteOffers});
   }

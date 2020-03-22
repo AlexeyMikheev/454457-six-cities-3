@@ -45,7 +45,8 @@ export const ViewMode = {
 
 export const VIEWMODES = [
   ViewMode.Main,
-  ViewMode.Property
+  ViewMode.Property,
+  ViewMode.Favorite
 ];
 
 export const MIN_RATING = 1;

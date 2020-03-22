@@ -1,5 +1,6 @@
 import {extendObject} from "../../utils.js";
 import {AuthStatus, ErrorType, Url} from "../../consts";
+import {Operation as DataOperation} from "../data/data.js";
 
 const initialState = {
   authStatus: AuthStatus.NO_AUTH,
@@ -65,6 +66,8 @@ const Operation = {
     return api.get(`/${Url.LOGIN}`)
       .then((response) => {
         dispatch(ActionCreator.setAuthInfo(response.data));
+
+        dispatch(DataOperation.loadFavorits());
       })
       .catch((err) => {
         const {response} = err;
@@ -83,6 +86,8 @@ const Operation = {
     })
     .then((response) => {
       dispatch(ActionCreator.setAuthInfo(response.data));
+
+      dispatch(DataOperation.loadFavorits());
     })
     .catch((err) => {
       const {response} = err;

@@ -12,6 +12,50 @@ class Offers extends PureComponent {
     super(props);
   }
 
+  renderMainOffer(offer, viewMode, setCurrentOffer, setHoveredOffer, setFavorite) {
+    return (
+      <Offer key={offer.id} offer={offer}
+        onPlaceHeaderClick={
+          (evt) => {
+            evt.preventDefault();
+            setCurrentOffer(offer.id);
+            setHoveredOffer(null);
+          }
+        }
+        onPlaceCardMouseOver={
+          () => {
+            setHoveredOffer(offer.id);
+          }
+        }
+        onPlaceCardMouseLeave={
+          () => {
+            setHoveredOffer(null);
+          }
+        }
+        setFavorite={() => {
+          setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
+        }}
+        viewMode={viewMode} />
+    );
+  }
+
+  renderPropertyOffer(offer, viewMode, setCurrentOffer, setFavorite) {
+    return (
+      <Offer key={offer.id} offer={offer}
+        onPlaceHeaderClick={
+          (evt) => {
+            evt.preventDefault();
+            setCurrentOffer(offer.id);
+          }
+        }
+        setFavorite={() => {
+          setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
+        }
+        }
+        viewMode={viewMode} />
+    );
+  }
+
   render() {
     const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer, setFavorite} = this.props;
 
@@ -20,36 +64,16 @@ class Offers extends PureComponent {
 
     return (
       <div className={`${isMainViewMode ? `cities__places-list places__list tabs__content` : `near-places__list places__list` }`}>
-        {displayOffers.map((offer) => <Offer key={offer.id} offer={offer}
-          onPlaceHeaderClick={
-            isMainViewMode ?
-              (evt) => {
-                evt.preventDefault();
-                setCurrentOffer(offer.id);
-                setHoveredOffer(null);
-              } :
-              (evt) => {
-                evt.preventDefault();
-                setCurrentOffer(offer.id);
-              }}
-          onPlaceCardMouseOver={
-            isMainViewMode ?
-              () => {
-                setHoveredOffer(offer.id);
-              } :
-              null
+        {displayOffers.map((offer) => {
+          switch (viewMode) {
+            case ViewMode.Main:
+              return this.renderMainOffer(offer, viewMode, setCurrentOffer, setHoveredOffer, setFavorite);
+            case ViewMode.Property:
+              return this.renderPropertyOffer(offer, viewMode, setCurrentOffer, setFavorite);
+            default: return null;
           }
-          onPlaceCardMouseLeave={
-            isMainViewMode ?
-              () => {
-                setHoveredOffer(null);
-              } :
-              null
-          }
-          setFavorite={() => {
-            setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
-          }}
-          viewMode={viewMode} />)}
+        })
+        }
       </div>
     );
   }
