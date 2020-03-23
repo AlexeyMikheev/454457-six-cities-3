@@ -1,11 +1,11 @@
 import MockAdapter from "axios-mock-adapter";
-import {createAPI} from "../../api.js";
-import {reducer, Operation, ActionCreator, ActionType} from "./data.js";
-import {SortType, Url} from "../../consts.js";
-import {getCities} from "../../utils.js";
-import {adaptOffersResponse} from "../../adapters.js";
+import { createAPI } from "../../api.js";
+import { reducer, Operation, ActionCreator, ActionType } from "./data.js";
+import { SortType, Url, FavoriteState } from "../../consts.js";
+import { getCities } from "../../utils.js";
+import { adaptOffersResponse, adaptOfferResponse } from "../../adapters.js";
 
-const api = createAPI(() => {});
+const api = createAPI(() => { });
 
 const responseOffersMock = [
   {
@@ -28,7 +28,7 @@ const responseOffersMock = [
     },
     id: 1,
     images: [`img/1.png`, `img/2.png`],
-    [`is_favorite`]: false,
+    [`is_favorite`]: true,
     [`is_premium`]: false,
     location: {
       latitude: 52.35514938496378,
@@ -81,7 +81,7 @@ const responseOffersMock = [
 const offersMock = adaptOffersResponse(responseOffersMock);
 
 const markedFavoriteOffers = adaptOffersResponse(responseOffersMock);
-markedFavoriteOffers[0].isMarked = true;
+markedFavoriteOffers[0].isMarked = false;
 
 
 const currentofferMock = offersMock[0];
@@ -341,5 +341,46 @@ describe(`Reducaer data data Operation.loadFavorits`, () => {
           payload: adaptOffersResponse(responseOffersMock),
         });
       });
+  });
+});
+
+describe(`Reducer data Operation.setFavorite`, () => {
+  it(`Should make a correct API`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const loader = Operation.setFavorite(currentofferMock.id, FavoriteState.UNMARKED);
+
+    apiMock
+      .onPost(`/${Url.FAVORITE}/${currentofferMock.id}/${FavoriteState.UNMARKED}`)
+      .reply(200, responseOffersMock[0]);
+
+    return loader(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.SET_FAVORITE_STATUS,
+          payload: adaptOfferResponse(responseOffersMock[0]),
+        });
+      });
+  });
+});
+
+describe(`Reducer data Operation.setCurrentOffer`, () => {
+  it(`Should make a correct API`, function () {
+    const dispatch = jest.fn();
+
+    Operation.setCurrentOffer(currentofferMock.id)(dispatch, () => { });
+    expect(dispatch).toHaveBeenCalledTimes(3);
+
+  });
+});
+
+
+describe(`Reducer data Operation.setCurrentOffer`, () => {
+  it(`Should make a correct API`, function () {
+    const dispatch = jest.fn();
+
+    Operation.setCurrentOffer(null)(dispatch, () => { });
+    expect(dispatch).toHaveBeenCalledTimes(2);
   });
 });
