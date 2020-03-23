@@ -29,7 +29,7 @@ it(`Reducer user initial state`, () => {
 });
 
 
-it(`Reducer user setAuthStatus`, () => {
+it(`Reducer user SET_AUTH_STATUS`, () => {
   expect(reducer({
     authStatus: AuthStatus.NO_AUTH,
     authInfo: null,
@@ -41,7 +41,7 @@ it(`Reducer user setAuthStatus`, () => {
   });
 });
 
-it(`Reducer user setAuthIfo`, () => {
+it(`Reducer user SET_AUTH`, () => {
   expect(reducer({
     authStatus: AuthStatus.NO_AUTH,
     authInfo: null,
@@ -53,7 +53,7 @@ it(`Reducer user setAuthIfo`, () => {
   });
 });
 
-it(`Reducer user setAuthError`, () => {
+it(`Reducer user SET_AUTH_ERROR`, () => {
   expect(reducer({
     authStatus: AuthStatus.NO_AUTH,
     authInfo: null,
@@ -65,7 +65,7 @@ it(`Reducer user setAuthError`, () => {
   });
 });
 
-describe(`Operation user checkAuth`, () => {
+describe(`Reducer user Operation.checkAuth`, () => {
   it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
@@ -86,7 +86,7 @@ describe(`Operation user checkAuth`, () => {
   });
 });
 
-describe(`Operation user login`, () => {
+describe(`Reducer user Operation.login`, () => {
   it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();

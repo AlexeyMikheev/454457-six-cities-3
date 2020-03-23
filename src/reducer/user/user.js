@@ -9,9 +9,9 @@ const initialState = {
 };
 
 const ActionType = {
+  SET_AUTH_STATUS: `SET_AUTH_STATUS`,
   SET_AUTH: `SET_AUTH`,
   SET_AUTH_ERROR: `SET_AUTH_ERROR`,
-  SET_AUTH_STATUS: `SET_AUTH_STATUS`
 };
 
 const ActionCreator = {
