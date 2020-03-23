@@ -1,9 +1,9 @@
 import MockAdapter from "axios-mock-adapter";
-import { createAPI } from "../../api.js";
-import { reducer, Operation, ActionCreator, ActionType } from "./data.js";
-import { SortType, Url, FavoriteState } from "../../consts.js";
-import { getCities } from "../../utils.js";
-import { adaptOffersResponse, adaptOfferResponse } from "../../adapters.js";
+import {createAPI} from "../../api.js";
+import {reducer, Operation, ActionCreator, ActionType} from "./data.js";
+import {SortType, Url, FavoriteState} from "../../consts.js";
+import {getCities} from "../../utils.js";
+import {adaptOffersResponse, adaptOfferResponse} from "../../adapters.js";
 
 const api = createAPI(() => { });
 
