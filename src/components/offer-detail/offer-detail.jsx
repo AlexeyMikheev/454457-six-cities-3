@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {OfferShape} from "../../settings.js";
 import {getRatingPercents} from "../../utils.js";
 import FavoriteButton from "../favorite-button/favorite-button.jsx";
-import withButtonState from "../../hoks/with-button-state.jsx";
+import withButtonState from "../../hoks/with-button-state/with-button-state.jsx";
 import {FavoriteButtonType} from "../../consts.js";
 
 const ButtonWithButtonState = withButtonState(FavoriteButton);

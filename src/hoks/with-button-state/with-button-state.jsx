@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {Operation as DataOperation} from "../reducer/data/data.js";
-import {FavoriteState} from '../consts.js';
-import {isUserAuthorized} from "../reducer/user/selectors.js";
-import {FavoriteButtonTypes} from "../consts.js";
+import {Operation as DataOperation} from "../../reducer/data/data.js";
+import {FavoriteState} from '../../consts.js';
+import {isUserAuthorized} from "../../reducer/user/selectors.js";
+import {FavoriteButtonTypes} from "../../consts.js";
 
 
 const withButtonState = (Component) => {
@@ -68,5 +68,6 @@ const withButtonState = (Component) => {
 
   return connect(mapStateToProps, mapDispatchToProps)(WithButtonState);
 };
+
 
 export default withButtonState;

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {getRatingPercents} from '../../utils.js';
 import {AppRoute, ViewMode, VIEWMODES} from '../../consts.js';
 import {OfferShape} from '../../settings.js';
-import withButtonState from "../../hoks/with-button-state.jsx";
+import withButtonState from "../../hoks/with-button-state/with-button-state.jsx";
 import FavoriteButton from "../favorite-button/favorite-button.jsx";
 import {FavoriteButtonType} from "../../consts.js";
 
