@@ -1,10 +1,10 @@
 import {paserDate, getOfferType} from "./utils.js";
 
-export const adaptHotelsResponse = (response) => {
+export const adaptOffersResponse = (response) => {
   return response.map(getOffer);
 };
 
-export const adaptHotelResponse = (response) => {
+export const adaptOfferResponse = (response) => {
   return getOffer(response);
 };
 
@@ -13,26 +13,24 @@ export const adaptCommentsResponse = (response) => {
 };
 
 const getLocation = (data) => {
+  const latitude = parseFloat(data[`latitude`], 10) || 0;
+  const longitude = parseFloat(data[`longitude`], 10) || 0;
+
   return {
-    latitude: parseFloat(data[`latitude`], 10) || 0,
-    longitude: parseFloat(data[`longitude`], 10) || 0,
+    latitude,
+    longitude,
     zoom: parseFloat(data[`zoom`], 10) || 0,
-    get center() {
-      return [this.latitude, this.longitude];
-    }
+    center: [latitude, longitude]
   };
 };
 
 const getcity = (data) => {
+  const location = getLocation(data[`location`]);
   return {
     name: data[`name`],
-    location: getLocation(data[`location`]),
-    get center() {
-      return this.location.center;
-    },
-    get zoom() {
-      return this.location.zoom;
-    }
+    location,
+    center: location.center,
+    zoom: location.zoom
   };
 };
 
@@ -56,10 +54,14 @@ const getComment = (data) => {
 };
 
 const getOffer = (data) => {
+  const owner = getOwner(data[`host`]);
+  const location = getLocation(data[`location`]);
+  const city = getcity(data[`city`]);
+
   return {
-    owner: getOwner(data[`host`]),
-    location: getLocation(data[`location`]),
-    city: getcity(data[`city`]),
+    owner,
+    location,
+    city,
     id: data[`id`],
     isPremium: data[`is_premium`],
     isMarked: data[`is_favorite`],
@@ -73,14 +75,8 @@ const getOffer = (data) => {
     image: data[`preview_image`],
     images: data[`images`],
     features: data[`goods`],
-    get cityName() {
-      return this.city.name;
-    },
-    get center() {
-      return this.location.center;
-    },
-    get zoom() {
-      return this.location.zoom;
-    }
+    cityName: owner.name,
+    center: location.center,
+    zoom: location.zoom
   };
 };

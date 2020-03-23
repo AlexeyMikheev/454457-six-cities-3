@@ -2,24 +2,10 @@ import MockAdapter from "axios-mock-adapter";
 import {createAPI} from "../../api.js";
 import {reducer, Operation, ActionCreator, ActionType} from "./data.js";
 import {SortType, Url} from "../../consts.js";
-import {adaptHotelsResponse} from "../../adapters.js";
+import {getCities} from "../../utils.js";
+import {adaptOffersResponse} from "../../adapters.js";
 
 const api = createAPI(() => {});
-
-const citiesMock = [
-  {
-    id: 1,
-    name: `Paris`
-  },
-  {
-    id: 2,
-    name: `Cologne`
-  }
-];
-
-const currentCityMock = citiesMock[0];
-
-const newCurrentCityMock = citiesMock[1];
 
 const responseOffersMock = [
   {
@@ -92,9 +78,19 @@ const responseOffersMock = [
   }
 ];
 
-const offersMock = adaptHotelsResponse(responseOffersMock);
+const offersMock = adaptOffersResponse(responseOffersMock);
+
+const markedFavoriteOffers = adaptOffersResponse(responseOffersMock);
+markedFavoriteOffers[0].isMarked = true;
+
 
 const currentofferMock = offersMock[0];
+
+const citiesMock = getCities(offersMock);
+
+const currentCityMock = citiesMock[0];
+
+const newCurrentCityMock = citiesMock[1];
 
 it(`Reducer data initial state`, () => {
   expect(reducer(undefined, {})).toEqual({
@@ -109,9 +105,9 @@ it(`Reducer data initial state`, () => {
   });
 });
 
-it(`Reducer data setCurrentCity`, () => {
+it(`Reducer data SET_CURRENT_CITY`, () => {
   expect(reducer({
-    cities: citiesMock,
+    cities: [],
     currentCityName: currentCityMock.name,
     offers: [],
     nearbyOffers: [],
@@ -120,7 +116,7 @@ it(`Reducer data setCurrentCity`, () => {
     sortType: SortType.POPULAR,
     favoriteOffers: []
   }, ActionCreator.setCurrentCity(newCurrentCityMock.name))).toEqual({
-    cities: citiesMock,
+    cities: [],
     currentCityName: newCurrentCityMock.name,
     offers: [],
     nearbyOffers: [],
@@ -131,32 +127,10 @@ it(`Reducer data setCurrentCity`, () => {
   });
 });
 
-it(`Reducer data setSortType`, () => {
+it(`Reducer data SET_CURRENT_OFFER`, () => {
   expect(reducer({
-    cities: citiesMock,
-    currentCityName: currentCityMock.name,
-    offers: [],
-    nearbyOffers: [],
-    hoveredOfferId: null,
-    currentOfferId: null,
-    sortType: SortType.POPULAR,
-    favoriteOffers: []
-  }, ActionCreator.setSortType(SortType.PRICE_LH))).toEqual({
-    cities: citiesMock,
-    currentCityName: currentCityMock.name,
-    offers: [],
-    nearbyOffers: [],
-    hoveredOfferId: null,
-    currentOfferId: null,
-    sortType: SortType.PRICE_LH,
-    favoriteOffers: []
-  });
-});
-
-it(`Reducer data setCurrentOffer`, () => {
-  expect(reducer({
-    cities: citiesMock,
-    currentCityName: currentCityMock.name,
+    cities: [],
+    currentCityName: null,
     offers: [],
     nearbyOffers: [],
     hoveredOfferId: null,
@@ -164,8 +138,8 @@ it(`Reducer data setCurrentOffer`, () => {
     sortType: SortType.POPULAR,
     favoriteOffers: []
   }, ActionCreator.setCurrentOffer(currentofferMock.id))).toEqual({
-    cities: citiesMock,
-    currentCityName: currentCityMock.name,
+    cities: [],
+    currentCityName: null,
     offers: [],
     nearbyOffers: [],
     hoveredOfferId: null,
@@ -175,10 +149,10 @@ it(`Reducer data setCurrentOffer`, () => {
   });
 });
 
-it(`Reducer data setHoveredOffer`, () => {
+it(`Reducer data SET_HOVERED_OFFER`, () => {
   expect(reducer({
-    cities: citiesMock,
-    currentCityName: currentCityMock.name,
+    cities: [],
+    currentCityName: null,
     offers: [],
     nearbyOffers: [],
     hoveredOfferId: null,
@@ -186,8 +160,8 @@ it(`Reducer data setHoveredOffer`, () => {
     sortType: SortType.POPULAR,
     favoriteOffers: []
   }, ActionCreator.setHoveredOffer(currentofferMock.id))).toEqual({
-    cities: citiesMock,
-    currentCityName: currentCityMock.name,
+    cities: [],
+    currentCityName: null,
     offers: [],
     nearbyOffers: [],
     hoveredOfferId: currentofferMock.id,
@@ -197,7 +171,117 @@ it(`Reducer data setHoveredOffer`, () => {
   });
 });
 
-describe(`Operation data loadData`, () => {
+it(`Reducer data SET_SORT_TYPE`, () => {
+  expect(reducer({
+    cities: [],
+    currentCityName: null,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
+  }, ActionCreator.setSortType(SortType.PRICE_LH))).toEqual({
+    cities: [],
+    currentCityName: null,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.PRICE_LH,
+    favoriteOffers: []
+  });
+});
+
+it(`Reducer data SET_NEARBY_OFFERS`, () => {
+  expect(reducer({
+    cities: [],
+    currentCityName: null,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
+  }, ActionCreator.setNearbyOffers(adaptOffersResponse(responseOffersMock)))).toEqual({
+    cities: [],
+    currentCityName: null,
+    offers: [],
+    nearbyOffers: offersMock,
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
+  });
+});
+
+it(`Reducer data SET_DATA`, () => {
+  expect(reducer({
+    cities: [],
+    currentCityName: null,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
+  }, ActionCreator.setData(adaptOffersResponse(responseOffersMock)))).toEqual({
+    cities: citiesMock,
+    currentCityName: currentCityMock.name,
+    offers: offersMock,
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
+  });
+});
+
+it(`Reducer data SET_FAVORITE_OFFERS`, () => {
+  expect(reducer({
+    cities: [],
+    currentCityName: null,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
+  }, ActionCreator.setFavoritesOffers(adaptOffersResponse(responseOffersMock)))).toEqual({
+    cities: [],
+    currentCityName: null,
+    offers: [],
+    nearbyOffers: [],
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: offersMock
+  });
+});
+
+it(`Reducer data SET_FAVORITE_STATUS`, () => {
+  expect(reducer({
+    cities: [],
+    currentCityName: null,
+    offers: offersMock,
+    nearbyOffers: offersMock,
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: []
+  }, ActionCreator.setFavoritesOfferStatus(markedFavoriteOffers[0]))).toEqual({
+    cities: [],
+    currentCityName: null,
+    offers: markedFavoriteOffers,
+    nearbyOffers: markedFavoriteOffers,
+    hoveredOfferId: null,
+    currentOfferId: null,
+    sortType: SortType.POPULAR,
+    favoriteOffers: [markedFavoriteOffers[0]]
+  });
+});
+
+describe(`Reducer data Operation.loadData`, () => {
   it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
@@ -212,20 +296,20 @@ describe(`Operation data loadData`, () => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.SET_DATA,
-          payload: offersMock,
+          payload: adaptOffersResponse(responseOffersMock),
         });
       });
   });
 });
 
-describe(`Operation data loadNearbyOffers`, () => {
+describe(`Reducer data Operation.loadNearbyOffers`, () => {
   it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
-    const loader = Operation.loadNearbyOffers();
+    const loader = Operation.loadNearbyOffers(currentofferMock.id);
 
     apiMock
-      .onGet(`/${Url.HOTELS}`)
+      .onGet(`/${Url.HOTELS}/${currentofferMock.id}/${Url.NEARBY}`)
       .reply(200, responseOffersMock);
 
     return loader(dispatch, () => {}, api)
@@ -233,20 +317,20 @@ describe(`Operation data loadNearbyOffers`, () => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.SET_NEARBY_OFFERS,
-          payload: offersMock,
+          payload: adaptOffersResponse(responseOffersMock),
         });
       });
   });
 });
 
-describe(`Operation data loadNearbyOffers`, () => {
+describe(`Reducaer data data Operation.loadFavorits`, () => {
   it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const loader = Operation.loadFavorits();
 
     apiMock
-      .onGet(`/${Url.HOTELS}`)
+      .onGet(`/${Url.FAVORITE}`)
       .reply(200, responseOffersMock);
 
     return loader(dispatch, () => {}, api)
@@ -254,7 +338,7 @@ describe(`Operation data loadNearbyOffers`, () => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.SET_FAVORITE_OFFERS,
-          payload: offersMock,
+          payload: adaptOffersResponse(responseOffersMock),
         });
       });
   });

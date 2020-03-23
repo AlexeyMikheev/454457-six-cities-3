@@ -1,7 +1,7 @@
 import {extendObject, getCities} from "../../utils.js";
 import {SortType, Url} from "../../consts.js";
 import {Operation as CommentsOperation} from "../comment/comment.js";
-import {adaptHotelsResponse, adaptHotelResponse} from "../../adapters.js";
+import {adaptOffersResponse, adaptOfferResponse} from "../../adapters.js";
 
 const initialState = {
   cities: [],
@@ -15,12 +15,12 @@ const initialState = {
 };
 
 const ActionType = {
-  SET_CURRENT_CITY: `SET_CITY`,
+  SET_CURRENT_CITY: `SET_CURRENT_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SET_SORT_TYPE: `SET_SORT_TYPE`,
-  SET_DATA: `SET_DATA`,
   SET_NEARBY_OFFERS: `SET_NEARBY_OFFERS`,
+  SET_DATA: `SET_DATA`,
   SET_FAVORITE_OFFERS: `SET_FAVORITE_OFFERS`,
   SET_FAVORITE_STATUS: `SET_FAVORITE_STATUS`
 };
@@ -77,26 +77,25 @@ const Operation = {
   loadData: () => (dispatch, _getState, api) => {
     return api.get(`/${Url.HOTELS}`)
       .then((response) => {
-        dispatch(ActionCreator.setData(adaptHotelsResponse(response.data)));
+        dispatch(ActionCreator.setData(adaptOffersResponse(response.data)));
       });
   },
   loadNearbyOffers: (currentOfferId) => (dispatch, _getState, api) => {
     return api.get(`/${Url.HOTELS}/${currentOfferId}/${Url.NEARBY}`)
       .then((response) => {
-        dispatch(ActionCreator.setNearbyOffers(response.data));
+        dispatch(ActionCreator.setNearbyOffers(adaptOffersResponse(response.data)));
       });
   },
   loadFavorits: () => (dispatch, _getState, api) => {
     return api.get(`/${Url.FAVORITE}`)
       .then((response) => {
-        dispatch(ActionCreator.setFavoritesOffers(response.data));
+        dispatch(ActionCreator.setFavoritesOffers(adaptOffersResponse(response.data)));
       });
   },
   setFavorite: (offerId, state) => (dispatch, _getState, api) => {
     return api.post(`/${Url.FAVORITE}/${offerId}/${state}`)
       .then((response) => {
-        const offer = adaptHotelResponse(response.data);
-        dispatch(ActionCreator.setFavoritesOfferStatus(offer));
+        dispatch(ActionCreator.setFavoritesOfferStatus(adaptOfferResponse(response.data)));
       });
   },
   setCurrentOffer: (currentOfferId) => (dispatch, _getState, _api) => {
@@ -168,15 +167,13 @@ const setData = (state, action) => {
 };
 
 const setNearbyOffers = (state, action) => {
-  const nearbyOffers = adaptHotelsResponse(action.payload);
+  const nearbyOffers = action.payload;
 
   return extendObject(state, {nearbyOffers});
 };
 
 const setFavoriteOffers = (state, action) => {
-  const favoriteOffers = adaptHotelsResponse(action.payload);
-
-  return extendObject(state, {favoriteOffers});
+  return extendObject(state, {favoriteOffers: action.payload});
 };
 
 const setFavoritesOfferStatus = (state, action) => {
