@@ -10,20 +10,23 @@ import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
 import CommentForm from "../comment-form/comment-form.jsx";
 import withFormState from "../../hoks/with-form-state.jsx";
-import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
-import {ActionCreator} from "../../reducer/data/data.js";
+import {getCurrentOfferId, getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
+import {Operation as DataOperation} from "../../reducer/data/data.js";
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
 import {getCommnets} from "../../reducer/comment/selectors.js";
 import Header from "../header/header.jsx";
 
 const CommentFormWithState = withFormState(CommentForm);
 
-const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer}) => {
+const Property = ({currentOfferId, offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer}) => {
 
   const offerId = parseInt(match.params.offerId, 10);
 
-  if (!offer || offer && offer.id !== offerId) {
+  if (!currentOfferId || (currentOfferId !== offerId)) {
     setCurrentOffer(offerId);
+  }
+
+  if (!offer) {
     return (<React.Fragment></React.Fragment>);
   }
 
@@ -92,10 +95,12 @@ Property.propTypes = {
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
   currentCity: PropTypes.shape(CityShape),
   isAuthorized: PropTypes.bool.isRequired,
-  setCurrentOffer: PropTypes.func.isRequired
+  setCurrentOffer: PropTypes.func.isRequired,
+  currentOfferId: PropTypes.number
 };
 
 const mapStateToProps = (state) => ({
+  currentOfferId: getCurrentOfferId(state),
   offers: getCurrentOffers(state),
   nearOffers: getNearOffers(state),
   offer: getCurrentOffer(state),
@@ -106,7 +111,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  setCurrentOffer: ActionCreator.setCurrentOffer
+  setCurrentOffer: DataOperation.setCurrentOffer
 };
 
 export {Property};
