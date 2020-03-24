@@ -96,4 +96,5 @@ const mapDispatchToProps = {
   clearStatus: commentOperation.clearStatus
 };
 
+export {CommentForm};
 export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
