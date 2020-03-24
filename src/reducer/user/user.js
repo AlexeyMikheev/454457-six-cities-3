@@ -1,5 +1,5 @@
 import {extendObject} from "../../utils.js";
-import {AuthStatus, ErrorType, Url, URL} from "../../consts";
+import {AuthStatus, ErrorType, Url} from "../../consts";
 import {Operation as DataOperation} from "../data/data.js";
 import history from "../../history.js";
 
