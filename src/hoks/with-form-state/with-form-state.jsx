@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {extendObject} from "../utils.js";
+import {extendObject} from "../../utils.js";
 
 const withFormState = (Component) => {
   class WithFormState extends PureComponent {
@@ -19,10 +19,6 @@ const withFormState = (Component) => {
     get IsFormValid() {
       const {numeric, text} = this.state;
       return numeric !== undefined && text !== undefined && text.length > 50;
-    }
-
-    get IsFormDisabled() {
-      return this.IsLoading;
     }
 
     onNumericChanged(numeric) {
@@ -47,7 +43,6 @@ const withFormState = (Component) => {
         {...this.props}
         numeric={numeric}
         text={text}
-        disabled={this.IsFormDisabled}
         isFormValid={this.IsFormValid}
         onNumericChanged={this.onNumericChanged}
         onTextChanged={this.onTextChanged}

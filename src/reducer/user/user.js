@@ -1,6 +1,7 @@
 import {extendObject} from "../../utils.js";
-import {AuthStatus, ErrorType, Url} from "../../consts";
+import {AuthStatus, ErrorType, Url, URL} from "../../consts";
 import {Operation as DataOperation} from "../data/data.js";
+import history from "../../history.js";
 
 const initialState = {
   authStatus: AuthStatus.NO_AUTH,
@@ -88,6 +89,8 @@ const Operation = {
       dispatch(ActionCreator.setAuthInfo(response.data));
 
       dispatch(DataOperation.loadFavorits());
+
+      history.goBack();
     })
     .catch((err) => {
       const {response} = err;
