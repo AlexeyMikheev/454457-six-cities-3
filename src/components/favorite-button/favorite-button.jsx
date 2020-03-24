@@ -1,34 +1,69 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Redirect} from "react-router-dom";
-import {FavoriteButtonTypes, FavoriteButtonType, AppRoute} from "../../consts.js";
+import {connect} from "react-redux";
+import history from "../../history.js";
+import {FavoriteButtonTypes, FavoriteButtonType, AppRoute, FavoriteState} from "../../consts.js";
+import {isUserAuthorized} from "../../reducer/user/selectors.js";
+import {Operation as DataOperation} from "../../reducer/data/data.js";
 
-const FavoriteButton = ({viewType, isMarked, isRedirect, onButtonClick}) => {
+class FavoriteButton extends PureComponent {
+  constructor(props) {
+    super(props);
 
-  const buttonClass = viewType === FavoriteButtonType.PROPERTY ? `property__bookmark-button` : `place-card__bookmark-button`;
-  const iconClass = viewType === FavoriteButtonType.PROPERTY ? `property__bookmark-icon` : `place-card__bookmark-icon`;
-  const iconWidth = viewType === FavoriteButtonType.PROPERTY ? 31 : 18;
-  const iconHeight = viewType === FavoriteButtonType.PROPERTY ? 33 : 19;
-
-  if (isRedirect) {
-    return <Redirect to={AppRoute.LOGIN} />;
+    this.onButtonClick = this.onButtonClick.bind(this);
   }
 
-  return (
-    <button className={`${buttonClass} button ${isMarked ? `${buttonClass}--active` : ``}`} type="button" onClick={onButtonClick}>
-      <svg className={iconClass} width={iconWidth} height={iconHeight}>
-        <use xlinkHref="#icon-bookmark"></use>
-      </svg>
-      <span className="visually-hidden">To bookmarks</span>
-    </button>
-  );
-};
+  onButtonClick(evt) {
+    evt.preventDefault();
+
+    const {isAuthorized} = this.props;
+
+    if (!isAuthorized) {
+      history.push(AppRoute.LOGIN);
+      return;
+    }
+
+    const {offerId, isMarked, setFavorite} = this.props;
+
+    const markedValue = isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED;
+
+    setFavorite(offerId, markedValue);
+  }
+
+
+  render() {
+    const {viewType, isMarked} = this.props;
+
+    const buttonClass = viewType === FavoriteButtonType.PROPERTY ? `property__bookmark-button` : `place-card__bookmark-button`;
+    const iconClass = viewType === FavoriteButtonType.PROPERTY ? `property__bookmark-icon` : `place-card__bookmark-icon`;
+    const iconWidth = viewType === FavoriteButtonType.PROPERTY ? 31 : 18;
+    const iconHeight = viewType === FavoriteButtonType.PROPERTY ? 33 : 19;
+
+    return (
+      <button className={`${buttonClass} button ${isMarked ? `${buttonClass}--active` : ``}`} type="button" onClick={this.onButtonClick}>
+        <svg className={iconClass} width={iconWidth} height={iconHeight}>
+          <use xlinkHref="#icon-bookmark"></use>
+        </svg>
+        <span className="visually-hidden">To bookmarks</span>
+      </button>
+    );
+  }
+}
 
 FavoriteButton.propTypes = {
+  isAuthorized: PropTypes.bool.isRequired,
   isMarked: PropTypes.bool.isRequired,
-  onButtonClick: PropTypes.func.isRequired,
-  isRedirect: PropTypes.bool.isRequired,
-  viewType: PropTypes.oneOf(FavoriteButtonTypes)
+  viewType: PropTypes.oneOf(FavoriteButtonTypes),
+  offerId: PropTypes.number.isRequired,
+  setFavorite: PropTypes.func.isRequired
 };
 
-export default React.memo(FavoriteButton);
+const mapStateToProps = (state) => ({
+  isAuthorized: isUserAuthorized(state),
+});
+
+const mapDispatchToProps = {
+  setFavorite: DataOperation.setFavorite
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FavoriteButton);

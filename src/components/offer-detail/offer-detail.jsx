@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 import {OfferShape} from "../../settings.js";
 import {getRatingPercents} from "../../utils.js";
 import FavoriteButton from "../favorite-button/favorite-button.jsx";
-import withButtonState from "../../hoks/with-button-state/with-button-state.jsx";
 import {FavoriteButtonType} from "../../consts.js";
-
-const ButtonWithButtonState = withButtonState(FavoriteButton);
 
 const OfferDetail = ({offer}) => {
   const {isPremium, cost, isMarked, rating, name, type, roomsCount, membersCount, features} = offer;
@@ -23,7 +20,7 @@ const OfferDetail = ({offer}) => {
         <h1 className="property__name">
           {name}
         </h1>
-        <ButtonWithButtonState viewType={FavoriteButtonType.PROPERTY} offerId={offer.id} isMarked={isMarked} />
+        <FavoriteButton viewType={FavoriteButtonType.PROPERTY} offerId={offer.id} isMarked={isMarked} />
       </div>
       <div className="property__rating rating">
         <div className="property__stars rating__stars">

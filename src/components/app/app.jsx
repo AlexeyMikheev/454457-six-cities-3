@@ -1,12 +1,13 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
+import {Switch, Route, Router, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Login from "../login/login.jsx";
 import Property from "../property/property.jsx";
 import Favorites from "../favorites/favorites.jsx";
 import {CityShape} from "../../settings.js";
+import history from "../../history.js";
 import {getHasSelectedOffer, getCurrentCity} from "../../reducer/data/selectors.js";
 import {isUserAuthorized, isUserAuthorizedLoading} from "../../reducer/user/selectors.js";
 import {AppRoute} from "../../consts.js";
@@ -25,29 +26,26 @@ class App extends PureComponent {
     }
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <Switch>
-          <Route exact path={`${AppRoute.OFFER}/:offerId`} component={Property} />
-          <Route exact path={AppRoute.LOGIN} render={
-            () => {
-              return isAuthorized ? <Redirect to={AppRoute.ROOT} /> : <Login />;
-            }
-          }/>
-          <PrivateRoute
-            exact
-            isAuthorized={isAuthorized}
-            path={`${AppRoute.FAVORITES}`}
+          <PrivateRoute exact path={AppRoute.LOGIN} isRequire={!isAuthorized} redirectTo={AppRoute.ROOT}
+            render={() => {
+              return (
+                <Login />
+              );
+            }}
+          />
+          <PrivateRoute exact path={AppRoute.FAVORITES} isRequire={isAuthorized} redirectTo={AppRoute.LOGIN}
             render={() => {
               return (
                 <Favorites />
               );
             }}
           />
-          <Route exact path={AppRoute.ROOT}>
-            <Main />
-          </Route>
+          <Route exact path={`${AppRoute.OFFER}/:offerId`} component={Property} />
+          <Route exact path={AppRoute.ROOT} component={Main}/>
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }

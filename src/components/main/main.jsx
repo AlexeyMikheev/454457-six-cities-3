@@ -8,7 +8,7 @@ import MainEmpty from "../main-empty/main-empty.jsx";
 import {ViewMode} from "../../consts.js";
 import {OfferShape, CityShape} from "../../settings.js";
 import Map from "../map/map.jsx";
-import withBooleanState from "../../hoks/withBooleanState/with-boolean-state.jsx";
+import withBooleanState from "../../hoks/with-boolean-state/with-boolean-state.jsx";
 import {getCurrentOffers, getCurrentCity, getHoveredOffer, getMainPageTitle} from "../../reducer/data/selectors.js";
 import Header from "../header/header.jsx";
 

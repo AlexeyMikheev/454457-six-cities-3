@@ -75,7 +75,7 @@ const getOffer = (data) => {
     image: data[`preview_image`],
     images: data[`images`],
     features: data[`goods`],
-    cityName: owner.name,
+    cityName: city.name,
     center: location.center,
     zoom: location.zoom
   };
