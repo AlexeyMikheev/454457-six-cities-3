@@ -21,6 +21,7 @@ export const getFavoriteOffers = (state) => state[NAME_SPACE].favoriteOffers;
 export const getGroupedFavoriteOffers = createSelector(
     getFavoriteOffers,
     (offers) => {
+      debugger;
       return getGroupedOffersByCities(offers);
     }
 );

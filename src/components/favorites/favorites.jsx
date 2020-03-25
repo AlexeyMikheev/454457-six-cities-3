@@ -67,7 +67,7 @@ const renderEmpty = () => {
 };
 
 const Favorites = ({groupedOffers, setCurrentOffer}) => {
-
+  debugger;
   if (!groupedOffers.length) {
     return renderEmpty();
   }
@@ -79,6 +79,10 @@ Favorites.propTypes = {
   groupedOffers: PropTypes.arrayOf(Object),
   setCurrentOffer: PropTypes.func.isRequired,
   setFavorite: PropTypes.func.isRequired
+};
+
+Favorites.defaultProps = {
+  groupedOffers: []
 };
 
 const mapStateToProps = (state) => ({
