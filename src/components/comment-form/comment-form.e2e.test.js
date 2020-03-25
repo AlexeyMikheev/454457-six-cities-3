@@ -7,7 +7,7 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-it(`Should login submit`, () => {
+it(`CommentForm e2e`, () => {
 
   const mockTextChangeValue = {target: {value: ``}};
   const mockOfferId = 1;
@@ -30,8 +30,8 @@ it(`Should login submit`, () => {
         onNumericChanged={onNumericChanged}
         onTextChanged={onTextChanged}
         onFormSubmit={onFormSubmit}
-        sendComment={sendComment} />)
-  ;
+        sendComment={sendComment} />
+  );
 
   const form = commentForm.find(`form.reviews__form`);
   const textarea = form.find(`textarea.reviews__textarea`);

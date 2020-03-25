@@ -66,4 +66,5 @@ const mapDispatchToProps = {
   setFavorite: DataOperation.setFavorite
 };
 
+export {FavoriteButton};
 export default connect(mapStateToProps, mapDispatchToProps)(FavoriteButton);
