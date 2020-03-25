@@ -140,3 +140,108 @@ it(`Favorites snapshot (with favoriteOffers, AuthStatus.AUTH)`, () => {
     ).toJSON();
   expect(favorites).toMatchSnapshot();
 });
+
+it(`Favorites snapshot (with favoriteOffers, AuthStatus.NO_AUTH)`, () => {
+
+  const store = mockStore({
+    [NameSpace.DATA]: {
+      cities: [],
+      currentCityName: null,
+      offers: [],
+      nearbyOffers: [],
+      hoveredOfferId: null,
+      currentOfferId: null,
+      sortType: SortType.POPULAR,
+      favoriteOffers: mockFavorites
+    },
+    [NameSpace.USER]: {
+      authStatus: AuthStatus.NO_AUTH,
+      authInfo: null,
+      authError: null
+    }
+  });
+
+  const favorites = renderer
+      .create(
+          <Router history={history}>
+            <Provider store={store}>
+              <Favorites
+                groupedOffers={[]}
+                setCurrentOffer={() => {}}
+                setFavorite={() => {}}
+              />
+            </Provider>
+          </Router>
+      ).toJSON();
+  expect(favorites).toMatchSnapshot();
+});
+
+it(`Favorites snapshot (withOut favoriteOffers, AuthStatus.AUTH)`, () => {
+
+  const store = mockStore({
+    [NameSpace.DATA]: {
+      cities: [],
+      currentCityName: null,
+      offers: [],
+      nearbyOffers: [],
+      hoveredOfferId: null,
+      currentOfferId: null,
+      sortType: SortType.POPULAR,
+      favoriteOffers: []
+    },
+    [NameSpace.USER]: {
+      authStatus: AuthStatus.AUTH,
+      authInfo: mockUserInfo,
+      authError: null
+    }
+  });
+
+  const favorites = renderer
+        .create(
+            <Router history={history}>
+              <Provider store={store}>
+                <Favorites
+                  groupedOffers={[]}
+                  setCurrentOffer={() => {}}
+                  setFavorite={() => {}}
+                />
+              </Provider>
+            </Router>
+        ).toJSON();
+  expect(favorites).toMatchSnapshot();
+});
+
+it(`Favorites snapshot (withOut favoriteOffers, AuthStatus.NO_AUTH)`, () => {
+
+  const store = mockStore({
+    [NameSpace.DATA]: {
+      cities: [],
+      currentCityName: null,
+      offers: [],
+      nearbyOffers: [],
+      hoveredOfferId: null,
+      currentOfferId: null,
+      sortType: SortType.POPULAR,
+      favoriteOffers: []
+    },
+    [NameSpace.USER]: {
+      authStatus: AuthStatus.NO_AUTH,
+      authInfo: null,
+      authError: null
+    }
+  });
+
+  const favorites = renderer
+          .create(
+              <Router history={history}>
+                <Provider store={store}>
+                  <Favorites
+                    groupedOffers={[]}
+                    setCurrentOffer={() => {}}
+                    setFavorite={() => {}}
+                  />
+                </Provider>
+              </Router>
+          ).toJSON();
+  expect(favorites).toMatchSnapshot();
+});
