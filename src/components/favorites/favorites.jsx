@@ -67,7 +67,6 @@ const renderEmpty = () => {
 };
 
 const Favorites = ({groupedOffers, setCurrentOffer}) => {
-  debugger;
   if (!groupedOffers.length) {
     return renderEmpty();
   }
