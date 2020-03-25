@@ -26,3 +26,5 @@ const citiesMock = [
 ];
 
 export default citiesMock;
+
+
