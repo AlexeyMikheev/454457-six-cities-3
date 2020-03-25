@@ -6,7 +6,7 @@ import {FavoriteButtonType} from '../../consts.js';
 
 it(`FavoriteButton snapshot (PROPERTY)`, () => {
 
-  const commentForm = renderer
+  const favoriteButton = renderer
     .create(
         <FavoriteButton isFormValid={true}
           isAuthorized={true}
@@ -16,7 +16,7 @@ it(`FavoriteButton snapshot (PROPERTY)`, () => {
           setFavorite={() => {}}
         />
     ).toJSON();
-  expect(commentForm).toMatchSnapshot();
+  expect(favoriteButton).toMatchSnapshot();
 });
 
 it(`FavoriteButton snapshot (CARD)`, () => {

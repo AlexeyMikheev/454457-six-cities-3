@@ -1,13 +1,13 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, Router, Redirect} from "react-router-dom";
+import {Switch, Route, Router} from "react-router-dom";
+import history from "../../history.js";
 import {connect} from "react-redux";
 import Main from "../main/main.jsx";
 import Login from "../login/login.jsx";
 import Property from "../property/property.jsx";
 import Favorites from "../favorites/favorites.jsx";
 import {CityShape} from "../../settings.js";
-import history from "../../history.js";
 import {getHasSelectedOffer, getCurrentCity} from "../../reducer/data/selectors.js";
 import {isUserAuthorized, isUserAuthorizedLoading} from "../../reducer/user/selectors.js";
 import {AppRoute} from "../../consts.js";

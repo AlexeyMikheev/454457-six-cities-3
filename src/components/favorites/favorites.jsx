@@ -82,8 +82,7 @@ Favorites.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  groupedOffers: getGroupedFavoriteOffers(state),
-  setCurrentOffer: PropTypes.func.isRequired,
+  groupedOffers: getGroupedFavoriteOffers(state)
 });
 
 const mapDispatchToProps = {

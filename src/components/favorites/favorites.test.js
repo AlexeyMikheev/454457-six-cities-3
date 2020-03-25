@@ -1,11 +1,12 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import App from "./app.jsx";
-import {OfferType, FEATURES, SortType} from "../../consts";
-import {AuthStatus} from "../../consts.js";
-import configureStore from "redux-mock-store";
-import {Provider} from "react-redux";
-import NameSpace from "../../reducer/name-space.js";
+import React from 'react';
+import renderer from 'react-test-renderer';
+import {Router} from "react-router-dom";
+import history from "../../history.js";
+import Favorites from './favorites.jsx';
+import {OfferType, FEATURES, SortType, AuthStatus} from '../../consts';
+import configureStore from 'redux-mock-store';
+import {Provider} from 'react-redux';
+import NameSpace from '../../reducer/name-space.js';
 
 const mockStore = configureStore([]);
 
@@ -37,7 +38,7 @@ const cityAmsterdam = {
   zoom: location.zoom
 };
 
-const mockOffers = [
+const mockFavorites = [
   {
     owner,
     location,
@@ -96,56 +97,46 @@ const mockOffers = [
   },
 ];
 
-const mockDate = new Date(0).valueOf();
-
-const reviewsMock = [
-  {
-    id: 1,
-    name: `Max`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 4.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
-    date: mockDate
-  },
-  {
-    id: 2,
-    name: `Nina`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 0,
-    description: `The building is green and from 18th century.`,
-    date: mockDate
-  },
-  {
-    id: 3,
-    name: `Andre`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 3.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    date: mockDate
-  }];
+const mockUserInfo = {
+  [`avatar_url`]: `img/1.png`,
+  email: `Oliver.conner@gmail.com`,
+  id: 1,
+  [`is_pro`]: false,
+  name: `Oliver.conner`,
+};
 
 
-it(`App snapshot`, () => {
+it(`Favorites snapshot (with favoriteOffers, AuthStatus.AUTH)`, () => {
 
   const store = mockStore({
     [NameSpace.DATA]: {
-      offers: mockOffers,
-      currentOffers: [],
-      currentOffer: null,
       cities: [],
-      reviews: reviewsMock,
-      currentCity: null,
-      sortType: SortType.POPULAR
+      currentCityName: null,
+      offers: [],
+      nearbyOffers: [],
+      hoveredOfferId: null,
+      currentOfferId: null,
+      sortType: SortType.POPULAR,
+      favoriteOffers: mockFavorites
     },
     [NameSpace.USER]: {
-      authStatus: AuthStatus.NO_AUTH,
-      authInfo: null
+      authStatus: AuthStatus.AUTH,
+      authInfo: mockUserInfo,
+      authError: null
     }
   });
 
-  const tree = renderer
-    .create(<Provider store={store}><App /></Provider>)
-    .toJSON();
-
-  expect(tree).toMatchSnapshot();
+  const favorites = renderer
+    .create(
+        <Router history={history}>
+          <Provider store={store}>
+            <Favorites
+              groupedOffers={[]}
+              setCurrentOffer={() => {}}
+              setFavorite={() => {}}
+            />
+          </Provider>
+        </Router>
+    ).toJSON();
+  expect(favorites).toMatchSnapshot();
 });
