@@ -36,26 +36,6 @@ class Offer extends PureComponent {
     onHoveredChange(null);
   }
 
-  render() {
-    const {viewMode} = this.props;
-
-    switch (viewMode) {
-      case ViewMode.Main:
-        return (
-          this.renderMainOfferContent()
-        );
-      case ViewMode.Property:
-        return (
-          this.renderPropertyOfferContent()
-        );
-      case ViewMode.Favorite:
-        return (
-          this.renderFavoriteOfferContent()
-        );
-      default: return null;
-    }
-  }
-
   renderOfferContent(imagesCardWidth, imagesCardHeight, imagesCardClass, infoCardClass = ``) {
     const {offer} = this.props;
     const {cost, isMarked, rating, name, type, image} = offer;
@@ -133,6 +113,26 @@ class Offer extends PureComponent {
         }
       </article>
     );
+  }
+
+  render() {
+    const {viewMode} = this.props;
+
+    switch (viewMode) {
+      case ViewMode.Main:
+        return (
+          this.renderMainOfferContent()
+        );
+      case ViewMode.Property:
+        return (
+          this.renderPropertyOfferContent()
+        );
+      case ViewMode.Favorite:
+        return (
+          this.renderFavoriteOfferContent()
+        );
+      default: return null;
+    }
   }
 }
 

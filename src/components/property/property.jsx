@@ -10,20 +10,25 @@ import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
 import CommentForm from "../comment-form/comment-form.jsx";
 import withFormState from "../../hoks/with-form-state/with-form-state.jsx";
-import {getCurrentOfferId, getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
+import {getCurrentOfferId, getHoveredOfferId, getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
 import {Operation as DataOperation} from "../../reducer/data/data.js";
+import {ActionCreator as DataActionCreator} from "../../reducer/data/data.js";
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
 import {getCommnets} from "../../reducer/comment/selectors.js";
 import Header from "../header/header.jsx";
 
 const CommentFormWithState = withFormState(CommentForm);
 
-const Property = ({currentOfferId, offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer}) => {
+const Property = ({currentOfferId, hoveredOfferId, offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer, setHoveredOffer}) => {
 
   const offerId = parseInt(match.params.offerId, 10);
 
-  if (!currentOfferId || (currentOfferId !== offerId)) {
+  if (!offer || !currentOfferId || (currentOfferId !== offerId)) {
     setCurrentOffer(offerId);
+  }
+
+  if (hoveredOfferId) {
+    setHoveredOffer(null);
   }
 
   if (!offer) {
@@ -96,10 +101,13 @@ Property.propTypes = {
   currentCity: PropTypes.shape(CityShape),
   isAuthorized: PropTypes.bool.isRequired,
   setCurrentOffer: PropTypes.func.isRequired,
-  currentOfferId: PropTypes.number
+  setHoveredOffer: PropTypes.func,
+  hoveredOfferId: PropTypes.number,
+  currentOfferId: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
+  hoveredOfferId: getHoveredOfferId(state),
   currentOfferId: getCurrentOfferId(state),
   offers: getCurrentOffers(state),
   nearOffers: getNearOffers(state),
@@ -111,7 +119,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  setCurrentOffer: DataOperation.setCurrentOffer
+  setCurrentOffer: DataOperation.setCurrentOffer,
+  setHoveredOffer: DataActionCreator.setHoveredOffer
 };
 
 export {Property};

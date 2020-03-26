@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {FavoriteState, ViewMode} from "../../consts.js";
+import {ViewMode} from "../../consts.js";
 import FavoritesEmpty from "../favorites-empty/favorites-empty.jsx";
 import {getGroupedFavoriteOffers} from "../../reducer/data/selectors.js";
 import {Operation as DataOperation} from "../../reducer/data/data.js";
 import Header from "../header/header.jsx";
 import Offer from "../offer/offer.jsx";
 
-const renderContent = (groupedOffers, setCurrentOffer, setFavorite) => {
+const renderContent = (groupedOffers, setCurrentOffer) => {
   return (
     <React.Fragment>
       <Header />
@@ -32,20 +32,7 @@ const renderContent = (groupedOffers, setCurrentOffer, setFavorite) => {
                     <div className="favorites__places">
                       {
                         cityOffers.map((offer) =>
-                          <Offer key={offer.id} offer={offer}
-                            onPlaceHeaderClick={
-                              (evt) => {
-                                evt.preventDefault();
-                                setCurrentOffer(offer.id);
-                              }
-                            }
-                            setFavorite={
-                              () => {
-                                setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
-                              }
-                            }
-                            viewMode={ViewMode.Favorite}
-                          />
+                          <Offer key={offer.id} offer={offer}viewMode={ViewMode.Favorite} onHeaderClick={setCurrentOffer} />
                         )
                       }
                     </div>
@@ -76,8 +63,7 @@ const Favorites = ({groupedOffers, setCurrentOffer}) => {
 
 Favorites.propTypes = {
   groupedOffers: PropTypes.arrayOf(Object),
-  setCurrentOffer: PropTypes.func.isRequired,
-  setFavorite: PropTypes.func.isRequired
+  setCurrentOffer: PropTypes.func.isRequired
 };
 
 Favorites.defaultProps = {
@@ -89,8 +75,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  setCurrentOffer: DataOperation.setCurrentOffer,
-  setFavorite: DataOperation.setFavorite,
+  setCurrentOffer: DataOperation.setCurrentOffer
 };
 
 export {Favorites};

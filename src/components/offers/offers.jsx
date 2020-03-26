@@ -10,36 +10,24 @@ import {getCurrentOffers, getCurrentCity, getNearOffers} from "../../reducer/dat
 class Offers extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.headerClickHandler = this.headerClickHandler.bind(this);
-    this.hoveredHandler = this.hoveredHandler.bind(this);
-  }
-
-  headerClickHandler(offerId) {
-    const {setCurrentOffer, setHoveredOffer} = this.props;
-
-    setCurrentOffer(offerId);
-    setHoveredOffer(null);
-  }
-
-  hoveredHandler(offerId) {
-    const {setHoveredOffer} = this.props;
-    setHoveredOffer(offerId);
   }
 
   renderMainOffer(offer, viewMode) {
+    const {setCurrentOffer, setHoveredOffer} = this.props;
+
     return (
       <Offer key={offer.id} offer={offer}
-        onHeaderClick={this.headerClickHandler}
-        onHoveredChange={this.hoveredHandler}
+        onHeaderClick={setCurrentOffer}
+        onHoveredChange={setHoveredOffer}
         viewMode={viewMode} />
     );
   }
 
   renderPropertyOffer(offer, viewMode) {
+    const {setCurrentOffer} = this.props;
     return (
       <Offer key={offer.id} offer={offer}
-        onHeaderClick={this.headerClickHandler}
+        onHeaderClick={setCurrentOffer}
         viewMode={viewMode} />
     );
   }
