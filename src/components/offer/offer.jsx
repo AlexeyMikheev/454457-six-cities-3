@@ -104,7 +104,7 @@ class Offer extends PureComponent {
             <span>Premium</span>
           </div>
         }
-        {this.renderOfferContent(ImageCardWidth.CARD_WIDTH, ImageCardWidth.CARD_HEIGHT,  `cities__image-wrapper`)}
+        {this.renderOfferContent(ImageCardWidth.CARD_WIDTH, ImageCardWidth.CARD_HEIGHT, `cities__image-wrapper`)}
       </article>
     );
   }
