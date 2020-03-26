@@ -3,61 +3,49 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Offer from '../offer/offer.jsx';
 import {OfferShape} from '../../settings.js';
-import {ViewMode, VIEWMODES, MAX_NEAR_DISPLAY_COUNT, FavoriteState} from '../../consts.js';
+import {ViewMode, VIEWMODES, MAX_NEAR_DISPLAY_COUNT} from '../../consts.js';
 import {ActionCreator, Operation as DataOperation} from "../../reducer/data/data.js";
 import {getCurrentOffers, getCurrentCity, getNearOffers} from "../../reducer/data/selectors.js";
 
 class Offers extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.headerClickHandler = this.headerClickHandler.bind(this);
+    this.hoveredHandler = this.hoveredHandler.bind(this);
   }
 
-  renderMainOffer(offer, viewMode, setCurrentOffer, setHoveredOffer, setFavorite) {
+  headerClickHandler(offerId) {
+    const {setCurrentOffer, setHoveredOffer} = this.props;
+
+    setCurrentOffer(offerId);
+    setHoveredOffer(null);
+  }
+
+  hoveredHandler(offerId) {
+    const {setHoveredOffer} = this.props;
+    setHoveredOffer(offerId);
+  }
+
+  renderMainOffer(offer, viewMode) {
     return (
       <Offer key={offer.id} offer={offer}
-        onPlaceHeaderClick={
-          (evt) => {
-            evt.preventDefault();
-            setCurrentOffer(offer.id);
-            setHoveredOffer(null);
-          }
-        }
-        onPlaceCardMouseOver={
-          () => {
-            setHoveredOffer(offer.id);
-          }
-        }
-        onPlaceCardMouseLeave={
-          () => {
-            setHoveredOffer(null);
-          }
-        }
-        setFavorite={() => {
-          setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
-        }}
+        onHeaderClick={this.headerClickHandler}
+        onHoveredChange={this.hoveredHandler}
         viewMode={viewMode} />
     );
   }
 
-  renderPropertyOffer(offer, viewMode, setCurrentOffer, setFavorite) {
+  renderPropertyOffer(offer, viewMode) {
     return (
       <Offer key={offer.id} offer={offer}
-        onPlaceHeaderClick={
-          (evt) => {
-            evt.preventDefault();
-            setCurrentOffer(offer.id);
-          }
-        }
-        setFavorite={() => {
-          setFavorite(offer.id, offer.isMarked ? FavoriteState.UNMARKED : FavoriteState.MARKED);
-        }
-        }
+        onHeaderClick={this.headerClickHandler}
         viewMode={viewMode} />
     );
   }
 
   render() {
-    const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer, setFavorite} = this.props;
+    const {offers, nearOffers, viewMode} = this.props;
 
     const isMainViewMode = viewMode === ViewMode.Main;
     const displayOffers = isMainViewMode ? offers : nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT);
@@ -67,13 +55,12 @@ class Offers extends PureComponent {
         {displayOffers.map((offer) => {
           switch (viewMode) {
             case ViewMode.Main:
-              return this.renderMainOffer(offer, viewMode, setCurrentOffer, setHoveredOffer, setFavorite);
+              return this.renderMainOffer(offer, viewMode);
             case ViewMode.Property:
-              return this.renderPropertyOffer(offer, viewMode, setCurrentOffer, setFavorite);
+              return this.renderPropertyOffer(offer, viewMode);
             default: return null;
           }
-        })
-        }
+        })}
       </div>
     );
   }
@@ -88,8 +75,7 @@ Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   setCurrentOffer: PropTypes.func.isRequired,
-  setHoveredOffer: PropTypes.func.isRequired,
-  setFavorite: PropTypes.func.isRequired
+  setHoveredOffer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -101,7 +87,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   setCurrentOffer: DataOperation.setCurrentOffer,
   setHoveredOffer: ActionCreator.setHoveredOffer,
-  setFavorite: DataOperation.setFavorite,
 };
 
 export {Offers};

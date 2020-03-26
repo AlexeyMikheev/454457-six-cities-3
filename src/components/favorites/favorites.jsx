@@ -16,12 +16,12 @@ const renderContent = (groupedOffers, setCurrentOffer, setFavorite) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            {(groupedOffers).map((groupedOffer) => {
-              const cityName = groupedOffer[0];
-              const cityOffers = groupedOffer[1];
-              return (
-                <ul key={cityName} className="favorites__list">
-                  <li className="favorites__locations-items">
+            <ul className="favorites__list">
+              {(groupedOffers).map((groupedOffer) => {
+                const cityName = groupedOffer[0];
+                const cityOffers = groupedOffer[1];
+                return (
+                  <li key={cityName} className="favorites__locations-items">
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
                         <a className="locations__item-link" href="#">
@@ -50,9 +50,9 @@ const renderContent = (groupedOffers, setCurrentOffer, setFavorite) => {
                       }
                     </div>
                   </li>
-                </ul>
-              );
-            })}
+                );
+              })}
+            </ul>
           </section>
         </div>
       </main>

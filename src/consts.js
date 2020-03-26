@@ -131,3 +131,10 @@ export const FavoriteButtonTypes = [
   FavoriteButtonType.PROPERTY,
   FavoriteButtonType.CARD
 ];
+
+export const ImageCardWidth = {
+  CARD_WIDTH: 260,
+  CARD_HEIGHT: 200,
+  FAVORITE_WIDTH: 150,
+  FAVORITE_HEIGHT: 110
+};
