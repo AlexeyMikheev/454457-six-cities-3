@@ -1,41 +1,113 @@
-import React from "react";
-import TestRenderer from "react-test-renderer";
-import Map from "./map.jsx";
+import React from 'react';
+import Enzyme, {mount} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import Map from './map.jsx';
 import {OfferType, FEATURES, ViewMode} from '../../consts.js';
 
-const mocks = [{
+Enzyme.configure({
+  adapter: new Adapter(),
+});
+
+
+const owner = {
   id: 1,
-  isPremium: true,
-  cost: 120,
-  isMarked: false,
-  rating: 4,
-  name: `Beautiful & luxurious apartment at great location`,
-  type: OfferType.APARTMENT,
-  image: `img/apartment-01.jpg`,
-  roomsCount: 3,
-  membersCount: 4,
-  images: [
-    `img/room.jpg`,
-    `img/apartment-01.jpg`,
-    `img/apartment-02.jpg`,
-    `img/apartment-03.jpg`,
-    `img/studio-01.jpg`,
-    `img/apartment-01.jpg`,
-  ],
-  features: FEATURES,
-  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-  owner: {
+  name: `Angelina`,
+  avatar: `img/avatar-angelina.jpg`,
+  isTrust: true
+};
+
+const location = {
+  latitude: 4.85309666406198,
+  longitude: 52.3909553943508,
+  zoom: 10,
+  center: [4.85309666406198, 52.3909553943508]
+};
+
+const cityParis = {
+  name: `Paris`,
+  location,
+  center: location.center,
+  zoom: location.zoom
+};
+
+const cityAmsterdam = {
+  name: `Amsterdam`,
+  location,
+  center: location.center,
+  zoom: location.zoom
+};
+
+const mockOffers = [
+  {
+    owner,
+    location,
+    city: cityParis,
     id: 1,
-    name: `Angelina`,
-    avatar: `img/avatar-angelina.jpg`,
-    isTrust: true
+    isPremium: true,
+    isMarked: false,
+    cost: 120,
+    rating: 4,
+    name: `Beautiful & luxurious apartment at great location`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    roomsCount: 3,
+    membersCount: 4,
+    type: OfferType.APARTMENT,
+    image: `img/apartment-01.jpg`,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    cityName: cityParis.name,
+    center: location.center,
+    zoom: location.zoom
   },
-  cityId: 1,
-  lonlat: [52.3909553943508, 4.85309666406198]
-}];
+  {
+    owner,
+    location,
+    city: cityAmsterdam,
+    id: 2,
+    isPremium: true,
+    isMarked: false,
+    cost: 120,
+    rating: 4,
+    name: `Beautiful & luxurious apartment at great location`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    roomsCount: 3,
+    membersCount: 4,
+    type: OfferType.APARTMENT,
+    image: `img/apartment-01.jpg`,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    cityName: cityParis.name,
+    center: location.center,
+    zoom: location.zoom
+  },
+];
 
-it(`Render Map`, () => {
-  const tree = TestRenderer.create(<Map offers={mocks} viewMode={ViewMode.Main}/>).toJSON();
+it(`Map test (Main)`, () => {
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  expect(tree).toMatchSnapshot();
+  const tree = mount(<Map offers={mockOffers} activeOffer={mockOffers[0]} hoveredOffer={mockOffers[1]} currentCity={cityParis} viewMode={ViewMode.Main}/>, {attachTo: div});
+  expect(tree.getDOMNode()).toMatchSnapshot();
+});
+
+it(`Map test (Property)`, () => {
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
+
+  const tree = mount(<Map offers={mockOffers} activeOffer={mockOffers[0]} hoveredOffer={mockOffers[1]} currentCity={cityParis} viewMode={ViewMode.Property}/>, {attachTo: div});
+  expect(tree.getDOMNode()).toMatchSnapshot();
 });
