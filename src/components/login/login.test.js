@@ -23,7 +23,7 @@ it(`Render Login`, () => {
       .create(
           <BrowserRouter>
             <Provider store={store}>
-              <Login onSubmit={() => {}} error={`Error auth`} />
+              <Login />
             </Provider>
           </BrowserRouter>)
       .toJSON();

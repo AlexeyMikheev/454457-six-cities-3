@@ -1,7 +1,7 @@
 import React from "react";
-import Enzyme, {shallow} from "enzyme";
+import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import {LoginForm} from "./login-form.jsx";
+import LoginForm from "./login-form.jsx";
 
 
 Enzyme.configure({
@@ -9,13 +9,24 @@ Enzyme.configure({
 });
 
 
-it(`Should login submit`, () => {
+it(`LoginForm e2e`, () => {
 
-  const onSubmitHanler = jest.fn();
-  const loginComponent = shallow(<LoginForm onSubmit={onSubmitHanler} error={`Error auth`}/>);
+  const mockLogin = `login`;
+  const mockPassword = `password`;
+
+  const submitHanler = jest.fn();
+  const loginComponent = mount(<LoginForm submitForm={submitHanler} error={`Error auth`}/>, );
 
   const form = loginComponent.find(`form.login__form`);
+  const login = form.find(`input.login__input[name='email']`);
+  login.simulate(`input`, {target: {value: mockLogin}});
 
-  form.simulate(`submit`, {preventDefault: () => {}});
-  expect(onSubmitHanler).toHaveBeenCalledTimes(1);
+  const password = form.find(`input.login__input[name='password']`);
+  password.simulate(`input`, {target: {value: mockPassword}});
+
+  form.simulate(`submit`, {
+    preventDefault: () => {},
+  });
+  expect(submitHanler).toHaveBeenCalledTimes(1);
+  expect(submitHanler).toHaveBeenCalledWith({login: mockLogin, password: mockPassword});
 });

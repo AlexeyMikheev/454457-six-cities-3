@@ -71,7 +71,7 @@ export const SORTTYPES = [
   SortType.TOPRATED
 ];
 
-export const RatingValues = [5, 4, 3, 2, 1];
+export const RatingValues = [`5`, `4`, `3`, `2`, `1`];
 
 export const ErrorType = {
   UNAUTHORIZED: 401,
@@ -138,3 +138,5 @@ export const ImageCardWidth = {
   FAVORITE_WIDTH: 150,
   FAVORITE_HEIGHT: 110
 };
+
+export const MIN_COMMENT_LENGTH = 50;

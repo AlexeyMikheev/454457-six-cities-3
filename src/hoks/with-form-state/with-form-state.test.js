@@ -7,26 +7,45 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-const mockeNumber = 1;
-
-const mockeMessage = `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. `;
-
 const MockComponent = () => <div />;
 const WithFormState = withFormState(MockComponent);
 
-it(`Should toggle boolean state`, () => {
+it(`WithFormState LoginForm test`, () => {
   const wrapper = shallow(<WithFormState />);
 
-  expect(wrapper.props().numeric).toEqual(undefined);
-  expect(wrapper.props().text).toEqual(``);
+  const evt = {
+    preventDefault: jest.fn(),
+    target: {
+      name: `email`,
+      value: `email@email.ru`
+    }
+  };
 
-  expect(wrapper.props().isFormValid).toEqual(false);
+  expect(wrapper.props().email).toEqual(undefined);
 
-  wrapper.props().onNumericChanged(mockeNumber);
-  expect(wrapper.props().numeric).toEqual(mockeNumber);
+  wrapper.props().onValueChanged(evt);
 
-  wrapper.props().onTextChanged(mockeMessage);
-  expect(wrapper.props().text).toEqual(mockeMessage);
+  expect(wrapper.props().email).toEqual(evt.target.value);
+});
 
-  expect(wrapper.props().isFormValid).toEqual(true);
+it(`WithFormState CommentForm test`, () => {
+  const wrapper = shallow(<WithFormState />);
+
+  const evt = {
+    preventDefault: jest.fn(),
+    target: {
+      name: `rating`,
+      value: `1`
+    }
+  };
+
+  expect(wrapper.props().rating).toEqual(undefined);
+
+  wrapper.props().onValueChanged(evt);
+
+  expect(wrapper.props().rating).toEqual(evt.target.value);
+
+  wrapper.props().onValuesReset();
+
+  expect(wrapper.props().rating).toEqual(``);
 });

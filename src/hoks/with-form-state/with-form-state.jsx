@@ -1,52 +1,34 @@
 import React, {PureComponent} from 'react';
-import {extendObject} from "../../utils.js";
 
 const withFormState = (Component) => {
   class WithFormState extends PureComponent {
     constructor(props) {
       super(props);
 
-      this.state = {
-        numeric: undefined,
-        text: ``
-      };
+      this.state = {};
 
-      this.onNumericChanged = this.onNumericChanged.bind(this);
-      this.onTextChanged = this.onTextChanged.bind(this);
-      this.onClearState = this.onClearState.bind(this);
+      this.valueChangedHandler = this.valueChangedHandler.bind(this);
+      this.valuesResetHandler = this.valuesResetHandler.bind(this);
     }
 
-    get IsFormValid() {
-      const {numeric, text} = this.state;
-      return numeric !== undefined && text !== undefined && text.length > 50;
+    valueChangedHandler(evt) {
+      this.setState({[evt.target.name]: evt.target.value});
     }
 
-    onNumericChanged(numeric) {
-      this.setState(extendObject(this.state, {numeric}));
-    }
-
-    onTextChanged(text) {
-      this.setState(extendObject(this.state, {text}));
-    }
-
-    onClearState() {
-      this.setState({
-        numeric: undefined,
-        text: ``
+    valuesResetHandler() {
+      const cleanState = {};
+      Object.keys(this.state).forEach((key) => {
+        cleanState[key] = ``;
       });
+      this.setState(cleanState);
     }
 
     render() {
-      const {numeric, text} = this.state;
-
       return <Component
         {...this.props}
-        numeric={numeric}
-        text={text}
-        isFormValid={this.IsFormValid}
-        onNumericChanged={this.onNumericChanged}
-        onTextChanged={this.onTextChanged}
-        onClearState={this.onClearState}
+        {...this.state}
+        onValueChanged={this.valueChangedHandler}
+        onValuesReset={this.valuesResetHandler}
       />;
     }
   }
