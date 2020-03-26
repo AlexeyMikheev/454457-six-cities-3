@@ -35,7 +35,7 @@ class LoginForm extends PureComponent {
 }
 
 LoginForm.propTypes = {
-  onValueChanged: PropTypes.func.isRequired,
+  onValueChanged: PropTypes.func,
   onSubmitForm: PropTypes.func.isRequired,
   email: PropTypes.string,
   password: PropTypes.string

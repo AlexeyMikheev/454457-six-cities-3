@@ -100,14 +100,14 @@ it(`Map test (Main)`, () => {
   const div = document.createElement(`div`);
   document.body.appendChild(div);
 
-  const tree = mount(<Map offers={mockOffers} activeOffer={mockOffers[0]} hoveredOffer={mockOffers[1]} currentCity={cityParis} viewMode={ViewMode.Main}/>, {attachTo: div});
-  expect(tree.getDOMNode()).toMatchSnapshot();
+  const mapComponent = mount(<Map offers={mockOffers} activeOffer={mockOffers[0]} hoveredOffer={mockOffers[1]} currentCity={cityParis} viewMode={ViewMode.Main}/>, {attachTo: div});
+  expect(mapComponent.getDOMNode()).toMatchSnapshot();
 });
 
 it(`Map test (Property)`, () => {
   const div = document.createElement(`div`);
   document.body.appendChild(div);
 
-  const tree = mount(<Map offers={mockOffers} activeOffer={mockOffers[0]} hoveredOffer={mockOffers[1]} currentCity={cityParis} viewMode={ViewMode.Property}/>, {attachTo: div});
-  expect(tree.getDOMNode()).toMatchSnapshot();
+  const mapComponent = mount(<Map offers={mockOffers} activeOffer={mockOffers[0]} hoveredOffer={mockOffers[1]} currentCity={cityParis} viewMode={ViewMode.Property}/>, {attachTo: div});
+  expect(mapComponent.getDOMNode()).toMatchSnapshot();
 });

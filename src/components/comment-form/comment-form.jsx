@@ -13,6 +13,11 @@ class CommentForm extends PureComponent {
     this.submitFormHandler = this.submitFormHandler.bind(this);
   }
 
+  get isFormValid() {
+    const {rating, review} = this.props;
+    return rating !== undefined && review !== undefined && review.length > MIN_COMMENT_LENGTH;
+  }
+
   componentDidUpdate() {
     const {isSuccess, clearStatus, onValuesReset} = this.props;
     if (isSuccess) {
@@ -26,7 +31,7 @@ class CommentForm extends PureComponent {
 
     const {rating, review, sendComment, isLoading, offerId} = this.props;
 
-    if (isLoading) {
+    if (isLoading || !this.isFormValid) {
       return;
     }
 
@@ -36,7 +41,7 @@ class CommentForm extends PureComponent {
   render() {
     const {rating, review, isLoading: disabled, error, onValueChanged} = this.props;
 
-    const isFormValid = rating !== undefined && review !== undefined && review.length > MIN_COMMENT_LENGTH;
+    const isFormValid = this.isFormValid;
 
     return (
       <form className="reviews__form form" action="#" method="post" disabled={disabled} onSubmit={this.submitFormHandler}>
