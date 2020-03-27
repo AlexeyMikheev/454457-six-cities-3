@@ -108,9 +108,9 @@ Array [
                     <img
                       alt="Place image"
                       className="place-card__image"
-                      height="200"
+                      height={110}
                       src="img/apartment-01.jpg"
-                      width="260"
+                      width={150}
                     />
                   </a>
                 </div>
@@ -196,10 +196,6 @@ Array [
               </article>
             </div>
           </li>
-        </ul>
-        <ul
-          className="favorites__list"
-        >
           <li
             className="favorites__locations-items"
           >
@@ -234,9 +230,9 @@ Array [
                     <img
                       alt="Place image"
                       className="place-card__image"
-                      height="200"
+                      height={110}
                       src="img/apartment-01.jpg"
-                      width="260"
+                      width={150}
                     />
                   </a>
                 </div>
@@ -437,9 +433,9 @@ Array [
                     <img
                       alt="Place image"
                       className="place-card__image"
-                      height="200"
+                      height={110}
                       src="img/apartment-01.jpg"
-                      width="260"
+                      width={150}
                     />
                   </a>
                 </div>
@@ -525,10 +521,6 @@ Array [
               </article>
             </div>
           </li>
-        </ul>
-        <ul
-          className="favorites__list"
-        >
           <li
             className="favorites__locations-items"
           >
@@ -563,9 +555,9 @@ Array [
                     <img
                       alt="Place image"
                       className="place-card__image"
-                      height="200"
+                      height={110}
                       src="img/apartment-01.jpg"
-                      width="260"
+                      width={150}
                     />
                   </a>
                 </div>

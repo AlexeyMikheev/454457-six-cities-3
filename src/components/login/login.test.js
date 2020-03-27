@@ -5,7 +5,8 @@ import configureStore from "redux-mock-store";
 import {AuthStatus} from "../../consts.js";
 import NameSpace from "../../reducer/name-space.js";
 import Login from "./login.jsx";
-import {BrowserRouter} from "react-router-dom";
+import {Router} from "react-router-dom";
+import history from "../../history.js";
 
 const mockStore = configureStore([]);
 
@@ -21,11 +22,11 @@ it(`Render Login`, () => {
 
   const tree = renderer
       .create(
-          <BrowserRouter>
+          <Router history={history}>
             <Provider store={store}>
               <Login />
             </Provider>
-          </BrowserRouter>)
+          </Router>)
       .toJSON();
   expect(tree).toMatchSnapshot();
 });

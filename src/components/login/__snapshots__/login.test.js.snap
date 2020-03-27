@@ -89,6 +89,7 @@ Array [
               className="login__input form__input"
               id="email"
               name="email"
+              onChange={[Function]}
               placeholder="Email"
               type="email"
             />
@@ -106,6 +107,7 @@ Array [
               className="login__input form__input"
               id="password"
               name="password"
+              onChange={[Function]}
               placeholder="Password"
               type="password"
             />

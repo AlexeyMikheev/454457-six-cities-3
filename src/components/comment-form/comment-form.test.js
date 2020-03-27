@@ -1,23 +1,28 @@
 import React from "react";
-import renderer from "react-test-renderer";
-import CommentForm from "./comment-form.jsx";
+import Enzyme, {mount} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import {CommentForm} from "./comment-form.jsx";
 
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
 it(`CommentForm snapshot`, () => {
 
-  const commentForm = renderer
-    .create(
-        <CommentForm isFormValid={true}
-          numeric={1}
-          text={``}
-          offerId={1}
-          isLoading={false}
-          clearStatus={() => {}}
-          onClearState={() => {}}
-          onNumericChanged={() => {}}
-          onTextChanged={() => {}}
-          onFormSubmit={() => {}}
-          sendComment={() => {}} />
-    ).toJSON();
-  expect(commentForm).toMatchSnapshot();
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
+
+  const commentForm = mount(
+      <CommentForm isFormValid={true}
+        numeric={1}
+        text={``}
+        offerId={1}
+        isLoading={false}
+        clearStatus={() => {}}
+        onValuesReset={() => {}}
+        onValueChanged={() => {}}
+        onFormSubmit={() => {}}
+        sendComment={() => {}} />, {attachTo: div}
+  );
+  expect(commentForm.getDOMNode()).toMatchSnapshot();
 });

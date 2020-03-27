@@ -1,11 +1,16 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import Enzyme, {mount} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import App from "./app.jsx";
 import {OfferType, FEATURES, SortType} from "../../consts";
 import {AuthStatus} from "../../consts.js";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import NameSpace from "../../reducer/name-space.js";
+
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
 const mockStore = configureStore([]);
 
@@ -101,27 +106,39 @@ const mockDate = new Date(0).valueOf();
 const reviewsMock = [
   {
     id: 1,
-    name: `Max`,
-    avatar: `img/avatar-max.jpg`,
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     rating: 4.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
-    date: mockDate
+    date: mockDate,
+    user: {
+      id: 1,
+      name: `Max`,
+      avatar: `img/avatar-max.jpg`,
+      isTrust: true
+    }
   },
   {
     id: 2,
-    name: `Nina`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 0,
-    description: `The building is green and from 18th century.`,
-    date: mockDate
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    rating: 4.5,
+    date: mockDate,
+    user: {
+      id: 1,
+      name: `Ivan`,
+      avatar: `img/avatar-max.jpg`,
+      isTrust: true
+    }
   },
   {
     id: 3,
-    name: `Andre`,
-    avatar: `img/avatar-max.jpg`,
-    rating: 3.5,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    date: mockDate
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    rating: 4.5,
+    date: mockDate,
+    user: {
+      id: 1,
+      name: `Petr`,
+      avatar: `img/avatar-max.jpg`,
+      isTrust: true
+    }
   }];
 
 
@@ -143,9 +160,10 @@ it(`App snapshot`, () => {
     }
   });
 
-  const tree = renderer
-    .create(<Provider store={store}><App /></Provider>)
-    .toJSON();
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  expect(tree).toMatchSnapshot();
+  const appComponent = mount(<Provider store={store}><App /></Provider>, {attachTo: div});
+
+  expect(appComponent.getDOMNode()).toMatchSnapshot();
 });
