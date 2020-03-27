@@ -55,15 +55,11 @@ class Offers extends PureComponent {
 }
 
 Offers.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  viewMode: PropTypes.oneOf(VIEWMODES)
-};
-
-Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   setCurrentOffer: PropTypes.func.isRequired,
-  setHoveredOffer: PropTypes.func.isRequired
+  setHoveredOffer: PropTypes.func.isRequired,
+  viewMode: PropTypes.oneOf(VIEWMODES)
 };
 
 const mapStateToProps = (state) => ({

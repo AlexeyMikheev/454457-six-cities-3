@@ -77,8 +77,8 @@ describe(`Reducer user Operation.checkAuth`, () => {
 
     return loader(dispatch, () => { }, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenNthCalledWith(1, {
+        expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.SET_AUTH,
           payload: mockAuthData
         });
@@ -101,7 +101,7 @@ describe(`Reducer user Operation.login`, () => {
 
     return loader(dispatch, () => { }, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.SET_AUTH,
           payload: mockUserInfo

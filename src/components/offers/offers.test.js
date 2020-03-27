@@ -3,57 +3,152 @@ import renderer from "react-test-renderer";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Offers from "./offers.jsx";
-import {OfferType, FEATURES} from '../../consts.js';
+import {OfferType, FEATURES, SortType, ViewMode, AuthStatus} from '../../consts.js';
 import NameSpace from "../../reducer/name-space.js";
+import {BrowserRouter} from "react-router-dom";
 
 const mockStore = configureStore([]);
 
-const mocks = [{
+const owner = {
   id: 1,
-  isPremium: true,
-  cost: 120,
-  isMarked: false,
-  rating: 4,
-  name: `Beautiful & luxurious apartment at great location`,
-  type: OfferType.APARTMENT,
-  image: `img/apartment-01.jpg`,
-  roomsCount: 3,
-  membersCount: 4,
-  images: [
-    `img/room.jpg`,
-    `img/apartment-01.jpg`,
-    `img/apartment-02.jpg`,
-    `img/apartment-03.jpg`,
-    `img/studio-01.jpg`,
-    `img/apartment-01.jpg`,
-  ],
-  features: FEATURES,
-  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-  owner: {
+  name: `Angelina`,
+  avatar: `img/avatar-angelina.jpg`,
+  isTrust: true
+};
+
+const location = {
+  latitude: 4.85309666406198,
+  longitude: 52.3909553943508,
+  zoom: 10,
+  center: [4.85309666406198, 52.3909553943508]
+};
+
+const cityParis = {
+  name: `Paris`,
+  location,
+  center: location.center,
+  zoom: location.zoom
+};
+
+const cityAmsterdam = {
+  name: `Amsterdam`,
+  location,
+  center: location.center,
+  zoom: location.zoom
+};
+
+const mockCities = [cityParis, cityAmsterdam];
+
+const mockOffers = [
+  {
+    owner,
+    location,
+    city: cityParis,
     id: 1,
-    name: `Angelina`,
-    avatar: `img/avatar-angelina.jpg`,
-    isTrust: true
+    isPremium: true,
+    isMarked: false,
+    cost: 120,
+    rating: 4,
+    name: `Beautiful & luxurious apartment at great location`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    roomsCount: 3,
+    membersCount: 4,
+    type: OfferType.APARTMENT,
+    image: `img/apartment-01.jpg`,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    cityName: cityParis.name,
+    center: location.center,
+    zoom: location.zoom
   },
-  cityId: 1,
-  lonlat: [52.3909553943508, 4.85309666406198]
-}];
+  {
+    owner,
+    location,
+    city: cityAmsterdam,
+    id: 2,
+    isPremium: true,
+    isMarked: false,
+    cost: 120,
+    rating: 4,
+    name: `Beautiful & luxurious apartment at great location`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    roomsCount: 3,
+    membersCount: 4,
+    type: OfferType.APARTMENT,
+    image: `img/apartment-01.jpg`,
+    images: [
+      `img/room.jpg`,
+      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
+      `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    cityName: cityParis.name,
+    center: location.center,
+    zoom: location.zoom
+  },
+];
 
-it(`Render Offers`, () => {
+it(`Offers spanshot (Main)`, () => {
 
-  const store = mockStore({[NameSpace.DATA]: {
-    offers: mocks,
-    currentOffers: [],
-    currentOffer: null,
-    cities: [],
-    reviews: [],
-    currentCity: null,
-    nearOffers: []
-  }});
+  const store = mockStore({
+    [NameSpace.DATA]: {
+      cities: mockCities,
+      currentCityName: null,
+      offers: mockOffers,
+      nearbyOffers: mockOffers,
+      hoveredOfferId: null,
+      currentOfferId: null,
+      sortType: SortType.POPULAR,
+      favoriteOffers: []
+    },
+    [NameSpace.USER]: {
+      authStatus: AuthStatus.NO_AUTH,
+      authInfo: null,
+      authError: null
+    }
+  });
 
   const tree = renderer
-    .create(<Provider store={store}><Offers /></Provider>)
+    .create(<BrowserRouter><Provider store={store}><Offers viewMode={ViewMode.Main}/></Provider></BrowserRouter>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();
 });
+
+it(`Offers spanshot (Property)`, () => {
+
+  const store = mockStore({
+    [NameSpace.DATA]: {
+      cities: mockCities,
+      currentCityName: null,
+      offers: mockOffers,
+      nearbyOffers: mockOffers,
+      hoveredOfferId: null,
+      currentOfferId: null,
+      sortType: SortType.POPULAR,
+      favoriteOffers: []
+    },
+    [NameSpace.USER]: {
+      authStatus: AuthStatus.NO_AUTH,
+      authInfo: null,
+      authError: null
+    }
+  });
+
+  const tree = renderer
+    .create(<BrowserRouter><Provider store={store}><Offers viewMode={ViewMode.Property}/></Provider></BrowserRouter>)
+    .toJSON();
+
+  expect(tree).toMatchSnapshot();
+});
+

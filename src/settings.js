@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {OFFERTYPES, FEATURES} from "./consts.js";
+import {OFFERTYPES} from "./consts.js";
 
 export const LocationShape = {
   latitude: PropTypes.number.isRequired,
