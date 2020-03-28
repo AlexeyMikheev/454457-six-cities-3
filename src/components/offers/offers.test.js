@@ -1,11 +1,16 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import Enzyme, {mount} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Offers from "./offers.jsx";
 import {OfferType, FEATURES, SortType, ViewMode, AuthStatus} from '../../consts.js';
 import NameSpace from "../../reducer/name-space.js";
 import {BrowserRouter} from "react-router-dom";
+
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
 const mockStore = configureStore([]);
 
@@ -118,11 +123,12 @@ it(`Offers spanshot (Main)`, () => {
     }
   });
 
-  const tree = renderer
-    .create(<BrowserRouter><Provider store={store}><Offers viewMode={ViewMode.Main}/></Provider></BrowserRouter>)
-    .toJSON();
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  expect(tree).toMatchSnapshot();
+  const offersComponent = mount(<BrowserRouter><Provider store={store}><Offers viewMode={ViewMode.Main}/></Provider></BrowserRouter>, {attachTo: div});
+
+  expect(offersComponent.getDOMNode()).toMatchSnapshot();
 });
 
 it(`Offers spanshot (Property)`, () => {
@@ -145,10 +151,11 @@ it(`Offers spanshot (Property)`, () => {
     }
   });
 
-  const tree = renderer
-    .create(<BrowserRouter><Provider store={store}><Offers viewMode={ViewMode.Property}/></Provider></BrowserRouter>)
-    .toJSON();
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  expect(tree).toMatchSnapshot();
+  const offersComponent = mount(<BrowserRouter><Provider store={store}><Offers viewMode={ViewMode.Property}/></Provider></BrowserRouter>, {attachTo: div});
+
+  expect(offersComponent.getDOMNode()).toMatchSnapshot();
 });
 

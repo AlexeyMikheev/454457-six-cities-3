@@ -7,13 +7,13 @@ import {SortType} from "../../consts.js";
 import Sorting from "./sorting.jsx";
 import NameSpace from "../../reducer/name-space.js";
 
-const mockStore = configureStore([]);
-
-const mock = SortType.POPULAR;
-
 Enzyme.configure({
   adapter: new Adapter(),
 });
+
+const mockStore = configureStore([]);
+
+const mock = SortType.POPULAR;
 
 it(`Should sorting be toggled`, () => {
 
@@ -28,9 +28,12 @@ it(`Should sorting be toggled`, () => {
     sortType: mock
   }});
 
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
+
   const onToggleChange = jest.fn();
 
-  const sortingComponent = mount(<Provider store={store}><Sorting isToggled={false} onToggleChange={onToggleChange}/></Provider>);
+  const sortingComponent = mount(<Provider store={store}><Sorting isToggled={false} onToggleChange={onToggleChange}/></Provider>, {attachTo: div});
 
   const placesSorting = sortingComponent.find(`span.places__sorting-type`);
 

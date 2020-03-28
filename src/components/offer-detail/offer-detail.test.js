@@ -74,8 +74,8 @@ const mockUserInfo = {
 it(`OfferDetail spanshot`, () => {
 
   const store = mockStore({[NameSpace.USER]: {
-    authStatus: AuthStatus.NO_AUTH,
-    authInfo: null,
+    authStatus: AuthStatus.AUTH,
+    authInfo: mockUserInfo,
     authError: null
   }});
 

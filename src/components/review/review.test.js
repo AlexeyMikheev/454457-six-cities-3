@@ -1,6 +1,11 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import Enzyme, {mount} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import Review from "./review.jsx";
+
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
 const mockDate = new Date(0).valueOf();
 
@@ -19,9 +24,10 @@ const mock = {
 
 it(`Render Reviews`, () => {
 
-  const tree = renderer
-    .create(<Review review={mock} />)
-    .toJSON();
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  expect(tree).toMatchSnapshot();
+  const reviewComponent = mount(<Review review={mock} />, {attachTo: div});
+
+  expect(reviewComponent.getDOMNode()).toMatchSnapshot();
 });
