@@ -39,12 +39,14 @@ export const OFFERTYPES = [
 
 export const ViewMode = {
   Main: 0,
-  Property: 1
+  Property: 1,
+  Favorite: 2
 };
 
 export const VIEWMODES = [
   ViewMode.Main,
-  ViewMode.Property
+  ViewMode.Property,
+  ViewMode.Favorite
 ];
 
 export const MIN_RATING = 1;
@@ -69,11 +71,12 @@ export const SORTTYPES = [
   SortType.TOPRATED
 ];
 
-export const RatingValues = [5, 4, 3, 2, 1];
+export const RatingValues = [`5`, `4`, `3`, `2`, `1`];
 
 export const ErrorType = {
   UNAUTHORIZED: 401,
-  BABREQUEST: 400
+  BABREQUEST: 400,
+  NOTFOUND: 404
 };
 
 export const TIMEOUT = 5000;
@@ -81,6 +84,7 @@ export const URL = `https://htmlacademy-react-3.appspot.com/six-cities`;
 
 export const AuthStatus = {
   NO_AUTH: `NO_AUTH`,
+  LOADING: `LOADING`,
   AUTH: `AUTH`
 };
 
@@ -101,6 +105,7 @@ export const LoadingStatuses = [
 export const Url = {
   COMMENTS: `comments`,
   HOTELS: `hotels`,
+  FAVORITE: `favorite`,
   LOGIN: `login`,
   NEARBY: `nearby`
 };
@@ -111,3 +116,28 @@ export const AppRoute = {
   OFFER: `/offer`,
   ROOT: `/`,
 };
+
+
+export const FavoriteState = {
+  MARKED: 1,
+  UNMARKED: 0
+};
+
+export const FavoriteButtonType = {
+  PROPERTY: 1,
+  CARD: 0
+};
+
+export const FavoriteButtonTypes = [
+  FavoriteButtonType.PROPERTY,
+  FavoriteButtonType.CARD
+];
+
+export const ImageCardWidth = {
+  CARD_WIDTH: 260,
+  CARD_HEIGHT: 200,
+  FAVORITE_WIDTH: 150,
+  FAVORITE_HEIGHT: 110
+};
+
+export const MIN_COMMENT_LENGTH = 50;

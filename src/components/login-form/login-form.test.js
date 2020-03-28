@@ -1,12 +1,17 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import Enzyme, {mount} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import LoginForm from "./login-form.jsx";
 
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
 it(`Render Login`, () => {
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  const tree = renderer
-      .create(<LoginForm onSubmit={() => {}}/>)
-      .toJSON();
-  expect(tree).toMatchSnapshot();
+  const loginFormComponent = mount(<LoginForm onValueChanged={() => {}} onSubmitForm={() => {}}/>, {attachTo: div});
+
+  expect(loginFormComponent.getDOMNode()).toMatchSnapshot();
 });

@@ -1,5 +1,7 @@
 import {extendObject} from "../../utils.js";
-import {AuthStatus, ErrorType, Url} from "../../consts";
+import {AuthStatus, ErrorType, Url, AppRoute} from "../../consts";
+import {Operation as DataOperation} from "../data/data.js";
+import history from "../../history.js";
 
 const initialState = {
   authStatus: AuthStatus.NO_AUTH,
@@ -8,9 +10,9 @@ const initialState = {
 };
 
 const ActionType = {
+  SET_AUTH_STATUS: `SET_AUTH_STATUS`,
   SET_AUTH: `SET_AUTH`,
   SET_AUTH_ERROR: `SET_AUTH_ERROR`,
-  SET_AUTH_STATUS: `SET_AUTH_STATUS`
 };
 
 const ActionCreator = {
@@ -61,15 +63,22 @@ const reducer = (state = initialState, action) => {
 
 const Operation = {
   checkAuth: () => (dispatch, _getState, api) => {
+    dispatch(ActionCreator.setAuthStatus(AuthStatus.LOADING));
     return api.get(`/${Url.LOGIN}`)
       .then((response) => {
         dispatch(ActionCreator.setAuthInfo(response.data));
+
+        dispatch(DataOperation.loadFavorits());
       })
       .catch((err) => {
         const {response} = err;
 
         if (response.status === ErrorType.UNAUTHORIZED) {
-          ActionCreator.setAuthStatus(AuthStatus.NO_AUTH);
+          dispatch((ActionCreator.setAuthStatus(AuthStatus.NO_AUTH)));
+        } else {
+          dispatch((ActionCreator.setAuthStatus(AuthStatus.NO_AUTH)));
+          dispatch(ActionCreator.setAuthError(`Error. Service is not available`));
+          history.push(AppRoute.LOGIN);
         }
         throw err;
       });
@@ -82,6 +91,10 @@ const Operation = {
     })
     .then((response) => {
       dispatch(ActionCreator.setAuthInfo(response.data));
+
+      dispatch(DataOperation.loadFavorits());
+
+      history.goBack();
     })
     .catch((err) => {
       const {response} = err;

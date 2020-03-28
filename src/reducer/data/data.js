@@ -1,7 +1,7 @@
 import {extendObject, getCities} from "../../utils.js";
 import {SortType, Url} from "../../consts.js";
 import {Operation as CommentsOperation} from "../comment/comment.js";
-import {adaptHotelsResponse} from "../../adapters.js";
+import {adaptOffersResponse, adaptOfferResponse} from "../../adapters.js";
 
 const initialState = {
   cities: [],
@@ -10,16 +10,19 @@ const initialState = {
   nearbyOffers: [],
   hoveredOfferId: null,
   currentOfferId: null,
-  sortType: SortType.POPULAR
+  sortType: SortType.POPULAR,
+  favoriteOffers: []
 };
 
 const ActionType = {
-  SET_CURRENT_CITY: `SET_CITY`,
+  SET_CURRENT_CITY: `SET_CURRENT_CITY`,
   SET_CURRENT_OFFER: `SET_CURRENT_OFFER`,
   SET_HOVERED_OFFER: `SET_HOVERED_OFFER`,
   SET_SORT_TYPE: `SET_SORT_TYPE`,
-  SET_DATA: `SET_DATA`,
   SET_NEARBY_OFFERS: `SET_NEARBY_OFFERS`,
+  SET_DATA: `SET_DATA`,
+  SET_FAVORITE_OFFERS: `SET_FAVORITE_OFFERS`,
+  SET_FAVORITE_STATUS: `SET_FAVORITE_STATUS`
 };
 
 const ActionCreator = {
@@ -50,10 +53,22 @@ const ActionCreator = {
       payload: data,
     };
   },
-  setNearbyOffers: (nearbyOffers) => {
+  setNearbyOffers: (offers) => {
     return {
       type: ActionType.SET_NEARBY_OFFERS,
-      payload: nearbyOffers,
+      payload: offers,
+    };
+  },
+  setFavoritesOffers: (offers) => {
+    return {
+      type: ActionType.SET_FAVORITE_OFFERS,
+      payload: offers,
+    };
+  },
+  setFavoritesOfferStatus: (offer) => {
+    return {
+      type: ActionType.SET_FAVORITE_STATUS,
+      payload: offer,
     };
   }
 };
@@ -62,13 +77,25 @@ const Operation = {
   loadData: () => (dispatch, _getState, api) => {
     return api.get(`/${Url.HOTELS}`)
       .then((response) => {
-        dispatch(ActionCreator.setData(adaptHotelsResponse(response.data)));
+        dispatch(ActionCreator.setData(adaptOffersResponse(response.data)));
       });
   },
   loadNearbyOffers: (currentOfferId) => (dispatch, _getState, api) => {
     return api.get(`/${Url.HOTELS}/${currentOfferId}/${Url.NEARBY}`)
       .then((response) => {
-        dispatch(ActionCreator.setNearbyOffers(response.data));
+        dispatch(ActionCreator.setNearbyOffers(adaptOffersResponse(response.data)));
+      });
+  },
+  loadFavorits: () => (dispatch, _getState, api) => {
+    return api.get(`/${Url.FAVORITE}`)
+      .then((response) => {
+        dispatch(ActionCreator.setFavoritesOffers(adaptOffersResponse(response.data)));
+      });
+  },
+  setFavorite: (offerId, state) => (dispatch, _getState, api) => {
+    return api.post(`/${Url.FAVORITE}/${offerId}/${state}`)
+      .then((response) => {
+        dispatch(ActionCreator.setFavoritesOfferStatus(adaptOfferResponse(response.data)));
       });
   },
   setCurrentOffer: (currentOfferId) => (dispatch, _getState, _api) => {
@@ -78,6 +105,7 @@ const Operation = {
       dispatch(CommentsOperation.getComments(currentOfferId));
 
       dispatch(Operation.loadNearbyOffers(currentOfferId));
+
     } else {
       dispatch(ActionCreator.setNearbyOffers([]));
     }
@@ -104,6 +132,12 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.SET_NEARBY_OFFERS:
       return setNearbyOffers(state, action);
+
+    case ActionType.SET_FAVORITE_OFFERS:
+      return setFavoriteOffers(state, action);
+
+    case ActionType.SET_FAVORITE_STATUS:
+      return setFavoritesOfferStatus(state, action);
 
     default: return state;
   }
@@ -133,9 +167,54 @@ const setData = (state, action) => {
 };
 
 const setNearbyOffers = (state, action) => {
-  const nearbyOffers = adaptHotelsResponse(action.payload);
+  const nearbyOffers = action.payload;
 
   return extendObject(state, {nearbyOffers});
 };
+
+const setFavoriteOffers = (state, action) => {
+  return extendObject(state, {favoriteOffers: action.payload});
+};
+
+const setFavoritesOfferStatus = (state, action) => {
+  const offer = action.payload;
+  const {id: offerId, isMarked} = offer;
+
+  let updatedState = extendObject({}, state);
+
+  const updatedOffers = updatedState.offers.slice();
+  let updatedOfferIndex = updatedOffers.findIndex((o) => o.id === offerId);
+
+  if (updatedOfferIndex !== -1) {
+    updatedOffers[updatedOfferIndex] = extendObject(updatedOffers[updatedOfferIndex], {isMarked});
+
+    updatedState = extendObject(updatedState, {offers: updatedOffers});
+  }
+
+  const updatedNearbyOffers = updatedState.nearbyOffers.slice();
+  const updatednearbyOfferIndex = updatedNearbyOffers.findIndex((o) => o.id === offerId);
+
+  if (updatednearbyOfferIndex !== -1) {
+    updatedNearbyOffers[updatednearbyOfferIndex] = extendObject(updatedNearbyOffers[updatednearbyOfferIndex], {isMarked});
+
+    updatedState = extendObject(updatedState, {nearbyOffers: updatedNearbyOffers});
+  }
+
+  const updatedFavoriteOfferIndex = updatedState.favoriteOffers.findIndex((o) => o.id === offerId);
+
+  if (updatedFavoriteOfferIndex !== -1 && !isMarked) {
+    const updatedFavoriteOffers = updatedState.favoriteOffers.slice().filter((o) => o.id !== offerId);
+
+    updatedState = extendObject(updatedState, {favoriteOffers: updatedFavoriteOffers});
+  } else {
+    const updatedFavoriteOffers = updatedState.favoriteOffers.slice();
+    updatedFavoriteOffers.push(offer);
+
+    updatedState = extendObject(updatedState, {favoriteOffers: updatedFavoriteOffers});
+  }
+
+  return updatedState;
+};
+
 
 export {reducer, Operation, ActionType, ActionCreator};

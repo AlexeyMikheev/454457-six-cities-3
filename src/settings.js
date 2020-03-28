@@ -5,6 +5,7 @@ export const LocationShape = {
   latitude: PropTypes.number.isRequired,
   longitude: PropTypes.number.isRequired,
   zoom: PropTypes.number.isRequired,
+  center: PropTypes.arrayOf(PropTypes.number),
 };
 
 export const CityShape = {
@@ -34,7 +35,11 @@ export const OfferShape = {
   membersCount: PropTypes.number.isRequired,
   type: PropTypes.oneOf(OFFERTYPES),
   image: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string).isRequired
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  features: PropTypes.arrayOf(PropTypes.string),
+  cityName: PropTypes.string.isRequired,
+  center: PropTypes.arrayOf(PropTypes.number),
+  zoom: PropTypes.number
 };
 
 export const AuthInfo = {

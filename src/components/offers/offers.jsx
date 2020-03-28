@@ -12,38 +12,54 @@ class Offers extends PureComponent {
     super(props);
   }
 
-  render() {
-    const {offers, nearOffers, viewMode, setCurrentOffer, setHoveredOffer} = this.props;
-
-    const isNearViewMode = viewMode === ViewMode.Property;
-
-    const displayOffers = isNearViewMode ? nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT) : offers;
+  renderMainOffer(offer, viewMode) {
+    const {setCurrentOffer, setHoveredOffer} = this.props;
 
     return (
-      <div className={`${isNearViewMode ? `near-places__list places__list` : `cities__places-list places__list tabs__content` }`}>
-        {displayOffers.map((offer) => <Offer key={offer.id} offer={offer} onPlaceHeaderClick={(evt) => {
-          evt.preventDefault();
-          setCurrentOffer(offer.id);
-        }} onPlaceCardMouseOver={() => {
-          setHoveredOffer(offer.id);
-        }} onPlaceCardMouseLeave={() => {
-          setHoveredOffer(null);
-        }} isNearViewMode={isNearViewMode} />)}
+      <Offer key={offer.id} offer={offer}
+        onHeaderClick={setCurrentOffer}
+        onHoveredChange={setHoveredOffer}
+        viewMode={viewMode} />
+    );
+  }
+
+  renderPropertyOffer(offer, viewMode) {
+    const {setCurrentOffer} = this.props;
+    return (
+      <Offer key={offer.id} offer={offer}
+        onHeaderClick={setCurrentOffer}
+        viewMode={viewMode} />
+    );
+  }
+
+  render() {
+    const {offers, nearOffers, viewMode} = this.props;
+
+    const isMainViewMode = viewMode === ViewMode.Main;
+    const displayOffers = isMainViewMode ? offers : nearOffers.slice(0, MAX_NEAR_DISPLAY_COUNT);
+
+    return (
+      <div className={`${isMainViewMode ? `cities__places-list places__list tabs__content` : `near-places__list places__list` }`}>
+        {displayOffers.map((offer) => {
+          switch (viewMode) {
+            case ViewMode.Main:
+              return this.renderMainOffer(offer, viewMode);
+            case ViewMode.Property:
+              return this.renderPropertyOffer(offer, viewMode);
+            default: return null;
+          }
+        })}
       </div>
     );
   }
 }
 
 Offers.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
-  viewMode: PropTypes.oneOf(VIEWMODES)
-};
-
-Offers.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   setCurrentOffer: PropTypes.func.isRequired,
-  setHoveredOffer: PropTypes.func.isRequired
+  setHoveredOffer: PropTypes.func.isRequired,
+  viewMode: PropTypes.oneOf(VIEWMODES)
 };
 
 const mapStateToProps = (state) => ({
@@ -54,7 +70,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setCurrentOffer: DataOperation.setCurrentOffer,
-  setHoveredOffer: ActionCreator.setHoveredOffer
+  setHoveredOffer: ActionCreator.setHoveredOffer,
 };
 
 export {Offers};

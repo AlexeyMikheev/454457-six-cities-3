@@ -1,58 +1,66 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import Enzyme, {mount} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import Property from "./property.jsx";
 import {OfferType, FEATURES, AuthStatus, SortType} from '../../consts.js';
 import NameSpace from "../../reducer/name-space.js";
-import {BrowserRouter} from "react-router-dom";
+import {Router} from "react-router-dom";
+import history from "../../history.js";
+
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
 const mockStore = configureStore([]);
 
-const mockOffers = [{
+const owner = {
   id: 1,
-  isPremium: true,
-  cost: 120,
-  isMarked: false,
-  rating: 20,
-  name: `Beautiful & luxurious apartment at great location`,
-  type: OfferType.APARTMENT,
-  image: `img/apartment-01.jpg`,
-  roomsCount: 3,
-  membersCount: 4,
-  images: [
-    `img/room.jpg`,
-    `img/apartment-01.jpg`,
-    `img/apartment-02.jpg`,
-    `img/apartment-03.jpg`,
-    `img/studio-01.jpg`,
-    `img/apartment-01.jpg`,
-  ],
-  features: FEATURES,
-  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-  owner: {
-    id: 1,
-    name: `Angelina`,
-    avatar: `img/avatar-angelina.jpg`,
-    isTrust: true
-  },
-  cityId: 1,
-  lonlat: [52.3909553943508, 4.85309666406198]
-}];
+  name: `Angelina`,
+  avatar: `img/avatar-angelina.jpg`,
+  isTrust: true
+};
 
+const location = {
+  latitude: 4.85309666406198,
+  longitude: 52.3909553943508,
+  zoom: 10,
+  center: [4.85309666406198, 52.3909553943508]
+};
 
-const nearOffersMock = [
+const cityParis = {
+  name: `Paris`,
+  location,
+  center: location.center,
+  zoom: location.zoom
+};
+
+const cityAmsterdam = {
+  name: `Amsterdam`,
+  location,
+  center: location.center,
+  zoom: location.zoom
+};
+
+const mockCities = [cityParis, cityAmsterdam];
+
+const mockOffers = [
   {
+    owner,
+    location,
+    city: cityParis,
     id: 1,
     isPremium: true,
-    cost: 120,
     isMarked: false,
-    rating: 2,
+    cost: 120,
+    rating: 4,
     name: `Beautiful & luxurious apartment at great location`,
-    type: OfferType.APARTMENT,
-    image: `img/apartment-01.jpg`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     roomsCount: 3,
     membersCount: 4,
+    type: OfferType.APARTMENT,
+    image: `img/apartment-01.jpg`,
     images: [
       `img/room.jpg`,
       `img/apartment-01.jpg`,
@@ -60,127 +68,97 @@ const nearOffersMock = [
       `img/apartment-03.jpg`,
       `img/studio-01.jpg`,
       `img/apartment-01.jpg`,
+    ],
+    features: FEATURES,
+    cityName: cityParis.name,
+    center: location.center,
+    zoom: location.zoom
+  },
+  {
+    owner,
+    location,
+    city: cityAmsterdam,
+    id: 2,
+    isPremium: true,
+    isMarked: false,
+    cost: 120,
+    rating: 4,
+    name: `Beautiful & luxurious apartment at great location`,
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    roomsCount: 3,
+    membersCount: 4,
+    type: OfferType.APARTMENT,
+    image: `img/apartment-01.jpg`,
+    images: [
+      `img/room.jpg`,
       `img/apartment-01.jpg`,
-      `img/apartment-01.jpg`,
+      `img/apartment-02.jpg`,
+      `img/apartment-03.jpg`,
+      `img/studio-01.jpg`,
       `img/apartment-01.jpg`,
     ],
     features: FEATURES,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    owner: {
-      id: 2,
-      name: `Angelina`,
-      avatar: `img/avatar-angelina.jpg`,
+    cityName: cityParis.name,
+    center: location.center,
+    zoom: location.zoom
+  },
+];
+
+const mockDate = new Date(0).valueOf();
+
+const reviewsMock = [
+  {
+    id: 1,
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    rating: 4.5,
+    date: mockDate,
+    user: {
+      id: 1,
+      name: `Max`,
+      avatar: `img/avatar-max.jpg`,
       isTrust: true
-    },
-    cityId: 1,
-    lonlat: [52.3909553943508, 4.85309666406198]
+    }
   },
   {
     id: 2,
-    isPremium: false,
-    cost: 80,
-    isMarked: true,
-    rating: 3,
-    name: `Wood and stone place`,
-    type: OfferType.ROOM,
-    image: `img/room.jpg`,
-    roomsCount: 2,
-    membersCount: 1,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    owner: {
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    rating: 4.5,
+    date: mockDate,
+    user: {
       id: 1,
-      name: `Angelina 1`,
-      avatar: `img/avatar-angelina.jpg`,
+      name: `Ivan`,
+      avatar: `img/avatar-max.jpg`,
       isTrust: true
-    },
-    cityId: 2,
-    lonlat: [52.369553943508, 4.85309666406198]
+    }
   },
   {
     id: 3,
-    isPremium: false,
-    cost: 132,
-    isMarked: false,
-    rating: 4.1,
-    name: `iCanal View Prinsengracht`,
-    type: OfferType.HOTEL,
-    image: `img/apartment-02.jpg`,
-    roomsCount: 4,
-    membersCount: 5,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    owner: {
-      id: 2,
-      name: `Angelina 2`,
-      avatar: `img/avatar-angelina.jpg`,
+    comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    rating: 4.5,
+    date: mockDate,
+    user: {
+      id: 1,
+      name: `Petr`,
+      avatar: `img/avatar-max.jpg`,
       isTrust: true
-    },
-    cityId: 3,
-    lonlat: [52.3909553943508, 4.929309666406198]
-  },
-  {
-    id: 4,
-    isPremium: true,
-    cost: 180,
-    isMarked: false,
-    rating: 5.1,
-    name: `Nice, cozy, warm big bed apartment`,
-    type: OfferType.HOUSE,
-    image: `img/apartment-03.jpg`,
-    roomsCount: 4,
-    membersCount: 5,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    features: FEATURES,
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    owner: {
-      id: 3,
-      name: `Angelina 3`,
-      avatar: `img/avatar-angelina.jpg`,
-      isTrust: true
-    },
-    cityId: 4,
-    lonlat: [52.3809553943508, 4.939309666406198]
-  }
-];
+    }
+  }];
+
 
 it(`Render Property`, () => {
 
   const store = mockStore({
     [NameSpace.DATA]: {
-      cities: [],
-      currentCityName: null,
+      cities: mockCities,
+      currentCityName: mockCities[0].name,
       offers: mockOffers,
-      nearbyOffers: nearOffersMock,
+      nearbyOffers: mockOffers,
       hoveredOfferId: null,
       currentOfferId: mockOffers[0].id,
-      sortType: SortType.POPULAR
+      sortType: SortType.POPULAR,
     },
     [NameSpace.COMMNET]: {
-      comments: [],
+      comments: reviewsMock,
       commentError: null,
       isLoading: false
     },
@@ -191,12 +169,19 @@ it(`Render Property`, () => {
     }
   });
 
-  const tree = renderer.create(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Property />
-        </Provider>
-      </BrowserRouter>).toJSON();
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  expect(tree).toMatchSnapshot();
+  const mockMatch = {params: {offerId: mockOffers[0].id}};
+
+  const propertyComponent = mount(
+      <Router history={history}>
+        <Provider store={store}>
+          <Property
+            setCurrentOffer={() => {}}
+            match={mockMatch}/>
+        </Provider>
+      </Router>, {attachTo: div});
+
+  expect(propertyComponent.getDOMNode()).toMatchSnapshot();
 });

@@ -2,23 +2,48 @@ import React from "react";
 import Enzyme, {shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import Offer from "./offer.jsx";
-import {OfferType, FEATURES} from "../../consts.js";
+import {OfferType, FEATURES, ViewMode} from "../../consts.js";
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
-const mock = {
+const owner = {
+  id: 1,
+  name: `Angelina`,
+  avatar: `img/avatar-angelina.jpg`,
+  isTrust: true
+};
+
+const location = {
+  latitude: 4.85309666406198,
+  longitude: 52.3909553943508,
+  zoom: 10,
+  center: [4.85309666406198, 52.3909553943508]
+};
+
+const cityParis = {
+  name: `Paris`,
+  location,
+  center: location.center,
+  zoom: location.zoom
+};
+
+const mockOffer = {
+  owner,
+  location,
+  city: cityParis,
   id: 1,
   isPremium: true,
-  cost: 120,
   isMarked: false,
+  cost: 120,
   rating: 4,
   name: `Beautiful & luxurious apartment at great location`,
-  type: OfferType.APARTMENT,
-  image: `img/apartment-01.jpg`,
+  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
   roomsCount: 3,
   membersCount: 4,
+  type: OfferType.APARTMENT,
+  image: `img/apartment-01.jpg`,
   images: [
     `img/room.jpg`,
     `img/apartment-01.jpg`,
@@ -28,34 +53,78 @@ const mock = {
     `img/apartment-01.jpg`,
   ],
   features: FEATURES,
-  description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-  owner: {
-    id: 1,
-    name: `Angelina`,
-    avatar: `img/avatar-angelina.jpg`,
-    isTrust: true
-  },
-  cityId: 1,
-  lonlat: [52.3909553943508, 4.85309666406198]
+  cityName: cityParis.name,
+  center: location.center,
+  zoom: location.zoom
 };
 
-it(`Should offer click, mouseenter, mouseleave`, () => {
-  const onPlaceHeaderClick = jest.fn();
-  const onPlaceCardMouseOver = jest.fn();
-  const onPlaceCardMouseLeave = jest.fn();
+it(`Offer e2e (ViewMode.Main)`, () => {
+  const headerClickHandler = jest.fn();
+  const hoveredChangeHandler = jest.fn();
 
-  const placeComponent = shallow(<Offer offer={mock} onPlaceHeaderClick={onPlaceHeaderClick} onPlaceCardMouseOver={onPlaceCardMouseOver} onPlaceCardMouseLeave={onPlaceCardMouseLeave} isNearViewMode={false}/>);
+  const mockEvt = {preventDefault: () => {}};
+
+  const placeComponent = shallow(<Offer offer={mockOffer} onHeaderClick={headerClickHandler} onHoveredChange={hoveredChangeHandler} viewMode={ViewMode.Main}/>);
 
   const placeHeader = placeComponent.find(`h2.place-card__name`);
   const placeCard = placeComponent.find(`article.place-card`);
 
-  placeHeader.simulate(`click`);
-  expect(onPlaceHeaderClick).toHaveBeenCalledTimes(1);
+  placeHeader.simulate(`click`, mockEvt);
+  expect(headerClickHandler).toHaveBeenCalledTimes(1);
+  expect(headerClickHandler).toHaveBeenCalledWith(mockOffer.id);
 
   placeCard.simulate(`mouseover`);
-  expect(onPlaceCardMouseOver).toHaveBeenCalledTimes(1);
+  expect(hoveredChangeHandler).toHaveBeenCalledTimes(1);
+  expect(hoveredChangeHandler).toHaveBeenCalledWith(mockOffer.id);
 
   placeCard.simulate(`mouseleave`);
-  expect(onPlaceCardMouseLeave).toHaveBeenCalledTimes(1);
+  expect(hoveredChangeHandler).toHaveBeenCalledTimes(2);
+  expect(hoveredChangeHandler).toHaveBeenCalledWith(null);
+
+});
+
+it(`Offer e2e (ViewMode.Property)`, () => {
+  const headerClickHandler = jest.fn();
+  const hoveredChangeHandler = jest.fn();
+
+  const mockEvt = {preventDefault: () => {}};
+
+  const placeComponent = shallow(<Offer offer={mockOffer} onHeaderClick={headerClickHandler} viewMode={ViewMode.Property}/>);
+
+  const placeHeader = placeComponent.find(`h2.place-card__name`);
+  const placeCard = placeComponent.find(`article.place-card`);
+
+  placeHeader.simulate(`click`, mockEvt);
+  expect(headerClickHandler).toHaveBeenCalledTimes(1);
+  expect(headerClickHandler).toHaveBeenCalledWith(mockOffer.id);
+
+  placeCard.simulate(`mouseover`);
+  expect(hoveredChangeHandler).toHaveBeenCalledTimes(0);
+
+  placeCard.simulate(`mouseleave`);
+  expect(hoveredChangeHandler).toHaveBeenCalledTimes(0);
+
+});
+
+it(`Offer e2e (ViewMode.Favorite)`, () => {
+  const headerClickHandler = jest.fn();
+  const hoveredChangeHandler = jest.fn();
+
+  const mockEvt = {preventDefault: () => {}};
+
+  const placeComponent = shallow(<Offer offer={mockOffer} onHeaderClick={headerClickHandler} viewMode={ViewMode.Favorite}/>);
+
+  const placeHeader = placeComponent.find(`h2.place-card__name`);
+  const placeCard = placeComponent.find(`article.place-card`);
+
+  placeHeader.simulate(`click`, mockEvt);
+  expect(headerClickHandler).toHaveBeenCalledTimes(1);
+  expect(headerClickHandler).toHaveBeenCalledWith(mockOffer.id);
+
+  placeCard.simulate(`mouseover`);
+  expect(hoveredChangeHandler).toHaveBeenCalledTimes(0);
+
+  placeCard.simulate(`mouseleave`);
+  expect(hoveredChangeHandler).toHaveBeenCalledTimes(0);
 
 });

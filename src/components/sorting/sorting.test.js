@@ -1,10 +1,15 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import Enzyme, {mount} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import Sorting from "./sorting.jsx";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
 import {SortType} from "../../consts.js";
 import NameSpace from "../../reducer/name-space.js";
+
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
 const mockStore = configureStore([]);
 
@@ -23,9 +28,10 @@ it(`Render Sorting`, () => {
     sortType: mock
   }});
 
-  const tree = renderer
-    .create(<Provider store={store}><Sorting isToggled={false} onToggleChange={() => {}}/></Provider>)
-    .toJSON();
+  const div = document.createElement(`div`);
+  document.body.appendChild(div);
 
-  expect(tree).toMatchSnapshot();
+  const sortingComponent = mount(<Provider store={store}><Sorting isToggled={false} onToggleChange={() => {}}/></Provider>, {attachTo: div});
+
+  expect(sortingComponent.getDOMNode()).toMatchSnapshot();
 });

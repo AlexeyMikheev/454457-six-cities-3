@@ -9,15 +9,36 @@ import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
 import PropertyGallery from "../property-gallery/property-gallery.jsx";
 import CommentForm from "../comment-form/comment-form.jsx";
-import withFormState from "../../hoks/with-form-state.jsx";
-import {getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
+import withFormState from "../../hoks/with-form-state/with-form-state.jsx";
+import {getCurrentOfferId, getHoveredOfferId, getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";
+import {Operation as DataOperation} from "../../reducer/data/data.js";
+import {ActionCreator as DataActionCreator} from "../../reducer/data/data.js";
 import {isUserAuthorized} from "../../reducer/user/selectors.js";
 import {getCommnets} from "../../reducer/comment/selectors.js";
 import Header from "../header/header.jsx";
 
 const CommentFormWithState = withFormState(CommentForm);
 
-const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized}) => {
+const Property = ({currentOfferId, hoveredOfferId, offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer, setHoveredOffer, setCurrentCity}) => {
+
+  const offerId = parseInt(match.params.offerId, 10);
+
+  if (!offer || !currentOfferId || (currentOfferId !== offerId)) {
+    setCurrentOffer(offerId);
+  }
+
+  if (hoveredOfferId) {
+    setHoveredOffer(null);
+  }
+
+  if (!offer) {
+    return (<React.Fragment></React.Fragment>);
+  }
+
+  if (setCurrentCity && offer.cityName !== currentCity.name) {
+    setCurrentCity(offer.cityName);
+  }
+
   const {images, description} = offer;
   const {name: ownerName, avatar, isTrust} = offer.owner;
 
@@ -75,15 +96,24 @@ const Property = ({offer, reviews, nearOffers, hoveredOffer, currentCity, isAuth
 };
 
 Property.propTypes = {
-  offer: PropTypes.shape(OfferShape).isRequired,
+  match: PropTypes.object,
+  offerId: PropTypes.number,
+  offer: PropTypes.shape(OfferShape),
   hoveredOffer: PropTypes.shape(OfferShape),
-  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)).isRequired,
-  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(ReviewShape)),
+  nearOffers: PropTypes.arrayOf(PropTypes.shape(OfferShape)),
   currentCity: PropTypes.shape(CityShape),
   isAuthorized: PropTypes.bool.isRequired,
+  setCurrentOffer: PropTypes.func.isRequired,
+  setHoveredOffer: PropTypes.func,
+  setCurrentCity: PropTypes.func,
+  hoveredOfferId: PropTypes.number,
+  currentOfferId: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
+  hoveredOfferId: getHoveredOfferId(state),
+  currentOfferId: getCurrentOfferId(state),
   offers: getCurrentOffers(state),
   nearOffers: getNearOffers(state),
   offer: getCurrentOffer(state),
@@ -93,6 +123,12 @@ const mapStateToProps = (state) => ({
   isAuthorized: isUserAuthorized(state)
 });
 
+const mapDispatchToProps = {
+  setCurrentOffer: DataOperation.setCurrentOffer,
+  setHoveredOffer: DataActionCreator.setHoveredOffer,
+  setCurrentCity: DataActionCreator.setCurrentCity
+};
+
 export {Property};
-export default connect(mapStateToProps)(Property);
+export default connect(mapStateToProps, mapDispatchToProps)(Property);
 

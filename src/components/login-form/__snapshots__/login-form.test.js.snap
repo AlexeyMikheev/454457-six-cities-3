@@ -3,45 +3,46 @@
 exports[`Render Login 1`] = `
 <form
   action=""
-  className="login__form form"
-  onSubmit={[Function]}
+  class="login__form form"
 >
   <div
-    className="login__input-wrapper form__input-wrapper"
+    class="login__input-wrapper form__input-wrapper"
   >
     <label
-      className="visually-hidden"
-      htmlFor="email"
+      class="visually-hidden"
+      for="email"
     >
       E-mail
     </label>
     <input
-      className="login__input form__input"
+      class="login__input form__input"
       id="email"
       name="email"
       placeholder="Email"
       type="email"
+      value=""
     />
   </div>
   <div
-    className="login__input-wrapper form__input-wrapper"
+    class="login__input-wrapper form__input-wrapper"
   >
     <label
-      className="visually-hidden"
-      htmlFor="password"
+      class="visually-hidden"
+      for="password"
     >
       Password
     </label>
     <input
-      className="login__input form__input"
+      class="login__input form__input"
       id="password"
       name="password"
       placeholder="Password"
       type="password"
+      value=""
     />
   </div>
   <button
-    className="login__submit form__submit button"
+    class="login__submit form__submit button"
     type="submit"
   >
     Sign in

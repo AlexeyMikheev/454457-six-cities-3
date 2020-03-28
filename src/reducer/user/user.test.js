@@ -1,7 +1,7 @@
 import MockAdapter from "axios-mock-adapter";
-import { createAPI } from "../../api.js";
-import { reducer, Operation, ActionCreator, ActionType } from "./user.js";
-import { AuthStatus, Url } from "../../consts";
+import {createAPI} from "../../api.js";
+import {reducer, Operation, ActionCreator, ActionType} from "./user.js";
+import {AuthStatus, Url} from "../../consts";
 
 const api = createAPI(() => { });
 
@@ -29,7 +29,7 @@ it(`Reducer user initial state`, () => {
 });
 
 
-it(`Reducer user setAuthStatus`, () => {
+it(`Reducer user SET_AUTH_STATUS`, () => {
   expect(reducer({
     authStatus: AuthStatus.NO_AUTH,
     authInfo: null,
@@ -41,7 +41,7 @@ it(`Reducer user setAuthStatus`, () => {
   });
 });
 
-it(`Reducer user setAuthIfo`, () => {
+it(`Reducer user SET_AUTH`, () => {
   expect(reducer({
     authStatus: AuthStatus.NO_AUTH,
     authInfo: null,
@@ -53,7 +53,7 @@ it(`Reducer user setAuthIfo`, () => {
   });
 });
 
-it(`Reducer user setAuthError`, () => {
+it(`Reducer user SET_AUTH_ERROR`, () => {
   expect(reducer({
     authStatus: AuthStatus.NO_AUTH,
     authInfo: null,
@@ -65,7 +65,7 @@ it(`Reducer user setAuthError`, () => {
   });
 });
 
-describe(`Operation user checkAuth`, () => {
+describe(`Reducer user Operation.checkAuth`, () => {
   it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
@@ -77,8 +77,8 @@ describe(`Operation user checkAuth`, () => {
 
     return loader(dispatch, () => { }, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenNthCalledWith(1, {
+        expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.SET_AUTH,
           payload: mockAuthData
         });
@@ -86,7 +86,7 @@ describe(`Operation user checkAuth`, () => {
   });
 });
 
-describe(`Operation user login`, () => {
+describe(`Reducer user Operation.login`, () => {
   it(`Should make a correct API`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
@@ -101,7 +101,7 @@ describe(`Operation user login`, () => {
 
     return loader(dispatch, () => { }, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.SET_AUTH,
           payload: mockUserInfo

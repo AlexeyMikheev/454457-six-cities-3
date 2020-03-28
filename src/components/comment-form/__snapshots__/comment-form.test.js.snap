@@ -1,179 +1,167 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Render CommentForm 1`] = `
+exports[`CommentForm snapshot 1`] = `
 <form
   action="#"
-  className="reviews__form form"
+  class="reviews__form form"
   method="post"
-  onSubmit={[Function]}
 >
   <label
-    className="reviews__label form__label"
-    htmlFor="review"
+    class="reviews__label form__label"
+    for="review"
   >
     Your review
   </label>
   <div
-    className="reviews__rating-form form__rating"
+    class="reviews__rating-form form__rating"
   >
     <input
-      checked={false}
-      className="form__rating-input visually-hidden"
+      class="form__rating-input visually-hidden"
       id="5-stars"
       name="rating"
-      onChange={[Function]}
       type="radio"
       value="5"
     />
     <label
-      className="reviews__rating-label form__rating-label"
-      htmlFor="5-stars"
+      class="reviews__rating-label form__rating-label"
+      for="5-stars"
       title="perfect"
     >
       <svg
-        className="form__star-image"
+        class="form__star-image"
         height="33"
         width="37"
       >
         <use
-          xlinkHref="#icon-star"
+          xlink:href="#icon-star"
         />
       </svg>
     </label>
     <input
-      checked={false}
-      className="form__rating-input visually-hidden"
+      class="form__rating-input visually-hidden"
       id="4-stars"
       name="rating"
-      onChange={[Function]}
       type="radio"
       value="4"
     />
     <label
-      className="reviews__rating-label form__rating-label"
-      htmlFor="4-stars"
+      class="reviews__rating-label form__rating-label"
+      for="4-stars"
       title="perfect"
     >
       <svg
-        className="form__star-image"
+        class="form__star-image"
         height="33"
         width="37"
       >
         <use
-          xlinkHref="#icon-star"
+          xlink:href="#icon-star"
         />
       </svg>
     </label>
     <input
-      checked={false}
-      className="form__rating-input visually-hidden"
+      class="form__rating-input visually-hidden"
       id="3-stars"
       name="rating"
-      onChange={[Function]}
       type="radio"
       value="3"
     />
     <label
-      className="reviews__rating-label form__rating-label"
-      htmlFor="3-stars"
+      class="reviews__rating-label form__rating-label"
+      for="3-stars"
       title="perfect"
     >
       <svg
-        className="form__star-image"
+        class="form__star-image"
         height="33"
         width="37"
       >
         <use
-          xlinkHref="#icon-star"
+          xlink:href="#icon-star"
         />
       </svg>
     </label>
     <input
-      checked={false}
-      className="form__rating-input visually-hidden"
+      class="form__rating-input visually-hidden"
       id="2-stars"
       name="rating"
-      onChange={[Function]}
       type="radio"
       value="2"
     />
     <label
-      className="reviews__rating-label form__rating-label"
-      htmlFor="2-stars"
+      class="reviews__rating-label form__rating-label"
+      for="2-stars"
       title="perfect"
     >
       <svg
-        className="form__star-image"
+        class="form__star-image"
         height="33"
         width="37"
       >
         <use
-          xlinkHref="#icon-star"
+          xlink:href="#icon-star"
         />
       </svg>
     </label>
     <input
-      checked={false}
-      className="form__rating-input visually-hidden"
+      class="form__rating-input visually-hidden"
       id="1-stars"
       name="rating"
-      onChange={[Function]}
       type="radio"
       value="1"
     />
     <label
-      className="reviews__rating-label form__rating-label"
-      htmlFor="1-stars"
+      class="reviews__rating-label form__rating-label"
+      for="1-stars"
       title="perfect"
     >
       <svg
-        className="form__star-image"
+        class="form__star-image"
         height="33"
         width="37"
       >
         <use
-          xlinkHref="#icon-star"
+          xlink:href="#icon-star"
         />
       </svg>
     </label>
   </div>
   <textarea
-    className="reviews__textarea form__textarea"
+    class="reviews__textarea form__textarea"
     id="review"
     name="review"
-    onChange={[Function]}
     placeholder="Tell how was your stay, what you like and what can be improved"
   />
   <div
-    className="reviews__button-wrapper"
+    class="reviews__button-wrapper"
   >
     <p
-      className="reviews__help"
+      class="reviews__help"
     >
       To submit review please make sure to set 
       <span
-        className="reviews__star"
+        class="reviews__star"
       >
         rating
       </span>
        and describe your stay with at least 
       <b
-        className="reviews__text-amount"
+        class="reviews__text-amount"
       >
         50 characters
       </b>
       .
     </p>
     <button
-      className="reviews__submit form__submit button"
-      disabled={false}
+      class="reviews__submit form__submit button"
+      disabled=""
       type="submit"
     >
       Submit
     </button>
   </div>
   <div
-    className="reviews__error"
+    class="reviews__error"
   />
 </form>
 `;
