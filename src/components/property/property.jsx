@@ -19,7 +19,7 @@ import Header from "../header/header.jsx";
 
 const CommentFormWithState = withFormState(CommentForm);
 
-const Property = ({currentOfferId, hoveredOfferId, offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer, setHoveredOffer}) => {
+const Property = ({currentOfferId, hoveredOfferId, offer, reviews, nearOffers, hoveredOffer, currentCity, isAuthorized, match, setCurrentOffer, setHoveredOffer, setCurrentCity}) => {
 
   const offerId = parseInt(match.params.offerId, 10);
 
@@ -33,6 +33,10 @@ const Property = ({currentOfferId, hoveredOfferId, offer, reviews, nearOffers, h
 
   if (!offer) {
     return (<React.Fragment></React.Fragment>);
+  }
+
+  if (setCurrentCity && offer.cityName !== currentCity.name) {
+    setCurrentCity(offer.cityName);
   }
 
   const {images, description} = offer;
@@ -102,6 +106,7 @@ Property.propTypes = {
   isAuthorized: PropTypes.bool.isRequired,
   setCurrentOffer: PropTypes.func.isRequired,
   setHoveredOffer: PropTypes.func,
+  setCurrentCity: PropTypes.func,
   hoveredOfferId: PropTypes.number,
   currentOfferId: PropTypes.number,
 };
@@ -120,7 +125,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setCurrentOffer: DataOperation.setCurrentOffer,
-  setHoveredOffer: DataActionCreator.setHoveredOffer
+  setHoveredOffer: DataActionCreator.setHoveredOffer,
+  setCurrentCity: DataActionCreator.setCurrentCity
 };
 
 export {Property};
