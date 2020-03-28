@@ -44,6 +44,7 @@ class App extends PureComponent {
           />
           <Route exact path={`${AppRoute.OFFER}/:offerId`} component={Property} />
           <Route exact path={AppRoute.ROOT} component={Main}/>
+          <Route exact path={AppRoute.LOGIN} component={Login}/>
         </Switch>
       </Router>
     );

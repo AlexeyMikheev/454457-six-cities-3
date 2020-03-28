@@ -1,5 +1,5 @@
 import {extendObject} from "../../utils.js";
-import {AuthStatus, ErrorType, Url} from "../../consts";
+import {AuthStatus, ErrorType, Url, AppRoute} from "../../consts";
 import {Operation as DataOperation} from "../data/data.js";
 import history from "../../history.js";
 
@@ -75,8 +75,12 @@ const Operation = {
 
         if (response.status === ErrorType.UNAUTHORIZED) {
           dispatch((ActionCreator.setAuthStatus(AuthStatus.NO_AUTH)));
+        } else {
+          dispatch((ActionCreator.setAuthStatus(AuthStatus.NO_AUTH)));
+          dispatch(ActionCreator.setAuthError(`Error. Service is not available`));
+
+          history.push(AppRoute.LOGIN);
         }
-        throw err;
       });
   },
 

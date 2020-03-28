@@ -75,7 +75,8 @@ export const RatingValues = [`5`, `4`, `3`, `2`, `1`];
 
 export const ErrorType = {
   UNAUTHORIZED: 401,
-  BABREQUEST: 400
+  BABREQUEST: 400,
+  NOTFOUND: 404
 };
 
 export const TIMEOUT = 5000;
