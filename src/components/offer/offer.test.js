@@ -1,14 +1,19 @@
 import React from "react";
 import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import Offer from "./offer.jsx";
-import {OfferType, FEATURES, ViewMode} from '../../consts.js';
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
 import {Router} from "react-router-dom";
 import history from "../../history.js";
+import NameSpace from "../../reducer/name-space.js";
+import Offer from "./offer.jsx";
+import {OfferType, FEATURES, ViewMode, AuthStatus} from '../../consts.js';
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
+
+const mockStore = configureStore([]);
 
 const owner = {
   id: 1,
@@ -59,14 +64,31 @@ const mockOffer = {
   center: location.center,
   zoom: location.zoom
 };
+
+const mockUserInfo = {
+  [`avatar_url`]: `img/1.png`,
+  email: `Oliver.conner@gmail.com`,
+  id: 1,
+  [`is_pro`]: false,
+  name: `Oliver.conner`,
+};
+
 it(`Offer snapshot (ViewMode.Main)`, () => {
+
+  const store = mockStore({[NameSpace.USER]: {
+    authStatus: AuthStatus.NO_AUTH,
+    authInfo: null,
+    authError: null
+  }});
 
   const div = document.createElement(`div`);
   document.body.appendChild(div);
 
   const offerComment = mount(
       <Router history={history}>
-        <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Main}/>
+        <Provider store={store}>
+          <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Main}/>
+        </Provider>
       </Router>, {attachTo: div});
 
   expect(offerComment.getDOMNode()).toMatchSnapshot();
@@ -74,12 +96,20 @@ it(`Offer snapshot (ViewMode.Main)`, () => {
 
 it(`Offer snapshot (ViewMode.Property)`, () => {
 
+  const store = mockStore({[NameSpace.USER]: {
+    authStatus: AuthStatus.NO_AUTH,
+    authInfo: null,
+    authError: null
+  }});
+
   const div = document.createElement(`div`);
   document.body.appendChild(div);
 
   const offerComment = mount(
       <Router history={history}>
-        <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Property}/>
+        <Provider store={store}>
+          <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Property}/>
+        </Provider>
       </Router>, {attachTo: div});
 
   expect(offerComment.getDOMNode()).toMatchSnapshot();
@@ -87,12 +117,20 @@ it(`Offer snapshot (ViewMode.Property)`, () => {
 
 it(`Offer snapshot (ViewMode.Favorite)`, () => {
 
+  const store = mockStore({[NameSpace.USER]: {
+    authStatus: AuthStatus.AUTH,
+    authInfo: mockUserInfo,
+    authError: null
+  }});
+
   const div = document.createElement(`div`);
   document.body.appendChild(div);
 
   const offerComment = mount(
       <Router history={history}>
-        <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Favorite}/>
+        <Provider store={store}>
+          <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Favorite}/>
+        </Provider>
       </Router>, {attachTo: div});
 
   expect(offerComment.getDOMNode()).toMatchSnapshot();
