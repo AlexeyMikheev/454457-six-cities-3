@@ -78,9 +78,9 @@ const Operation = {
         } else {
           dispatch((ActionCreator.setAuthStatus(AuthStatus.NO_AUTH)));
           dispatch(ActionCreator.setAuthError(`Error. Service is not available`));
-
           history.push(AppRoute.LOGIN);
         }
+        throw err;
       });
   },
 
