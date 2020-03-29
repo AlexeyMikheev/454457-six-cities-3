@@ -1,6 +1,11 @@
 import * as React from "react";
 
-const PropertyGallery: React.FC<{images: string[]}> = ({images}) => {
+interface Props {
+  images: string[];
+}
+
+const PropertyGallery: React.FC<Props> = (props: Props) => {
+  const {images} = props;
   return (
     <div className="property__gallery">
       {images.map((imageSrc, i) => (
