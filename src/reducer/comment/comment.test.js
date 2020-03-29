@@ -4,7 +4,7 @@ import {reducer, Operation, ActionCreator, ActionType} from "./comment.js";
 import {LoadingStatus, Url} from "../../consts";
 import {adaptCommentsResponse} from "../../adapters.js";
 
-const api = createAPI(() => {});
+const api = createAPI(jest.fn());
 
 const mockDate = new Date(0).valueOf();
 
@@ -87,7 +87,7 @@ describe(`Reducer comment Operation.getComments`, () => {
       .onGet(`/${Url.COMMENTS}/${offerId}`)
       .reply(200, commentsMock);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -108,7 +108,7 @@ describe(`Reducer comment Operation.sendComment success`, () => {
       .onPost(`/${Url.COMMENTS}/${offerId}`)
       .reply(200, commentsMock);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(3);
 
@@ -140,7 +140,7 @@ describe(`Reducer comment Operation.sendComment error`, () => {
       .onPost(`/${Url.COMMENTS}/${offerId}`)
       .reply(400, {error: commentError});
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(3);
 

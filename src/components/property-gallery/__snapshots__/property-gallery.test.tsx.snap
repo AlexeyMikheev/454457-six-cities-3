@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PropertyGallery snapshot 1`] = `
+<PropertyGallery
+  images={
+    Array [
+      "img/room.jpg",
+      "img/apartment-01.jpg",
+      "img/apartment-02.jpg",
+      "img/apartment-03.jpg",
+      "img/studio-01.jpg",
+      "img/apartment-01.jpg",
+    ]
+  }
+>
+  <div
+    className="property__gallery"
+  >
+    <div
+      className="property__image-wrapper"
+      key="img/room.jpg0"
+    >
+      <img
+        alt="Photo studio"
+        className="property__image"
+        src="img/room.jpg"
+      />
+    </div>
+    <div
+      className="property__image-wrapper"
+      key="img/apartment-01.jpg1"
+    >
+      <img
+        alt="Photo studio"
+        className="property__image"
+        src="img/apartment-01.jpg"
+      />
+    </div>
+    <div
+      className="property__image-wrapper"
+      key="img/apartment-02.jpg2"
+    >
+      <img
+        alt="Photo studio"
+        className="property__image"
+        src="img/apartment-02.jpg"
+      />
+    </div>
+    <div
+      className="property__image-wrapper"
+      key="img/apartment-03.jpg3"
+    >
+      <img
+        alt="Photo studio"
+        className="property__image"
+        src="img/apartment-03.jpg"
+      />
+    </div>
+    <div
+      className="property__image-wrapper"
+      key="img/studio-01.jpg4"
+    >
+      <img
+        alt="Photo studio"
+        className="property__image"
+        src="img/studio-01.jpg"
+      />
+    </div>
+    <div
+      className="property__image-wrapper"
+      key="img/apartment-01.jpg5"
+    >
+      <img
+        alt="Photo studio"
+        className="property__image"
+        src="img/apartment-01.jpg"
+      />
+    </div>
+  </div>
+</PropertyGallery>
+`;

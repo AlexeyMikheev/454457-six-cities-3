@@ -87,7 +87,7 @@ it(`Offer snapshot (ViewMode.Main)`, () => {
   const offerComment = mount(
       <Router history={history}>
         <Provider store={store}>
-          <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Main}/>
+          <Offer offer={mockOffer} onHeaderClick={jest.fn()} onHoveredChange={jest.fn()} viewMode={ViewMode.Main}/>
         </Provider>
       </Router>, {attachTo: div});
 
@@ -108,7 +108,7 @@ it(`Offer snapshot (ViewMode.Property)`, () => {
   const offerComment = mount(
       <Router history={history}>
         <Provider store={store}>
-          <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Property}/>
+          <Offer offer={mockOffer} onHeaderClick={jest.fn()} onHoveredChange={jest.fn()} viewMode={ViewMode.Property}/>
         </Provider>
       </Router>, {attachTo: div});
 
@@ -129,7 +129,7 @@ it(`Offer snapshot (ViewMode.Favorite)`, () => {
   const offerComment = mount(
       <Router history={history}>
         <Provider store={store}>
-          <Offer offer={mockOffer} onHeaderClick={() => {}} onHoveredChange={() => {}} viewMode={ViewMode.Favorite}/>
+          <Offer offer={mockOffer} onHeaderClick={jest.fn()} onHoveredChange={jest.fn()} viewMode={ViewMode.Favorite}/>
         </Provider>
       </Router>, {attachTo: div});
 

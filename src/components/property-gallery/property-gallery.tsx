@@ -1,7 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 
-const PropertyGallery = ({images}) => {
+const PropertyGallery: React.FC<{images: string[]}> = ({images}) => {
   return (
     <div className="property__gallery">
       {images.map((imageSrc, i) => (
@@ -12,10 +11,5 @@ const PropertyGallery = ({images}) => {
     </div>
   );
 };
-
-PropertyGallery.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.string).isRequired
-};
-
 
 export default PropertyGallery;

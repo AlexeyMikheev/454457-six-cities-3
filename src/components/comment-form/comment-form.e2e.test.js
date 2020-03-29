@@ -9,10 +9,10 @@ Enzyme.configure({
 
 it(`CommentForm e2e withOut submit`, () => {
 
-  let mockCommentValue = `Comment`;
+  const mockCommentValue = `Comment`;
   const mockOfferId = 1;
   const mockRatingValue = `1`;
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
 
   const valueChangedHandler = jest.fn();
   const onFormSubmit = jest.fn();
@@ -24,8 +24,8 @@ it(`CommentForm e2e withOut submit`, () => {
         review={mockCommentValue}
         offerId={mockOfferId}
         isLoading={false}
-        clearStatus={() => {}}
-        onValuesReset={() => {}}
+        clearStatus={jest.fn()}
+        onValuesReset={jest.fn()}
         onValueChanged={valueChangedHandler}
         onFormSubmit={onFormSubmit}
         sendComment={sendComment} />
@@ -50,14 +50,14 @@ it(`CommentForm e2e withOut submit`, () => {
 
 it(`CommentForm e2e with submit`, () => {
 
-  let mockCommentValue = `Peaceful studio in the most wanted area in town. 
+  const mockCommentValue = `Peaceful studio in the most wanted area in town. 
   Quiet house Near of everything. Completely renovated. 
   Lovely neighbourhood, lot of trendy shops, 
   restaurants and bars in a walking distance.`;
 
   const mockOfferId = 1;
   const mockRatingValue = `1`;
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
 
   const valueChangedHandler = jest.fn();
   const onFormSubmit = jest.fn();
@@ -69,8 +69,8 @@ it(`CommentForm e2e with submit`, () => {
         review={mockCommentValue}
         offerId={mockOfferId}
         isLoading={false}
-        clearStatus={() => {}}
-        onValuesReset={() => {}}
+        clearStatus={jest.fn()}
+        onValuesReset={jest.fn()}
         onValueChanged={valueChangedHandler}
         onFormSubmit={onFormSubmit}
         sendComment={sendComment} />

@@ -178,7 +178,7 @@ it(`Render Property`, () => {
       <Router history={history}>
         <Provider store={store}>
           <Property
-            setCurrentOffer={() => {}}
+            setCurrentOffer={jest.fn()}
             match={mockMatch}/>
         </Provider>
       </Router>, {attachTo: div});

@@ -18,11 +18,11 @@ it(`CommentForm snapshot`, () => {
         text={``}
         offerId={1}
         isLoading={false}
-        clearStatus={() => {}}
-        onValuesReset={() => {}}
-        onValueChanged={() => {}}
-        onFormSubmit={() => {}}
-        sendComment={() => {}} />, {attachTo: div}
+        clearStatus={jest.fn()}
+        onValuesReset={jest.fn()}
+        onValueChanged={jest.fn()}
+        onFormSubmit={jest.fn()}
+        sendComment={jest.fn()} />, {attachTo: div}
   );
   expect(commentForm.getDOMNode()).toMatchSnapshot();
 });

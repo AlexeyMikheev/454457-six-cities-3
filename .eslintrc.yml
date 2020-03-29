@@ -1,20 +1,8 @@
-env:
-  es6: true
-  browser: true
-  commonjs: true
-  node: true
-  jest: true
+extends: ['./.eslintrc-js.yml', 'plugin:@typescript-eslint/recommended']
 
-extends: ['htmlacademy/es6', 'plugin:react/recommended']
+parser: '@typescript-eslint/parser'
 
-parserOptions:
-  ecmaFeatures:
-    jsx: true
-  ecmaVersion: 6
-  sourceType: module
-
-plugins: ['react']
-
-settings:
-  react:
-    version: '16'
+rules:
+  '@typescript-eslint/explicit-function-return-type': 'off'
+  '@typescript-eslint/no-use-before-define': 'off'
+  'react/prop-types': 'off'

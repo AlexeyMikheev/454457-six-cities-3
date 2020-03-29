@@ -13,7 +13,7 @@ it(`LoginForm e2e`, () => {
 
   const mockLogin = `login`;
   const mockPassword = `password`;
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
 
   const submitHandler = jest.fn();
   const valueChangedHandler = jest.fn();

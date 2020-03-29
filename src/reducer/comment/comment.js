@@ -61,11 +61,11 @@ const reducer = (state = initialState, action) => {
 };
 
 const Operation = {
-  resetComments: () => (dispatch, _getState, _api) => {
+  resetComments: () => (dispatch) => {
     dispatch(ActionCreator.setComments([]));
   },
 
-  getComments: (offerId) => (dispatch, _getState, api) => {
+  getComments: (offerId) => (dispatch, getState, api) => {
     return api.get(`/${Url.COMMENTS}/${offerId}`)
       .then((response) => {
         dispatch(ActionCreator.setComments(adaptCommentsResponse(response.data)));
@@ -97,7 +97,7 @@ const Operation = {
     });
   },
 
-  clearStatus: () => (dispatch, _getState, _api) => {
+  clearStatus: () => (dispatch) => {
     dispatch(ActionCreator.setLoadingStatus(LoadingStatus.DEFAULT));
   }
 };

@@ -5,7 +5,7 @@ import {SortType, Url, FavoriteState} from "../../consts.js";
 import {getCities} from "../../utils.js";
 import {adaptOffersResponse, adaptOfferResponse} from "../../adapters.js";
 
-const api = createAPI(() => { });
+const api = createAPI(jest.fn());
 
 const responseOffersMock = [
   {
@@ -291,7 +291,7 @@ describe(`Reducer data Operation.loadData`, () => {
       .onGet(`/${Url.HOTELS}`)
       .reply(200, responseOffersMock);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -312,7 +312,7 @@ describe(`Reducer data Operation.loadNearbyOffers`, () => {
       .onGet(`/${Url.HOTELS}/${currentofferMock.id}/${Url.NEARBY}`)
       .reply(200, responseOffersMock);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -333,7 +333,7 @@ describe(`Reducaer data data Operation.loadFavorits`, () => {
       .onGet(`/${Url.FAVORITE}`)
       .reply(200, responseOffersMock);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -354,7 +354,7 @@ describe(`Reducer data Operation.setFavorite`, () => {
       .onPost(`/${Url.FAVORITE}/${currentofferMock.id}/${FavoriteState.UNMARKED}`)
       .reply(200, responseOffersMock[0]);
 
-    return loader(dispatch, () => {}, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -369,7 +369,7 @@ describe(`Reducer data Operation.setCurrentOffer`, () => {
   it(`Should make a correct API`, function () {
     const dispatch = jest.fn();
 
-    Operation.setCurrentOffer(currentofferMock.id)(dispatch, () => { });
+    Operation.setCurrentOffer(currentofferMock.id)(dispatch, jest.fn());
     expect(dispatch).toHaveBeenCalledTimes(3);
 
   });
@@ -380,7 +380,7 @@ describe(`Reducer data Operation.setCurrentOffer`, () => {
   it(`Should make a correct API`, function () {
     const dispatch = jest.fn();
 
-    Operation.setCurrentOffer(null)(dispatch, () => { });
+    Operation.setCurrentOffer(null)(dispatch, jest.fn());
     expect(dispatch).toHaveBeenCalledTimes(2);
   });
 });

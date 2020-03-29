@@ -13,7 +13,7 @@ it(`FavoriteButton snapshot (PROPERTY)`, () => {
           isMarked={true}
           viewType={FavoriteButtonType.PROPERTY}
           offerId={1}
-          setFavorite={() => {}}
+          setFavorite={jest.fn()}
         />
     ).toJSON();
   expect(favoriteButton).toMatchSnapshot();
@@ -28,7 +28,7 @@ it(`FavoriteButton snapshot (CARD)`, () => {
             isMarked={true}
             viewType={FavoriteButtonType.CARD}
             offerId={1}
-            setFavorite={() => {}}
+            setFavorite={jest.fn()}
           />
       ).toJSON();
   expect(commentForm).toMatchSnapshot();

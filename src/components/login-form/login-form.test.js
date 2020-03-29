@@ -11,7 +11,7 @@ it(`Render Login`, () => {
   const div = document.createElement(`div`);
   document.body.appendChild(div);
 
-  const loginFormComponent = mount(<LoginForm onValueChanged={() => {}} onSubmitForm={() => {}}/>, {attachTo: div});
+  const loginFormComponent = mount(<LoginForm onValueChanged={jest.fn()} onSubmitForm={jest.fn()}/>, {attachTo: div});
 
   expect(loginFormComponent.getDOMNode()).toMatchSnapshot();
 });

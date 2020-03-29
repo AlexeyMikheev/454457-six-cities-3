@@ -98,7 +98,7 @@ const Operation = {
         dispatch(ActionCreator.setFavoritesOfferStatus(adaptOfferResponse(response.data)));
       });
   },
-  setCurrentOffer: (currentOfferId) => (dispatch, _getState, _api) => {
+  setCurrentOffer: (currentOfferId) => (dispatch) => {
     dispatch(ActionCreator.setCurrentOffer(currentOfferId));
 
     if (currentOfferId !== null) {
@@ -183,7 +183,7 @@ const setFavoritesOfferStatus = (state, action) => {
   let updatedState = extendObject({}, state);
 
   const updatedOffers = updatedState.offers.slice();
-  let updatedOfferIndex = updatedOffers.findIndex((o) => o.id === offerId);
+  const updatedOfferIndex = updatedOffers.findIndex((o) => o.id === offerId);
 
   if (updatedOfferIndex !== -1) {
     updatedOffers[updatedOfferIndex] = extendObject(updatedOffers[updatedOfferIndex], {isMarked});

@@ -31,7 +31,7 @@ it(`Render Sorting`, () => {
   const div = document.createElement(`div`);
   document.body.appendChild(div);
 
-  const sortingComponent = mount(<Provider store={store}><Sorting isToggled={false} onToggleChange={() => {}}/></Provider>, {attachTo: div});
+  const sortingComponent = mount(<Provider store={store}><Sorting isToggled={false} onToggleChange={jest.fn()}/></Provider>, {attachTo: div});
 
   expect(sortingComponent.getDOMNode()).toMatchSnapshot();
 });

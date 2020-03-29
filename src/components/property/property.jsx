@@ -7,7 +7,7 @@ import Reviews from "../reviews/reviews.jsx";
 import Offers from "../offers/offers.jsx";
 import Map from "../map/map.jsx";
 import OfferDetail from "../offer-detail/offer-detail.jsx";
-import PropertyGallery from "../property-gallery/property-gallery.jsx";
+import PropertyGallery from "../property-gallery/property-gallery";
 import CommentForm from "../comment-form/comment-form.jsx";
 import withFormState from "../../hoks/with-form-state/with-form-state.jsx";
 import {getCurrentOfferId, getHoveredOfferId, getCurrentOffers, getCurrentCity, getNearOffers, getCurrentOffer, getHoveredOffer} from "../../reducer/data/selectors.js";

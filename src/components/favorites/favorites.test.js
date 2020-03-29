@@ -132,8 +132,8 @@ it(`Favorites snapshot (with favoriteOffers, AuthStatus.AUTH)`, () => {
           <Provider store={store}>
             <Favorites
               groupedOffers={[]}
-              setCurrentOffer={() => {}}
-              setFavorite={() => {}}
+              setCurrentOffer={jest.fn()}
+              setFavorite={jest.fn()}
             />
           </Provider>
         </Router>
@@ -167,8 +167,8 @@ it(`Favorites snapshot (with favoriteOffers, AuthStatus.NO_AUTH)`, () => {
             <Provider store={store}>
               <Favorites
                 groupedOffers={[]}
-                setCurrentOffer={() => {}}
-                setFavorite={() => {}}
+                setCurrentOffer={jest.fn()}
+                setFavorite={jest.fn()}
               />
             </Provider>
           </Router>
@@ -202,8 +202,8 @@ it(`Favorites snapshot (withOut favoriteOffers, AuthStatus.AUTH)`, () => {
               <Provider store={store}>
                 <Favorites
                   groupedOffers={[]}
-                  setCurrentOffer={() => {}}
-                  setFavorite={() => {}}
+                  setCurrentOffer={jest.fn()}
+                  setFavorite={jest.fn()}
                 />
               </Provider>
             </Router>
@@ -237,8 +237,8 @@ it(`Favorites snapshot (withOut favoriteOffers, AuthStatus.NO_AUTH)`, () => {
                 <Provider store={store}>
                   <Favorites
                     groupedOffers={[]}
-                    setCurrentOffer={() => {}}
-                    setFavorite={() => {}}
+                    setCurrentOffer={jest.fn()}
+                    setFavorite={jest.fn()}
                   />
                 </Provider>
               </Router>

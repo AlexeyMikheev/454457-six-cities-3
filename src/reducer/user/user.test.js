@@ -3,7 +3,7 @@ import {createAPI} from "../../api.js";
 import {reducer, Operation, ActionCreator, ActionType} from "./user.js";
 import {AuthStatus, Url} from "../../consts";
 
-const api = createAPI(() => { });
+const api = createAPI(jest.fn());
 
 const mockUserInfo = {
   [`avatar_url`]: `img/1.png`,
@@ -75,7 +75,7 @@ describe(`Reducer user Operation.checkAuth`, () => {
       .onGet(`/${Url.LOGIN}`)
       .reply(200, mockAuthData);
 
-    return loader(dispatch, () => { }, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(3);
         expect(dispatch).toHaveBeenNthCalledWith(2, {
@@ -99,7 +99,7 @@ describe(`Reducer user Operation.login`, () => {
       })
       .reply(200, mockUserInfo);
 
-    return loader(dispatch, () => { }, api)
+    return loader(dispatch, jest.fn(), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(1, {

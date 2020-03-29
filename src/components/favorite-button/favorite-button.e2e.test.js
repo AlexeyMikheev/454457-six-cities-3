@@ -10,7 +10,7 @@ Enzyme.configure({
 
 it(`FavoriteButton e2e (PROPERTY with isAuthorized)`, () => {
 
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
   const mockOfferId = 1;
   const setFavorite = jest.fn();
 
@@ -32,7 +32,7 @@ it(`FavoriteButton e2e (PROPERTY with isAuthorized)`, () => {
 
 it(`FavoriteButton e2e (PROPERTY withOut isAuthorized)`, () => {
 
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
   const mockOfferId = 1;
   const setFavorite = jest.fn();
 
@@ -53,7 +53,7 @@ it(`FavoriteButton e2e (PROPERTY withOut isAuthorized)`, () => {
 
 it(`FavoriteButton e2e (CARD with isAuthorized)`, () => {
 
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
   const mockOfferId = 1;
   const setFavorite = jest.fn();
 
@@ -75,7 +75,7 @@ it(`FavoriteButton e2e (CARD with isAuthorized)`, () => {
 
 it(`FavoriteButton e2e (CARD withOut isAuthorized)`, () => {
 
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
   const mockOfferId = 1;
   const setFavorite = jest.fn();
 

@@ -62,7 +62,7 @@ it(`Offer e2e (ViewMode.Main)`, () => {
   const headerClickHandler = jest.fn();
   const hoveredChangeHandler = jest.fn();
 
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
 
   const placeComponent = shallow(<Offer offer={mockOffer} onHeaderClick={headerClickHandler} onHoveredChange={hoveredChangeHandler} viewMode={ViewMode.Main}/>);
 
@@ -87,7 +87,7 @@ it(`Offer e2e (ViewMode.Property)`, () => {
   const headerClickHandler = jest.fn();
   const hoveredChangeHandler = jest.fn();
 
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
 
   const placeComponent = shallow(<Offer offer={mockOffer} onHeaderClick={headerClickHandler} viewMode={ViewMode.Property}/>);
 
@@ -110,7 +110,7 @@ it(`Offer e2e (ViewMode.Favorite)`, () => {
   const headerClickHandler = jest.fn();
   const hoveredChangeHandler = jest.fn();
 
-  const mockEvt = {preventDefault: () => {}};
+  const mockEvt = {preventDefault: jest.fn()};
 
   const placeComponent = shallow(<Offer offer={mockOffer} onHeaderClick={headerClickHandler} viewMode={ViewMode.Favorite}/>);
 

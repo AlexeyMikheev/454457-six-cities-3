@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import Offers from "../offers/offers.jsx";
 import Locations from "../locations/locations.jsx";
 import Sorting from "../sorting/sorting.jsx";
-import MainEmpty from "../main-empty/main-empty.jsx";
+import MainEmpty from "../main-empty/main-empty";
 import {ViewMode} from "../../consts.js";
 import {OfferShape, CityShape} from "../../settings.js";
 import Map from "../map/map.jsx";
