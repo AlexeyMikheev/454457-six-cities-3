@@ -16,6 +16,7 @@
   "description": "Личный проект «Шесть городов» от HTML Academy",
   "devDependencies": {
     "@babel/core": "7.8.4",
+    "@babel/plugin-proposal-numeric-separator": "7.8.3",
     "@babel/preset-env": "7.8.4",
     "@babel/preset-react": "7.8.3",
     "@types/jest": "25.1.4",
