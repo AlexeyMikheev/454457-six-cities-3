@@ -3,7 +3,7 @@ import {Route, Redirect} from "react-router-dom";
 
 interface Props{
   path: string;
-  render: () => void;
+  render: () => React.ReactNode;
   isRequire: boolean;
   redirectTo: string;
   exact: boolean;
@@ -16,7 +16,7 @@ const PrivateRoute: React.FC<Props> = (props) => {
     <Route
       path={path}
       exact={exact}
-      component={() => {
+      render={() => {
         return (
           isRequire
             ? render()
