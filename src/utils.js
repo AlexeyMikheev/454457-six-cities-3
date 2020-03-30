@@ -1,4 +1,4 @@
-import {MAX_RATING, OfferType, SortType} from "./consts.js";
+import {MAX_RATING, OfferType, SortType} from "./consts";
 
 export const getRatingPercents = (value) => Math.floor(value) * 100 / MAX_RATING;
 

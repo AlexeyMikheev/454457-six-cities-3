@@ -1,6 +1,6 @@
 import NameSpace from "../name-space.js";
 import {createSelector} from "reselect";
-import {LoadingStatus} from "../../consts.js";
+import {LoadingStatus} from "../../consts";
 
 const NAME_SPACE = NameSpace.COMMNET;
 

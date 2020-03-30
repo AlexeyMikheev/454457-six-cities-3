@@ -1,5 +1,5 @@
 import axios from "axios";
-import {URL, TIMEOUT} from "./consts.js";
+import {URL, TIMEOUT} from "./consts";
 
 
 export const createAPI = () => {

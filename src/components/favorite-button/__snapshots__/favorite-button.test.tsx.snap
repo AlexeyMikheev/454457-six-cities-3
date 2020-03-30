@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FavoriteButton snapshot (CARD) 1`] = `
+<FavoriteButton
+  isAuthorized={true}
+  isMarked={true}
+  offerId={1}
+  setFavorite={[MockFunction]}
+  viewType={0}
+>
+  <button
+    className="place-card__bookmark-button button place-card__bookmark-button--active"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      className="place-card__bookmark-icon"
+      height={19}
+      width={18}
+    >
+      <use
+        xlinkHref="#icon-bookmark"
+      />
+    </svg>
+    <span
+      className="visually-hidden"
+    >
+      To bookmarks
+    </span>
+  </button>
+</FavoriteButton>
+`;
+
+exports[`FavoriteButton snapshot (PROPERTY) 1`] = `
+<FavoriteButton
+  isAuthorized={true}
+  isMarked={true}
+  offerId={1}
+  setFavorite={[MockFunction]}
+  viewType={1}
+>
+  <button
+    className="property__bookmark-button button property__bookmark-button--active"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      className="property__bookmark-icon"
+      height={33}
+      width={31}
+    >
+      <use
+        xlinkHref="#icon-bookmark"
+      />
+    </svg>
+    <span
+      className="visually-hidden"
+    >
+      To bookmarks
+    </span>
+  </button>
+</FavoriteButton>
+`;

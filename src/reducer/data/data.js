@@ -1,5 +1,5 @@
 import {extendObject, getCities} from "../../utils.js";
-import {SortType, Url} from "../../consts.js";
+import {SortType, Url} from "../../consts";
 import {Operation as CommentsOperation} from "../comment/comment.js";
 import {adaptOffersResponse, adaptOfferResponse} from "../../adapters.js";
 

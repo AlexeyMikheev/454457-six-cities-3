@@ -80,7 +80,6 @@ const Operation = {
           dispatch(ActionCreator.setAuthError(`Error. Service is not available`));
           history.push(AppRoute.LOGIN);
         }
-        throw err;
       });
   },
 
@@ -102,7 +101,6 @@ const Operation = {
       if (response.status === ErrorType.BABREQUEST) {
         dispatch(ActionCreator.setAuthError(response.data.error));
       }
-      throw err;
     });
   },
 };

@@ -1,6 +1,6 @@
 import {createSelector} from "reselect";
 import NameSpace from "../name-space.js";
-import {AuthStatus} from "../../consts.js";
+import {AuthStatus} from "../../consts";
 
 const NAME_SPACE = NameSpace.USER;
 

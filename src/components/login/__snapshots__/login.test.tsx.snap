@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render Login 1`] = `
+<header
+  class="header"
+>
+  <div
+    class="container"
+  >
+    <div
+      class="header__wrapper"
+    >
+      <div
+        class="header__left"
+      >
+        <a
+          class="header__logo-link"
+          href="/"
+        >
+          <img
+            alt="6 cities logo"
+            class="header__logo"
+            height="41"
+            src="/img/logo.svg"
+            width="81"
+          />
+        </a>
+      </div>
+      <nav
+        class="header__nav"
+      >
+        <ul
+          class="header__nav-list"
+        >
+          <li
+            class="header__nav-item user"
+          >
+            <a
+              class="header__nav-link header__nav-link--profile"
+              href="/login"
+            >
+              <div
+                class="header__avatar-wrapper user__avatar-wrapper"
+              />
+              <span
+                class="header__user-name user__name"
+              >
+                Sing in
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+`;
