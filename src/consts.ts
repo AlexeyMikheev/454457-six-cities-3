@@ -42,12 +42,6 @@ export enum ViewMode {
   Favorite= 2
 }
 
-// export const VIEWMODES: ViewMode[] = [
-//   ViewMode.Main,
-//   ViewMode.Property,
-//   ViewMode.Favorite
-// ];
-
 export const MIN_RATING = 1;
 export const MAX_RATING = 5;
 
@@ -126,11 +120,6 @@ export enum FavoriteButtonType {
   PROPERTY= 1,
   CARD= 0
 }
-
-// export const FavoriteButtonTypes = [
-//   FavoriteButtonType.PROPERTY,
-//   FavoriteButtonType.CARD
-// ];
 
 export enum ImageCardWidth {
   CARD_WIDTH= 260,
