@@ -17,10 +17,10 @@ class FavoriteButton extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
 
-    this.onButtonClick = this.onButtonClick.bind(this);
+    this.buttonClickHandler = this.buttonClickHandler.bind(this);
   }
 
-  onButtonClick(evt) {
+  buttonClickHandler(evt) {
     evt.preventDefault();
 
     const {isAuthorized} = this.props;
@@ -47,7 +47,7 @@ class FavoriteButton extends React.PureComponent<Props> {
     const iconHeight = viewType === FavoriteButtonType.PROPERTY ? 33 : 19;
 
     return (
-      <button className={`${buttonClass} button ${isMarked ? `${buttonClass}--active` : ``}`} type="button" onClick={this.onButtonClick}>
+      <button className={`${buttonClass} button ${isMarked ? `${buttonClass}--active` : ``}`} type="button" onClick={this.buttonClickHandler}>
         <svg className={iconClass} width={iconWidth} height={iconHeight}>
           <use xlinkHref="#icon-bookmark"></use>
         </svg>
